@@ -327,6 +327,14 @@ def render_markdown(text: str) -> str:
                        % (cls, html.escape("\n".join(buf), quote=False)))
             continue
 
+        # HTML comments are notes to yourself - they must never reach the page.
+        # Checked after code fences so a fenced example can still show one.
+        if s.startswith("<!--"):
+            while i < n and "-->" not in lines[i]:
+                i += 1
+            i += 1
+            continue
+
         if s.startswith("::"):
             out.append(shortcode(s))
             i += 1
