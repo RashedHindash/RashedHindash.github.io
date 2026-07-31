@@ -1409,15 +1409,17 @@ def build_workshop(entry: Entry, siblings) -> str:
         '<div class="prose" data-reveal>%s</div>'
         "%s%s%s"
         "</article></main>"
+        # banner and the recording sit up top; the write-up follows, and the
+        # deck sits underneath it for anyone who wants to go through the material
         % (esc(url("/workshops/")),
            kicker(" · ".join([b for b in (str(entry.get("kind") or "Masterclass"),
                                           str(entry.get("series") or "")) if b])),
            esc(entry.title),
            '<p class="art-sum">%s</p>' % inline(entry.summary) if entry.summary else "",
            meta_row(bits),
-           banner_html, slides_section,
+           banner_html, recording_section,
            entry.html,
-           recording_section, tag_row(entry.tags), pager)
+           slides_section, tag_row(entry.tags), pager)
     )
     return shell(title=entry.title, description=entry.summary,
                  path=entry.url, body=body, og_image=banner)

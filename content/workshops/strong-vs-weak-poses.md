@@ -2,7 +2,7 @@
 title: Strong vs Weak Poses
 series: The Refinery Project
 kind: Masterclass
-summary: What makes a pose land — and what makes it disappear. An image-driven, body-first session on line of action, silhouette, weight, and the dos and don'ts of posing for 3D animation.
+summary: Why some poses hold an audience and others vanish — and how to tell the difference before you have the words for it.
 duration: 60 minutes
 format: Image-driven · body recreation · 3D animation principles
 audience: 3D animation students
@@ -11,117 +11,100 @@ audience: 3D animation students
 cover: /static/images/workshops/strong-vs-weak-poses/banner.jpg
 slides_path: /static/images/workshops/strong-vs-weak-poses/slides
 deck: https://docs.google.com/presentation/d/1sv8dD2xPXAosS7vYPZbyTMp1TF1kEI1qfFsKoS8px2Q
-video:
+video: https://drive.google.com/file/d/1Rd1FhWZmX6bPqZp_5mBhaFpFz_WCVrbe/view
 tags: [posing, teaching, 3d animation]
 order: 1
 ---
 
-## What the session is about
+Animation is usually taught as the study of motion. We talk about arcs, easing,
+overlap, follow-through — the language of things in transit. But motion is a
+consequence, not a cause. What an audience actually reads, frame to frame, is a
+sequence of held ideas, and the movement between them only carries meaning if
+those ideas had meaning in the first place. A beautifully interpolated
+transition between two poses that say nothing will still say nothing, only more
+smoothly.
 
-Most posing feedback arrives as vocabulary — *line of action*, *silhouette*,
-*contrapposto* — handed to students before they have any felt sense of what
-those words describe. This masterclass runs the other way around. Students look
-first, react first, then move their own bodies into the pose, and only after
-that do they get the term for what they just felt.
+This session takes the pose as the unit of study. Not as a stage in a workflow —
+blocking, splining, polish — but as the place where the character's thinking
+actually lives. A pose captures what someone is doing, thinking and feeling at a
+single moment. Everything downstream inherits from that. Weak posing cannot be
+rescued by good timing, and this is the hardest thing to convince a student of,
+because timing is visibly technical and posing feels like taste.
 
-The premise of the session is simple: **movement is a transition between
-meaningful poses.** If the poses are weak, the animation will not read,
-regardless of how smooth the motion between them is. So the pose is treated as
-the unit of work, not the in-between.
+## What the session sets out to do
 
-::note The whole hour is built on one instruction: body first, theory second.
+It is not a lecture on principles, and it is deliberately not software
+training. The aim is narrower and, I think, more useful: to make a student able
+to look at their own pose and say *what is wrong with it* — not that it feels
+off, but which specific quality is missing.
 
-## How it's structured
+By the end, a participant should be able to trace the line of action through a
+figure and say whether it goes anywhere; read a silhouette as pure shape and
+judge whether the action survives the loss of detail; locate where a character's
+weight is actually committed; find symmetry they have introduced without
+noticing; and articulate whether every part of the body is arguing for the same
+idea. These are diagnostic skills rather than descriptive ones. The distinction
+matters: a student who can name the five qualities has learned vocabulary, while
+a student who can find the missing one has learned to see.
 
-The session runs sixty minutes in four blocks:
+::image /static/images/workshops/strong-vs-weak-poses/slides/05.jpg | The qualities a pose needs before anything else can help it
 
-| Block | Time | What happens |
-| --- | --- | --- |
-| Intro + analysis | 15 min | Look at images, react, discuss before any vocabulary |
-| Teaching | 25 min | See it → Do it → Understand it, one principle at a time |
-| Student practice | 15 min | Three rounds of reference → recreate → critique |
-| Wrap | 5 min | Three takeaways and one thing to practise |
+## The concepts, and why these ones
 
-## Starting with instinct, not terminology
+**Line of action** comes first because it is structural rather than decorative.
+A single curve running from the crown of the head through the spine to the feet
+gives the pose a direction for its energy to travel. When that line is a
+vertical — the rig's resting state — energy has nowhere to go, and the figure
+reads as placed rather than posed. Teaching it first establishes a habit: decide
+the shape of the whole body before adjusting any part of it.
 
-The opening block opens with a question rather than a definition — *what is a
-pose?* — and lands on the answer that a pose captures what a character is
-doing, thinking and feeling at a single moment in time.
+**Silhouette** follows because it is the most honest test available. Reduce a
+pose to a solid black shape and the ambiguity disappears; either the action is
+legible or it is not. It is also the cheapest test, which is why it is the one
+students actually keep using once the session ends. Any tool that requires a
+facilitator dies at the door.
 
-::image /static/images/workshops/strong-vs-weak-poses/slides/02.jpg | Opening the session on what a pose actually is
+**Weight** is included because 3D removes it. A rig has no mass and no gravity;
+nothing settles unless the animator decides it should. This is a genuine
+difference from drawing, where the hand tends to imply weight even when the
+artist is not thinking about it. In 3D, weight is a deliberate act — which joints
+bend under load, which direction the torso leans, whether the centre of gravity
+sits over the supporting foot or somewhere the character would be falling from.
 
-From there the session leans on something students already have. Their eyes
-recognise appealing poses long before they can explain why, through a
-subconscious read of balance, rhythm and dynamic energy. The five discussion
-questions are designed to surface that instinct without naming it:
+**Asymmetry** earns its place for a specific technical reason. The default state
+of every rig is a perfect mirror, and symmetry reads to the eye as manufactured
+rather than alive. This means the animator is not adding asymmetry so much as
+fighting a symmetry that is already there, on every joint, every time. Naming
+that as an active struggle rather than a stylistic preference changes how
+students approach it.
 
-- Which image makes you feel something immediately — before you can say why?
-- Squint. Which pose is still readable as a shape? Which disappears?
-- Without knowing the story, what does this character want, fear, or intend?
-- Can you trace a single line from the top of the head through the body?
-- Which pose would be easy to recreate with your own body — and which hard?
+**Intention** closes the set because it is what makes the other four cohere. A
+pose can satisfy every formal quality and still fail if the hands are describing
+one emotion and the hips another. Coherence across the whole figure is what
+separates a technically correct pose from a persuasive one.
 
-::image /static/images/workshops/strong-vs-weak-poses/slides/04.jpg | The five questions that open the discussion
+::image /static/images/workshops/strong-vs-weak-poses/slides/13.jpg | Negative space — the gaps that let a silhouette stay readable
 
-The facilitator note attached to this block is deliberate: **don't answer their
-questions yet.** Log them on the whiteboard and come back. Students who name a
-problem themselves remember the solution far longer than students who are
-handed it.
+## The reasoning behind how it is taught
 
-## The five qualities of a pose that lands
+Two decisions shape the hour, and both run against instinct.
 
-The first real framework of the session names what "good" is made of:
+The first is that vocabulary is withheld. The session opens with images and
+questions rather than definitions, and student responses are recorded without
+being corrected. The reason is that a term handed over before the perception it
+describes produces students who can recite *line of action* fluently while
+remaining unable to spot a dead one. A student who has already said *that one
+just looks lifeless* has built somewhere for the term to attach. Naming should
+arrive as relief, not as instruction.
 
-1. **Clear line of action** — one fluid line from head to toe. C, S, or diagonal. Never a straight vertical.
-2. **Readable silhouette** — cover the pose in solid black. Can you still tell what's happening?
-3. **Committed weight** — the mass is somewhere. Gravity is visibly working.
-4. **Asymmetry** — nothing mirrors. Offset every paired part.
-5. **Internal intention** — every part of the body agrees on the same idea.
+The second is that the body is used before the software. Students physically
+stand in the poses being discussed — twin themselves deliberately, feel the
+deadness of it, then shift their weight and feel the difference. Proprioception
+is a faster and more durable teacher than explanation for anything concerning
+balance and weight, and it costs seconds. A student who has felt a twinned stance
+in their own spine recognises it in a viewport far quicker than one who has only
+been shown a diagram of it.
 
-::image /static/images/workshops/strong-vs-weak-poses/slides/05.jpg | The five qualities, with film references for each
-
-## Building the vocabulary
-
-The back half of the current deck works through the concepts one at a time,
-each with the same shape: a definition, then three consequences of getting it
-right.
-
-- **Reversals** — the spine's curve flipping into its opposite during a movement. They read as force and power, and they happen because of body mechanics, not because the animator drew them in.
-- **Dynamic posing** — the combination of tilt, rhythm and twist that makes a single frame feel energetic.
-- **Tilt (contrapposto)** — opposing angles through head, shoulders and pelvis. Creates balance and weight; kills stiff parallel lines.
-- **Rhythm** — the visual flow that carries the eye through the pose, alternating straight and curved for contrast.
-- **Twist** — rotation between head, chest and pelvis. Adds depth, and builds tension before an action.
-- **Balance** — the centre of gravity supported by the base of support. Everything from standing to jumping depends on it.
-- **Silhouette** — the outline alone communicating action and emotion, readable in shadow.
-- **Negative space** — the gaps between limbs and body that stop a pose collapsing into a single unreadable mass.
-
-::image /static/images/workshops/strong-vs-weak-poses/slides/08.jpg | Tilt — contrapposto, and why parallel body lines read as stiff
-
-::image /static/images/workshops/strong-vs-weak-poses/slides/13.jpg | Negative space — where poses most often fall apart
-
-## Reflection
-
-Three things about the design of this session are worth keeping for the next
-one.
-
-**Withholding the vocabulary is the whole trick.** The instinct to define terms
-early is strong, and it's the wrong instinct. A student who has already said
-"that one just looks dead" has built a hook to hang *dead line of action* on.
-Giving the term first produces students who can recite it and still can't see
-it.
-
-**The body is a faster teacher than the software.** Asking a room to physically
-stand in a twinned pose and feel how lifeless it is takes fifteen seconds and
-survives longer than any amount of explanation. In 3D this matters more than in
-drawing, because the rig's default pose *is* a twin — every adjustment has to
-actively fight it, and students need to feel why that's worth the effort.
-
-**Squinting is the most portable tool in the session.** Of everything covered,
-the silhouette test is the one students can run alone, on their own work,
-without a facilitator. That makes it the highest-value thing in the hour.
-
-The thing I'd watch next time is pacing. The vocabulary block is dense —
-reversals, tilt, rhythm, twist, balance, silhouette, negative space — and it
-sits between the two most active parts of the session. It would be worth
-testing whether some of those concepts land better distributed through the
-practice rounds than delivered as a set.
+Both decisions rest on the same conviction: that posing is a perceptual skill
+before it is a technical one, and that perceptual skills are trained by
+provoking them rather than by describing them.
