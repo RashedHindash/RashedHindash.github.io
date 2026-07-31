@@ -438,9 +438,14 @@ def video_embed(spec: str, caption: str = "", poster: str = "") -> str:
                  % (' poster="%s"' % esc(poster) if poster else "", esc(embed_src)))
         return '<figure class="embed embed--file">%s%s</figure>' % (media, cap)
 
-    fallback = ""
+    # YouTube's maxres thumbnail doesn't exist for every video, so fall back to
+    # the one that always does. Anywhere else, a missing poster just disappears
+    # and leaves the play button on a clean panel.
     if kind == "youtube":
-        fallback = ' onerror="this.onerror=null;this.src=this.src.replace(\'maxresdefault\',\'hqdefault\')"'
+        fallback = (' onerror="this.onerror=null;'
+                    "this.src=this.src.replace('maxresdefault','hqdefault')\"")
+    else:
+        fallback = ' onerror="this.remove()"'
 
     poster_img = ('<img src="%s" alt="" loading="lazy" decoding="async"%s>'
                   % (esc(poster), fallback)) if poster else ""
@@ -614,19 +619,23 @@ def meta_row(pairs) -> str:
 
 
 def card_media(entry: Entry, ratio: str = "16 / 9") -> str:
-    cover = entry.cover
     preview = entry.get("preview")
-    inner = ""
-    if cover:
-        inner += ('<img src="%s" alt="" loading="lazy" decoding="async">'
-                  % esc(url(str(cover))))
+
+    image = str(entry.cover or "")
+    if image:
+        image = url(image)
     else:
         src = video_source(str(entry.get("video") or ""))
-        if src and src[1]:
-            inner += ('<img src="%s" alt="" loading="lazy" decoding="async">' % esc(src[1]))
-        else:
-            inner += '<span class="card-mark" aria-hidden="true">%s</span>' % esc(
-                entry.title[:2].upper())
+        image = src[1] if src else ""
+
+    # The monogram sits underneath the thumbnail. If the thumbnail 404s — an
+    # unshared Drive file is the usual reason — the image removes itself and
+    # the monogram shows through, rather than a broken-image icon.
+    inner = '<span class="card-mark" aria-hidden="true">%s</span>' % esc(
+        entry.title[:2].upper())
+    if image:
+        inner += ('<img src="%s" alt="" loading="lazy" decoding="async" '
+                  'onerror="this.remove()">' % esc(image))
     if preview:
         inner += ('<video class="card-preview" muted loop playsinline preload="none">'
                   '<source src="%s"></video>' % esc(url(str(preview))))

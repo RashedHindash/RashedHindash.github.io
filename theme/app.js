@@ -11,12 +11,9 @@
 
   /* ---- theme toggle --------------------------------------------------- */
 
-  function systemTheme() {
-    return window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
-  }
-
+  /* Dark unless the visitor has explicitly chosen otherwise. */
   function currentTheme() {
-    return root.getAttribute("data-theme") || systemTheme();
+    return root.getAttribute("data-theme") || "dark";
   }
 
   var themeBtn = document.querySelector("[data-theme-toggle]");

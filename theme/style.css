@@ -49,19 +49,8 @@
   --shadow: 0 20px 46px -26px rgba(0, 0, 0, .32);
 }
 
-@media (prefers-color-scheme: light) {
-  :root:not([data-theme]) {
-    --bg: #fbfbfa;
-    --bg-soft: #f4f4f2;
-    --bg-elev: #ffffff;
-    --line: rgba(0, 0, 0, .13);
-    --line-soft: rgba(0, 0, 0, .07);
-    --fg: #101014;
-    --fg-mid: #55555f;
-    --fg-dim: #86868f;
-    --shadow: 0 20px 46px -26px rgba(0, 0, 0, .32);
-  }
-}
+/* Dark is the default on purpose — the work reads better against it. Visitors
+   who want light have the toggle in the header, and their choice sticks. */
 
 /* --- reset ------------------------------------------------------------- */
 
@@ -208,10 +197,6 @@ ul, ol { margin: 0; padding: 0; }
 .theme-btn .i-moon { display: block; }
 :root[data-theme="light"] .theme-btn .i-sun { display: block; }
 :root[data-theme="light"] .theme-btn .i-moon { display: none; }
-@media (prefers-color-scheme: light) {
-  :root:not([data-theme]) .theme-btn .i-sun { display: block; }
-  :root:not([data-theme]) .theme-btn .i-moon { display: none; }
-}
 
 .menu-btn { display: none; }
 .menu-bars { display: grid; gap: 4px; width: 16px; }
@@ -259,10 +244,12 @@ ul, ol { margin: 0; padding: 0; }
   margin-left: min(-550px, -65vw);
   background:
     radial-gradient(closest-side,
-      color-mix(in srgb, var(--accent) 22%, transparent),
-      color-mix(in srgb, var(--accent) 7%, transparent) 45%,
-      transparent 70%);
-  opacity: .55;
+      color-mix(in srgb, var(--accent) 20%, transparent) 0%,
+      color-mix(in srgb, var(--accent) 13%, transparent) 26%,
+      color-mix(in srgb, var(--accent) 6%, transparent) 48%,
+      color-mix(in srgb, var(--accent) 2%, transparent) 66%,
+      transparent 82%);
+  opacity: .6;
   pointer-events: none;
   animation: drift 26s var(--ease-io) infinite alternate;
   will-change: transform;
