@@ -527,6 +527,16 @@ COLLECTIONS = {
         "blurb": "Animation, direction and design. Selected projects and breakdowns.",
         "layout": "grid",
     },
+    # Not tutorials — animation made to try something out. Shown on the home
+    # page. Cards play in place, so these need no page of their own.
+    "personal": {
+        "path": "/personal/",
+        "title": "Personal Work",
+        "blurb": "Test shots and experiments. Animation made to try something "
+                 "out rather than to a brief.",
+        "layout": "video",
+        "entry_pages": False,
+    },
     "research": {
         "path": "/research/",
         "title": "Research",
@@ -606,7 +616,11 @@ class Entry:
         elif collection == "pages":
             self.url = "/%s/" % self.slug
         else:
-            self.url = "%s%s/" % (COLLECTIONS[collection]["path"], self.slug)
+            conf = COLLECTIONS[collection]
+            if conf.get("entry_pages", True):
+                self.url = "%s%s/" % (conf["path"], self.slug)
+            else:
+                self.url = "%s#%s" % (conf["path"], self.slug)
 
     @property
     def html(self):
@@ -916,6 +930,18 @@ def build_home(data, hubs) -> str:
                "".join(work_card(e, i) for i, e in enumerate(featured[:4])))
         )
 
+    personal = data.get("personal", [])
+    if personal:
+        sections.append(
+            '<section class="band">'
+            '<div class="band-head"><h2 class="band-title" data-reveal>Personal work</h2>'
+            '%s</div>'
+            '<div class="tut-grid">%s</div></section>'
+            % ('<a class="band-more" href="%s" data-reveal>All tests &#8599;</a>'
+               % esc(url("/personal/")) if len(personal) > 3 else "",
+               "".join(tutorial_card(e, i) for i, e in enumerate(personal[:3])))
+        )
+
     tutorials = hubs.get("tutorials", {}).get("items", [])
     if tutorials:
         sections.append(
@@ -990,8 +1016,8 @@ def build_collection_index(name, entries) -> str:
     elif layout == "grid":
         inner = '<div class="grid grid--work">%s</div>' % "".join(
             work_card(e, i) for i, e in enumerate(entries))
-    elif layout == "cards" and name == "tutorials":
-        inner = '<div class="grid grid--tut">%s</div>' % "".join(
+    elif layout == "video":
+        inner = '<div class="tut-grid">%s</div>' % "".join(
             tutorial_card(e, i) for i, e in enumerate(entries))
     elif layout == "cards":
         inner = '<div class="grid grid--tools">%s</div>' % "".join(
@@ -1379,6 +1405,8 @@ def build(include_drafts: bool = False) -> int:
     for name, entries in data.items():
         write(COLLECTIONS[name]["path"], build_collection_index(name, entries))
         paths.append(COLLECTIONS[name]["path"])
+        if not COLLECTIONS[name].get("entry_pages", True):
+            continue
         for entry in entries:
             write(entry.url, build_entry(name, entry, entries, docs_by_tool))
             paths.append(entry.url)
