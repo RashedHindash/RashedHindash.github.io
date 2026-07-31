@@ -1,92 +1,118 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 900" width="1440" height="900"
-     role="img" aria-label="Hand-drawn spacing chart and curve editor sketch with notes">
+     role="img" aria-label="Hand-drawn animation notes: an arc, a spacing chart and a curve editor">
   <!--
     Drawn to sit with the Foundation and Body Mechanics banners: white paper,
-    grey pencil line work, handwritten notes with asterisk bullets.
-    Everything lives inside y=190..710 so it survives both crops - the 16:9
-    category card and the much wider banner band on the category page.
+    pencil line work, handwritten notes with asterisk bullets.
+    Composition fills the frame and keeps every note clear of the right edge,
+    so nothing clips in either crop (16:9 card, wide banner band).
   -->
   <defs>
-    <!-- A sketched circle: deliberately not closed, with a little overshoot -->
+    <!-- A sketched circle: not quite closed, with a little pencil overshoot -->
     <g id="k">
-      <path d="M-12.6 0.8 C-12.9-6.9 -7.1-12.8 0.9-13.1 C8.6-13.3 13.2-6.6 12.9 0.9
-               C12.7 8.4 7.2 13.1 -0.7 13.2 C-8.2 13.3 -12.4 8.2 -12.6 0.6
-               C-12.7-1.1 -12.3-3.2 -11.7-4.7"
-            fill="none" stroke="#6b6b6b" stroke-width="2.1"
+      <path d="M-17 1 C-17.4-9.3 -9.6-17.3 1.2-17.7 C11.6-18 17.8-8.9 17.4 1.2
+               C17.1 11.3 9.7 17.7 -0.9 17.8 C-11 18 -16.7 11.1 -17 0.8
+               C-17.1-1.5 -16.6-4.3 -15.8-6.3"
+            fill="none" stroke="#6b6b6b" stroke-width="2.4"
+            stroke-linecap="round" stroke-linejoin="round"/>
+    </g>
+    <g id="ks">
+      <path d="M-13.5 0.8 C-13.8-7.4 -7.6-13.8 0.9-14.1 C9.2-14.3 14.1-7.1 13.8 1
+               C13.6 9 7.7 14.1 -0.7 14.2 C-8.8 14.3 -13.3 8.8 -13.5 0.6
+               C-13.6-1.2 -13.2-3.4 -12.6-5"
+            fill="none" stroke="#6b6b6b" stroke-width="2.2"
             stroke-linecap="round" stroke-linejoin="round"/>
     </g>
   </defs>
 
   <style>
-    .ink   { fill:none; stroke:#5f5f5f; stroke-width:2.2; stroke-linecap:round; stroke-linejoin:round; }
-    .ink2  { fill:none; stroke:#2f2f2f; stroke-width:2.4; stroke-linecap:round; stroke-linejoin:round; }
-    .faint { fill:none; stroke:#9a9a9a; stroke-width:1.6; stroke-linecap:round; }
+    .ink   { fill:none; stroke:#5f5f5f; stroke-width:2.5; stroke-linecap:round; stroke-linejoin:round; }
+    .ink2  { fill:none; stroke:#2f2f2f; stroke-width:2.7; stroke-linecap:round; stroke-linejoin:round; }
+    .faint { fill:none; stroke:#9a9a9a; stroke-width:1.8; stroke-linecap:round; }
     .note  { fill:#242424; font-family:'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive;
-             font-size:26px; }
+             font-size:27px; }
     .num   { fill:#8a8a8a; font-family:'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive;
-             font-size:19px; }
+             font-size:20px; }
     .dot   { fill:#2f2f2f; }
   </style>
 
   <rect width="1440" height="900" fill="#ffffff"/>
 
-  <!-- ============ left: spacing chart, slow in and slow out ============ -->
+  <!-- ================= top left: arcs ================= -->
 
-  <!-- ground line, drawn with a slight waver like a ruled pencil line -->
-  <path class="ink" d="M96 521 C210 518 320 524 430 520 S560 523 634 520"/>
+  <!-- the path, sketched twice so it reads as pencil -->
+  <path class="ink" d="M112 402 C190 262 268 196 336 200 C404 204 486 276 560 400"/>
+  <path class="faint" d="M116 398 C194 260 270 202 336 205 C402 208 482 278 556 396"/>
 
-  <!-- keys: bunched at both ends, spread through the middle -->
-  <use href="#k" x="100" y="521"/><use href="#k" x="107" y="521"/>
-  <use href="#k" x="129" y="521"/><use href="#k" x="163" y="521"/>
-  <use href="#k" x="208" y="521"/><use href="#k" x="261" y="521"/>
-  <use href="#k" x="320" y="521"/><use href="#k" x="380" y="521"/>
-  <use href="#k" x="439" y="521"/><use href="#k" x="492" y="521"/>
-  <use href="#k" x="537" y="521"/><use href="#k" x="571" y="521"/>
-  <use href="#k" x="593" y="521"/><use href="#k" x="600" y="521"/>
+  <use href="#ks" x="112" y="402"/>
+  <use href="#ks" x="163" y="316"/>
+  <use href="#ks" x="228" y="243"/>
+  <use href="#ks" x="300" y="205"/>
+  <use href="#ks" x="372" y="212"/>
+  <use href="#ks" x="444" y="264"/>
+  <use href="#ks" x="510" y="338"/>
+  <use href="#ks" x="560" y="402"/>
 
-  <!-- tick marks under the chart -->
+  <!-- a straight line struck through, the wrong way to do it -->
+  <path class="faint" d="M112 402 L560 402"/>
+  <path class="faint" d="M300 372l24 24M324 372l-24 24"/>
+
+  <text class="note" x="108" y="470">* arcs, not straight lines</text>
+
+  <!-- ================= bottom left: spacing chart ================= -->
+
+  <path class="ink" d="M96 652 C230 649 380 655 520 651 S660 654 706 651"/>
+
+  <use href="#k" x="110" y="651"/><use href="#k" x="118" y="651"/>
+  <use href="#k" x="143" y="651"/><use href="#k" x="183" y="651"/>
+  <use href="#k" x="235" y="651"/><use href="#k" x="297" y="651"/>
+  <use href="#k" x="365" y="651"/><use href="#k" x="435" y="651"/>
+  <use href="#k" x="503" y="651"/><use href="#k" x="565" y="651"/>
+  <use href="#k" x="617" y="651"/><use href="#k" x="657" y="651"/>
+  <use href="#k" x="682" y="651"/><use href="#k" x="690" y="651"/>
+
   <g class="faint">
-    <path d="M100 549v22M107 549v18M129 549v22M163 549v18M208 549v22M261 549v18
-             M320 549v22M380 549v18M439 549v22M492 549v18M537 549v22M571 549v18
-             M593 549v22M600 549v18"/>
+    <path d="M110 684v24M118 684v18M143 684v24M183 684v18M235 684v24M297 684v18
+             M365 684v24M435 684v18M503 684v24M565 684v18M617 684v24M657 684v18
+             M682 684v24M690 684v18"/>
   </g>
 
-  <!-- a few handwritten frame numbers, not all of them -->
-  <text class="num" x="94"  y="487">1</text>
-  <text class="num" x="200" y="487">5</text>
-  <text class="num" x="373" y="487">8</text>
-  <text class="num" x="528" y="487">11</text>
-  <text class="num" x="592" y="487">14</text>
+  <text class="num" x="102" y="612">1</text>
+  <text class="num" x="226" y="612">5</text>
+  <text class="num" x="428" y="612">8</text>
+  <text class="num" x="608" y="612">11</text>
+  <text class="num" x="680" y="612">14</text>
 
-  <text class="note" x="96" y="628">* slow in, slow out &#8212; the spacing is the timing</text>
+  <text class="note" x="100" y="762">* slow in, slow out</text>
 
-  <!-- ============ right: a sketched curve editor ============ -->
+  <!-- ================= right: a sketched curve editor ================= -->
 
-  <!-- axes -->
-  <path class="ink2" d="M812 268 C810 340 813 470 811 600"/>
-  <path class="ink2" d="M806 598 C900 600 1120 596 1338 599"/>
+  <path class="ink2" d="M842 214 C840 300 843 470 841 646"/>
+  <path class="ink2" d="M834 644 C930 646 1160 642 1372 645"/>
 
-  <!-- the ease curve: flat, fast, flat -->
-  <path class="ink2" d="M838 566 C905 566 940 560 985 505 C1050 425 1105 350 1170 322
-                        C1225 298 1270 296 1322 297"/>
+  <!-- flat, fast, flat -->
+  <path class="ink2" d="M872 604 C944 604 982 598 1030 538 C1098 452 1156 372 1224 342
+                        C1282 316 1330 314 1344 313"/>
 
-  <!-- tangent handles, drawn flat to show a hold at each end -->
-  <path class="faint" d="M800 566h86M1276 297h84"/>
-  <circle class="dot" cx="800" cy="566" r="4.4"/>
-  <circle class="dot" cx="886" cy="566" r="4.4"/>
-  <circle class="dot" cx="1276" cy="297" r="4.4"/>
-  <circle class="dot" cx="1360" cy="297" r="4.4"/>
+  <!-- tangent handles, drawn flat to show the hold at each end -->
+  <path class="faint" d="M834 604h92M1268 313h94"/>
+  <circle class="dot" cx="834" cy="604" r="4.8"/>
+  <circle class="dot" cx="926" cy="604" r="4.8"/>
+  <circle class="dot" cx="1268" cy="313" r="4.8"/>
+  <circle class="dot" cx="1362" cy="313" r="4.8"/>
 
   <!-- keyframes -->
-  <path class="ink2" d="M838 558l8 8-8 8-8-8z" fill="#2f2f2f"/>
-  <path class="ink2" d="M1322 289l8 8-8 8-8-8z" fill="#2f2f2f"/>
+  <path d="M872 595l9 9-9 9-9-9z" fill="#2f2f2f"/>
+  <path d="M1344 304l9 9-9 9-9-9z" fill="#2f2f2f"/>
 
-  <!-- an arrow pointing at the flat tangent, the way you'd scribble it in -->
-  <path class="faint" d="M1150 560 C1090 566 1010 572 926 570"/>
-  <path class="faint" d="M948 561l-22 9 21 10"/>
+  <!-- a scribbled pointer at the flat tangent -->
+  <path class="faint" d="M1146 566 C1082 574 1010 586 962 600"/>
+  <path class="faint" d="M986 588l-24 12 22 11"/>
 
-  <text class="note" x="1042" y="548">* flatten the tangents</text>
-  <text class="note" x="1042" y="580">&#160;&#160;to hold a pose</text>
+  <text class="note" x="1010" y="238">* favour the extremes</text>
+  <text class="note" x="1010" y="272">&#160;&#160;the in-betweens follow</text>
 
-  <text class="note" x="812" y="668">* favour the extremes &#8212; the in-betweens follow</text>
+  <text class="note" x="1046" y="556">* flatten tangents</text>
+  <text class="note" x="1046" y="590">&#160;&#160;to hold a pose</text>
+
+  <text class="note" x="838" y="762">* spacing is timing</text>
 </svg>
