@@ -519,6 +519,10 @@ def shortcode(line: str) -> str:
     if name == "note":
         return '<aside class="note">%s</aside>' % inline(rest)
 
+    if name == "cite":
+        # A reference entry, hanging-indented the way a bibliography is set.
+        return '<p class="cite">%s</p>' % inline(rest)
+
     if name == "image":
         parts = rest.split("|")
         src = parts[0].strip()

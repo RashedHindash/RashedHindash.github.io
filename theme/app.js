@@ -71,13 +71,16 @@
     });
   }
 
-  /* ---- replay the brand bounce on hover -------------------------------- */
+  /* ---- replay the brand bounce when the ball is clicked ---------------- */
 
-  var brand = document.querySelector(".brand");
   var ball = document.querySelector(".brand-ball");
 
-  if (brand && ball && !reduced) {
-    brand.addEventListener("pointerenter", function () {
+  if (ball && !reduced) {
+    ball.addEventListener("click", function (event) {
+      // The ball sits inside the home link, so stop the click navigating.
+      event.preventDefault();
+      event.stopPropagation();
+
       [ball, ball.querySelector("i")].forEach(function (el) {
         if (!el) return;
         el.style.animation = "none";

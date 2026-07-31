@@ -28,6 +28,8 @@ types of systems that could be managed, such as tweening, space offsetting,
 blending, simplifying curves, favoring one side of a pose over the other,
 smoothing, and adding noise. All of it could be handled through a single slider.
 
+::image /static/images/journal/animmix-how-its-made/tween-machine.png | Modes and intensity — one slider carrying several systems
+
 After that, I added a button that allows curves and animation to overshoot when
 needed.
 
@@ -47,6 +49,8 @@ in the experimentation phase.
 Alongside these, I created tools that assist with various parts of animation,
 particularly breakdown creation and curve editing. These tools also help with
 transitioning from one type of animation to another.
+
+::image /static/images/journal/animmix-how-its-made/tools-panel.png | Tangents, pose, utilities and keys — with recovery running underneath
 
 ## Reducing the number of clicks
 
@@ -79,3 +83,7 @@ focus on their craft, and Animmix is my way of helping them do that.
 
 Animmix is free and available on GitHub — see [the tool page](/tools/animmix/)
 or go straight to [the repository](https://github.com/RashedHindash/ANIMMIX).
+
+## References
+
+::cite Hindash, R. (2026, March 3). *Animmix — How It's Made?* Rashed Hindash Blog. https://rashedhindash.github.io/journal/animmix-how-its-made/

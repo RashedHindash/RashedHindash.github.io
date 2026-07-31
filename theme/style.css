@@ -158,7 +158,8 @@ ul, ol { margin: 0; padding: 0; }
   flex: none;
   width: 34px; height: 16px;
   margin-bottom: 4px;
-  animation: brand-travel 1400ms cubic-bezier(.18,.7,.36,1) both;
+  animation: brand-travel 900ms cubic-bezier(.68, 0, .18, 1) both;
+  cursor: pointer;
 }
 .brand-ball i {
   position: absolute;
@@ -167,7 +168,7 @@ ul, ol { margin: 0; padding: 0; }
   border-radius: 50%;
   background: var(--accent);
   transform-origin: 50% 100%;
-  animation: brand-bounce 1400ms linear both;
+  animation: brand-bounce 900ms linear both;
 }
 
 @keyframes brand-travel {
@@ -175,21 +176,23 @@ ul, ol { margin: 0; padding: 0; }
   to   { transform: translateX(25px); }
 }
 
-/* Falls accelerate, rises decelerate, contacts squash. Bounce heights decay
-   and the gaps between them shorten, which is what reads as gravity. */
+/* Falls accelerate hard, rises decelerate hard, contacts squash. Bounce
+   heights decay and the gaps between them shorten — that shortening is what
+   reads as gravity. Snappier curves than a default ease; the ball should feel
+   like it has somewhere to be. */
 @keyframes brand-bounce {
-  0%   { transform: translateY(-14px) scale(.92, 1.14); animation-timing-function: cubic-bezier(.5, 0, .9, .5); }
-  13%  { transform: translateY(0)     scale(1.34, .68); animation-timing-function: cubic-bezier(.1, .5, .4, 1); }
-  17%  { transform: translateY(-4px)  scale(.96, 1.06); animation-timing-function: cubic-bezier(.2, .6, .4, 1); }
-  32%  { transform: translateY(-10px) scale(1, 1);      animation-timing-function: cubic-bezier(.5, 0, .9, .5); }
-  46%  { transform: translateY(0)     scale(1.26, .76); animation-timing-function: cubic-bezier(.1, .5, .4, 1); }
-  50%  { transform: translateY(-2px)  scale(.98, 1.04); animation-timing-function: cubic-bezier(.2, .6, .4, 1); }
-  61%  { transform: translateY(-5px)  scale(1, 1);      animation-timing-function: cubic-bezier(.5, 0, .9, .5); }
-  72%  { transform: translateY(0)     scale(1.18, .84); animation-timing-function: cubic-bezier(.1, .5, .4, 1); }
-  77%  { transform: translateY(-1px)  scale(.99, 1.02); animation-timing-function: cubic-bezier(.2, .6, .4, 1); }
-  84%  { transform: translateY(-2px)  scale(1, 1);      animation-timing-function: cubic-bezier(.5, 0, .9, .5); }
-  92%  { transform: translateY(0)     scale(1.1, .9);   animation-timing-function: cubic-bezier(.1, .5, .4, 1); }
-  96%  { transform: translateY(-1px)  scale(1, 1);      animation-timing-function: ease-in; }
+  0%   { transform: translateY(-16px) scale(.88, 1.2);  animation-timing-function: cubic-bezier(.62, 0, .96, .42); }
+  14%  { transform: translateY(0)     scale(1.42, .62); animation-timing-function: cubic-bezier(.04, .58, .3, 1); }
+  18%  { transform: translateY(-5px)  scale(.94, 1.09); animation-timing-function: cubic-bezier(.1, .68, .3, 1); }
+  34%  { transform: translateY(-11px) scale(1, 1);      animation-timing-function: cubic-bezier(.62, 0, .96, .42); }
+  49%  { transform: translateY(0)     scale(1.3, .74);  animation-timing-function: cubic-bezier(.04, .58, .3, 1); }
+  53%  { transform: translateY(-3px)  scale(.97, 1.05); animation-timing-function: cubic-bezier(.1, .68, .3, 1); }
+  64%  { transform: translateY(-5px)  scale(1, 1);      animation-timing-function: cubic-bezier(.62, 0, .96, .42); }
+  76%  { transform: translateY(0)     scale(1.2, .83);  animation-timing-function: cubic-bezier(.04, .58, .3, 1); }
+  80%  { transform: translateY(-1px)  scale(.99, 1.02); animation-timing-function: cubic-bezier(.1, .68, .3, 1); }
+  87%  { transform: translateY(-2px)  scale(1, 1);      animation-timing-function: cubic-bezier(.62, 0, .96, .42); }
+  94%  { transform: translateY(0)     scale(1.11, .9);  animation-timing-function: cubic-bezier(.04, .58, .3, 1); }
+  97%  { transform: translateY(-1px)  scale(1, 1);      animation-timing-function: ease-in; }
   100% { transform: translateY(0)     scale(1, 1); }
 }
 
@@ -639,6 +642,15 @@ ul, ol { margin: 0; padding: 0; }
   font-size: .97rem;
   color: var(--fg-mid);
 }
+
+/* Reference entries: hanging indent, the way a bibliography is set. */
+.prose .cite {
+  padding-left: 2.2em;
+  text-indent: -2.2em;
+  font-size: .95rem;
+  color: var(--fg-mid);
+}
+.prose .cite + .cite { margin-top: .6em; }
 
 .figure { margin: 0; }
 /* Never upscale — a narrow UI screenshot stretched to the column width just
