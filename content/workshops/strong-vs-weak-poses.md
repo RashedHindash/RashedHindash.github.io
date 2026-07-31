@@ -6,7 +6,8 @@ summary: What makes a pose land — and what makes it disappear. An image-driven
 duration: 60 minutes
 format: Image-driven · body recreation · 3D animation principles
 audience: 3D animation students
-date: 2026-07-31
+# date: 2026-00-00   <- set this to when you actually delivered it and the
+#                       "Delivered" line appears on the page
 cover: /static/images/workshops/strong-vs-weak-poses/banner.jpg
 slides_path: /static/images/workshops/strong-vs-weak-poses/slides
 deck: https://docs.google.com/presentation/d/1sv8dD2xPXAosS7vYPZbyTMp1TF1kEI1qfFsKoS8px2Q
