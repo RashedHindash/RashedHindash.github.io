@@ -23,9 +23,12 @@ If you teach, say what and where. If you're available to teach, say that too.
 
 ## Elsewhere
 
-- [GitHub](https://github.com/USERNAME)
-- [LinkedIn](https://www.linkedin.com/in/USERNAME)
-- [Vimeo](https://vimeo.com/USERNAME)
+- [GitHub](https://github.com/RashedHindash)
+
+<!-- Add LinkedIn, Vimeo, ArtStation or anywhere else you want linked, in the
+     same format: - [Name](https://the-full-address). Add them to the footer too
+     by editing the "links" list in content/site.json. -->
+
 
 ## Get in touch
 

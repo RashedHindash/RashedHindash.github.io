@@ -6,7 +6,7 @@
 
   "description": "Portfolio, research outputs, tutorials and tools by Rashed Hindash — animator, researcher and pipeline tool developer.",
 
-  "url": "https://USERNAME.github.io",
+  "url": "https://rashedhindash.github.io",
   "base": "",
   "custom_domain": "",
 
@@ -27,9 +27,7 @@
   ],
 
   "links": [
-    { "label": "GitHub",   "href": "https://github.com/USERNAME" },
-    { "label": "LinkedIn", "href": "https://www.linkedin.com/in/USERNAME" },
-    { "label": "Vimeo",    "href": "https://vimeo.com/USERNAME" },
-    { "label": "RSS",      "href": "/rss.xml" }
+    { "label": "GitHub", "href": "https://github.com/RashedHindash" },
+    { "label": "RSS",    "href": "/rss.xml" }
   ]
 }
