@@ -1,101 +1,92 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 504" width="1440" height="504"
-     role="img" aria-label="A bouncing ball arc with spacing marks">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 900" width="1440" height="900"
+     role="img" aria-label="Hand-drawn spacing chart and curve editor sketch with notes">
+  <!--
+    Drawn to sit with the Foundation and Body Mechanics banners: white paper,
+    grey pencil line work, handwritten notes with asterisk bullets.
+    Everything lives inside y=190..710 so it survives both crops - the 16:9
+    category card and the much wider banner band on the category page.
+  -->
   <defs>
-    <!-- Backdrop sampled from the Foundation and Body Mechanics banners -->
-    <radialGradient id="bg" cx="44%" cy="32%" r="88%">
-      <stop offset="0"    stop-color="#74574f"/>
-      <stop offset="45%"  stop-color="#5b4342"/>
-      <stop offset="100%" stop-color="#332525"/>
-    </radialGradient>
-
-    <!-- Matte teal, shaded to sit next to the rendered rigs -->
-    <radialGradient id="ball" cx="34%" cy="29%" r="78%">
-      <stop offset="0"    stop-color="#93dbce"/>
-      <stop offset="38%"  stop-color="#3f9a92"/>
-      <stop offset="100%" stop-color="#14484a"/>
-    </radialGradient>
-
-    <linearGradient id="floor" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0"    stop-color="#8a6a63" stop-opacity=".20"/>
-      <stop offset="100%" stop-color="#8a6a63" stop-opacity="0"/>
-    </linearGradient>
-
-    <radialGradient id="shadow" cx="50%" cy="50%" r="50%">
-      <stop offset="0"    stop-color="#241a1a" stop-opacity=".5"/>
-      <stop offset="100%" stop-color="#241a1a" stop-opacity="0"/>
-    </radialGradient>
-
-    <radialGradient id="vig" cx="50%" cy="44%" r="74%">
-      <stop offset="52%"  stop-color="#000" stop-opacity="0"/>
-      <stop offset="100%" stop-color="#000" stop-opacity=".36"/>
-    </radialGradient>
-
-    <g id="b">
-      <circle r="19" fill="url(#ball)"/>
-      <ellipse cx="-6.4" cy="-7.2" rx="5.6" ry="4" fill="#c6efe6" opacity=".5"/>
+    <!-- A sketched circle: deliberately not closed, with a little overshoot -->
+    <g id="k">
+      <path d="M-12.6 0.8 C-12.9-6.9 -7.1-12.8 0.9-13.1 C8.6-13.3 13.2-6.6 12.9 0.9
+               C12.7 8.4 7.2 13.1 -0.7 13.2 C-8.2 13.3 -12.4 8.2 -12.6 0.6
+               C-12.7-1.1 -12.3-3.2 -11.7-4.7"
+            fill="none" stroke="#6b6b6b" stroke-width="2.1"
+            stroke-linecap="round" stroke-linejoin="round"/>
     </g>
   </defs>
 
-  <rect width="1440" height="504" fill="url(#bg)"/>
+  <style>
+    .ink   { fill:none; stroke:#5f5f5f; stroke-width:2.2; stroke-linecap:round; stroke-linejoin:round; }
+    .ink2  { fill:none; stroke:#2f2f2f; stroke-width:2.4; stroke-linecap:round; stroke-linejoin:round; }
+    .faint { fill:none; stroke:#9a9a9a; stroke-width:1.6; stroke-linecap:round; }
+    .note  { fill:#242424; font-family:'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive;
+             font-size:26px; }
+    .num   { fill:#8a8a8a; font-family:'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive;
+             font-size:19px; }
+    .dot   { fill:#2f2f2f; }
+  </style>
 
-  <!-- A hint of viewport floor, echoing the rig renders -->
-  <rect x="0" y="292" width="1440" height="112" fill="url(#floor)"/>
-  <g stroke="#a08079" stroke-opacity=".12" stroke-width="1.3">
-    <path d="M0 388h1440M0 366h1440M0 340h1440M0 300h1440"/>
-    <path d="M110 300v88M330 300v88M550 300v88M770 300v88M990 300v88M1210 300v88"/>
+  <rect width="1440" height="900" fill="#ffffff"/>
+
+  <!-- ============ left: spacing chart, slow in and slow out ============ -->
+
+  <!-- ground line, drawn with a slight waver like a ruled pencil line -->
+  <path class="ink" d="M96 521 C210 518 320 524 430 520 S560 523 634 520"/>
+
+  <!-- keys: bunched at both ends, spread through the middle -->
+  <use href="#k" x="100" y="521"/><use href="#k" x="107" y="521"/>
+  <use href="#k" x="129" y="521"/><use href="#k" x="163" y="521"/>
+  <use href="#k" x="208" y="521"/><use href="#k" x="261" y="521"/>
+  <use href="#k" x="320" y="521"/><use href="#k" x="380" y="521"/>
+  <use href="#k" x="439" y="521"/><use href="#k" x="492" y="521"/>
+  <use href="#k" x="537" y="521"/><use href="#k" x="571" y="521"/>
+  <use href="#k" x="593" y="521"/><use href="#k" x="600" y="521"/>
+
+  <!-- tick marks under the chart -->
+  <g class="faint">
+    <path d="M100 549v22M107 549v18M129 549v22M163 549v18M208 549v22M261 549v18
+             M320 549v22M380 549v18M439 549v22M492 549v18M537 549v22M571 549v18
+             M593 549v22M600 549v18"/>
   </g>
 
-  <!-- Contact shadows -->
-  <g>
-    <ellipse cx="170"  cy="396" rx="46" ry="9" fill="url(#shadow)"/>
-    <ellipse cx="610"  cy="396" rx="40" ry="8" fill="url(#shadow)"/>
-    <ellipse cx="970"  cy="396" rx="33" ry="7" fill="url(#shadow)"/>
-    <ellipse cx="1210" cy="396" rx="28" ry="6" fill="url(#shadow)"/>
-  </g>
+  <!-- a few handwritten frame numbers, not all of them -->
+  <text class="num" x="94"  y="487">1</text>
+  <text class="num" x="200" y="487">5</text>
+  <text class="num" x="373" y="487">8</text>
+  <text class="num" x="528" y="487">11</text>
+  <text class="num" x="592" y="487">14</text>
 
-  <!-- The arc -->
-  <path d="M170 388 Q280 96 390 145 Q500 96 610 388 Q700 210 790 240
-           Q880 210 970 388 Q1030 268 1090 312 Q1150 268 1210 388 L1320 388"
-        fill="none" stroke="#d8b7ad" stroke-opacity=".24"
-        stroke-width="2.2" stroke-dasharray="8 10" stroke-linecap="round"/>
+  <text class="note" x="96" y="628">* slow in, slow out &#8212; the spacing is the timing</text>
 
-  <!-- Spacing ticks: wide through the fast pass, tight at the apex -->
-  <g stroke="#e4c6bc" stroke-opacity=".26" stroke-width="1.5" stroke-linecap="round">
-    <path d="M170 410v13M225 410v13M280 410v13M335 410v13M390 410v13
-             M445 410v13M500 410v13M555 410v13M610 410v13
-             M655 410v13M700 410v13M745 410v13M790 410v13
-             M835 410v13M880 410v13M925 410v13M970 410v13"/>
-  </g>
+  <!-- ============ right: a sketched curve editor ============ -->
 
-  <!-- Bounce one -->
-  <ellipse cx="170" cy="376" rx="25" ry="13" fill="url(#ball)"/>
-  <use href="#b" x="225" y="282"/>
-  <use href="#b" x="280" y="206"/>
-  <use href="#b" x="335" y="160"/>
-  <use href="#b" x="390" y="145"/>
-  <use href="#b" x="445" y="160"/>
-  <use href="#b" x="500" y="206"/>
-  <use href="#b" x="555" y="282"/>
+  <!-- axes -->
+  <path class="ink2" d="M812 268 C810 340 813 470 811 600"/>
+  <path class="ink2" d="M806 598 C900 600 1120 596 1338 599"/>
 
-  <!-- Bounce two -->
-  <ellipse cx="610" cy="376" rx="23" ry="13" fill="url(#ball)"/>
-  <use href="#b" x="655" y="323"/>
-  <use href="#b" x="700" y="277"/>
-  <use href="#b" x="745" y="249"/>
-  <use href="#b" x="790" y="240"/>
-  <use href="#b" x="835" y="249"/>
-  <use href="#b" x="880" y="277"/>
-  <use href="#b" x="925" y="323"/>
+  <!-- the ease curve: flat, fast, flat -->
+  <path class="ink2" d="M838 566 C905 566 940 560 985 505 C1050 425 1105 350 1170 322
+                        C1225 298 1270 296 1322 297"/>
 
-  <!-- Bounce three, settling -->
-  <ellipse cx="970" cy="377" rx="21" ry="14" fill="url(#ball)"/>
-  <use href="#b" x="1010" y="346"/>
-  <use href="#b" x="1050" y="320"/>
-  <use href="#b" x="1090" y="312"/>
-  <use href="#b" x="1130" y="320"/>
-  <use href="#b" x="1170" y="346"/>
-  <ellipse cx="1210" cy="378" rx="20" ry="15" fill="url(#ball)"/>
-  <use href="#b" x="1290" y="371"/>
+  <!-- tangent handles, drawn flat to show a hold at each end -->
+  <path class="faint" d="M800 566h86M1276 297h84"/>
+  <circle class="dot" cx="800" cy="566" r="4.4"/>
+  <circle class="dot" cx="886" cy="566" r="4.4"/>
+  <circle class="dot" cx="1276" cy="297" r="4.4"/>
+  <circle class="dot" cx="1360" cy="297" r="4.4"/>
 
-  <rect width="1440" height="504" fill="url(#vig)"/>
+  <!-- keyframes -->
+  <path class="ink2" d="M838 558l8 8-8 8-8-8z" fill="#2f2f2f"/>
+  <path class="ink2" d="M1322 289l8 8-8 8-8-8z" fill="#2f2f2f"/>
+
+  <!-- an arrow pointing at the flat tangent, the way you'd scribble it in -->
+  <path class="faint" d="M1150 560 C1090 566 1010 572 926 570"/>
+  <path class="faint" d="M948 561l-22 9 21 10"/>
+
+  <text class="note" x="1042" y="548">* flatten the tangents</text>
+  <text class="note" x="1042" y="580">&#160;&#160;to hold a pose</text>
+
+  <text class="note" x="812" y="668">* favour the extremes &#8212; the in-betweens follow</text>
 </svg>
