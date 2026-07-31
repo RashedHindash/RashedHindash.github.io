@@ -767,8 +767,12 @@ CARD_RENDERERS = {"rig": lambda e, i: rig_card(e, i),
 
 
 def group_by_series(items):
-    """[(series_name, [items])] preserving the order each series first appears."""
-    loose, series, order = [], {}, []
+    """[(series_name, [items])], ungrouped items first.
+
+    Series are ordered by the lowest `series_order` any of their items declares,
+    falling back to the order they first appear.
+    """
+    loose, series, rank, seen = [], {}, {}, []
     for item in items:
         name = str(item.get("series") or "").strip()
         if not name:
@@ -776,13 +780,18 @@ def group_by_series(items):
             continue
         if name not in series:
             series[name] = []
-            order.append(name)
+            seen.append(name)
+            rank[name] = 9999
         series[name].append(item)
+        try:
+            rank[name] = min(rank[name], int(item.get("series_order")))
+        except (TypeError, ValueError):
+            pass
 
     groups = []
     if loose:
         groups.append(("", loose))
-    for name in order:
+    for name in sorted(seen, key=lambda n: (rank[n], seen.index(n))):
         groups.append((name, series[name]))
     return groups
 

@@ -1,7 +1,8 @@
----
+﻿---
 title: Part 13
 category: body-mechanics
 series: Recording
+series_order: 2
 summary:
 video: https://drive.google.com/file/d/1vp2f70Dk0ChlGaFuH5ryfL2ji_EhRUt0/view
 thumb: /static/images/tutorials/thumbs/recording-13.jpg
