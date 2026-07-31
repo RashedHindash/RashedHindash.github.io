@@ -1,30 +1,62 @@
 ---
 title: Getting started
-summary: The five-minute tour — open the tool, run your first operation, undo it.
+summary: The naming convention Animmix expects, and the snapshot workflow everything else is built on.
 tool: animmix
 order: 2
 ---
 
-<!-- EXAMPLE DOC PAGE. Delete or rewrite. -->
+## Set your rig up first
 
-## Opening the toolset
+Animmix identifies the left and right sides of a character from **controller
+names**. Controllers must include `_L` and `_R` so the system can tell the two
+sides apart during operations like mirroring.
 
-Describe the shelf button, the hotkey, or the command. Show the command, because
-that's what people copy:
-
-```python
-import animmix
-animmix.show()
+```
+ctrl_arm_L      ✓
+ctrl_arm_R      ✓
+ctrl_arm_left   ✗ — Animmix won't pair this
 ```
 
-## Your first operation
+This gets checked automatically by the **Setup Check**, which runs before the
+pose-based tools and confirms the rig follows the expected structure. If the
+check fails, fix the naming rather than working around it — the pose tools
+depend on it.
 
-Walk through one small, complete task from start to finish. Resist the urge to
-document every button — a single worked example teaches more than a feature
-list.
+## Rig types
 
-## Where to go next
+| Rig type | Supported |
+| --- | --- |
+| Standard bone-based | Yes |
+| Custom rig setups | Yes |
+| CAT | Not yet |
+| Biped | Not yet |
 
-Link to the other documentation pages as you write them. Each new page is a file
-in `content/docs/` with `tool: animmix` in its metadata, and it appears in the
-sidebar automatically.
+CAT and Biped use internal animation systems that need specialised handling.
+They're planned once the core feature set is stable.
+
+## The snapshot workflow
+
+Everything in Animmix is built on snapshots. The basic loop:
+
+1. **Select** all the animation controllers for the character.
+2. Click **Snapshot Tool** in the interface.
+3. Give the snapshot a **clear, descriptive name** — you'll be picking it out of a list later.
+4. **Save** it.
+
+The snapshot stores the current pose state so you can recall, compare against,
+or restore it later.
+
+## Why bother
+
+Two reasons, and the second is the one that matters most.
+
+**It's non-destructive.** You can push a pose much harder when you know the
+previous state is one click away. That tends to produce bolder posing than
+working without a safety net.
+
+**The other tools depend on it.** The rest of Animmix operates against saved
+pose states rather than editing blind, so taking snapshots isn't housekeeping —
+it's what makes the rest of the toolkit work correctly.
+
+::note Name snapshots as if someone else will read them. `contact_L_pass_02`
+survives a week away from the file. `test3` does not.

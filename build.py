@@ -91,6 +91,10 @@ def short_date(value) -> str:
     return dt.strftime("%b %Y")
 
 
+class Raw(str):
+    """A string that is already safe HTML and must not be escaped again."""
+
+
 def slide_images(url_dir) -> list:
     """Every image in a static/ folder, in filename order.
 
@@ -706,7 +710,8 @@ def tag_row(tags) -> str:
 
 def meta_row(pairs) -> str:
     cells = [
-        '<div class="meta-cell"><dt>%s</dt><dd>%s</dd></div>' % (esc(k), inline(str(v)))
+        '<div class="meta-cell"><dt>%s</dt><dd>%s</dd></div>'
+        % (esc(k), v if isinstance(v, Raw) else inline(str(v)))
         for k, v in pairs if v
     ]
     return '<dl class="meta-grid">%s</dl>' % "".join(cells) if cells else ""
@@ -1073,20 +1078,20 @@ def build_entry(name, entry, siblings, docs_by_tool=None) -> str:
         bits = [("Output type", entry.get("type")), ("Venue", entry.get("venue")),
                 ("Date", human_date(entry.date) if entry.date else entry.get("year")),
                 ("Contributors", ", ".join(as_list(entry.get("contributors")))),
-                ("DOI / Link", ('<a href="%s" target="_blank" rel="noopener noreferrer">%s</a>'
-                                % (esc(entry.get("link")), esc(entry.get("link"))))
+                ("DOI / Link", Raw('<a href="%s" target="_blank" rel="noopener noreferrer">%s</a>'
+                                   % (esc(entry.get("link")), esc(entry.get("link"))))
                  if entry.get("link") else "")]
     elif name == "tutorials":
         bits = [("Software", entry.get("software")), ("Level", entry.get("level")),
                 ("Length", entry.get("duration")),
-                ("Files", ('<a href="%s" target="_blank" rel="noopener noreferrer">Download</a>'
-                           % esc(entry.get("files"))) if entry.get("files") else "")]
+                ("Files", Raw('<a href="%s" target="_blank" rel="noopener noreferrer">Download</a>'
+                              % esc(entry.get("files"))) if entry.get("files") else "")]
     elif name == "tools":
         bits = [("Status", entry.get("status")), ("Version", entry.get("version")),
                 ("Built with", entry.get("language")),
-                ("Source", ('<a href="%s" target="_blank" rel="noopener noreferrer">Repository</a>'
-                            % esc(entry.get("repo"))) if entry.get("repo") else ""),
-                ("Download", ('<a href="%s">Get it</a>' % esc(url(str(entry.get("download")))))
+                ("Source", Raw('<a href="%s" target="_blank" rel="noopener noreferrer">Repository</a>'
+                               % esc(entry.get("repo"))) if entry.get("repo") else ""),
+                ("Download", Raw('<a href="%s">Get it</a>' % esc(url(str(entry.get("download")))))
                  if entry.get("download") else "")]
     elif name == "writing":
         bits = [("Published", human_date(entry.date) if entry.date else ""),

@@ -1,40 +1,39 @@
 ---
 title: Installation
-summary: Getting Animmix into Maya, on Windows and macOS.
+summary: Getting Animmix running in 3ds Max — about a minute, start to finish.
 tool: animmix
 order: 1
 ---
 
-<!-- EXAMPLE DOC PAGE. Every file in content/docs/ needs a `tool:` field that
-     matches the filename of a tool in content/tools/ — that's how they link. -->
-
 ## Requirements
 
-- Maya 2022 or later
-- No external Python packages
+- **3ds Max 2026 or later**
+- Nothing else — no external packages
+
+## Download
+
+Get the latest version from the repository:
+
+- **[github.com/RashedHindash/ANIMMIX](https://github.com/RashedHindash/ANIMMIX)**
+- **[All releases](https://github.com/RashedHindash/ANIMMIX/releases)** — 1.2 is current
 
 ## Install
 
-1. Download the latest release.
-2. Unzip it into your Maya scripts folder:
+1. Download the zip file.
+2. Unzip it and put the folder wherever you like — there's no required location.
+3. Open 3ds Max.
+4. Go to **Scripting → Run Script**.
+5. Navigate to the folder you unzipped and select the script.
 
-```
-Windows   C:\Users\<you>\Documents\maya\scripts\
-macOS     ~/Library/Preferences/Autodesk/maya/scripts/
-```
+That's it. The panel opens and you're ready to work.
 
-3. Restart Maya.
+## The one thing people get wrong
 
-## Verify
+::note **Keep the image file in the same folder as the script.** If you move
+the script out on its own, the interface image won't load. This is the most
+common install problem, and it looks like the tool is broken when it isn't.
 
-Run this in the Script Editor. If it prints a version, you're set.
+## Next
 
-```python
-import animmix
-print(animmix.__version__)
-```
-
-## Troubleshooting
-
-::note If Maya can't find the module, the folder is almost always one level too
-deep. `animmix/__init__.py` must sit directly inside `scripts/`.
+Before using the pose tools, your rig needs to satisfy one naming convention —
+[Getting started](/tools/animmix/animmix-getting-started/) covers it.

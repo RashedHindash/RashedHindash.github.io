@@ -603,7 +603,9 @@ ul, ol { margin: 0; padding: 0; }
 }
 
 .figure { margin: 0; }
-.figure img { width: 100%; }
+/* Never upscale — a narrow UI screenshot stretched to the column width just
+   looks broken. Wide images still fill; small ones sit centred at true size. */
+.figure img { max-width: 100%; height: auto; margin-inline: auto; }
 .figure-grid {
   display: grid; gap: 12px;
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
