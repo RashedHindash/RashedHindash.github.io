@@ -1,0 +1,16 @@
+# The built site — GitHub rebuilds this itself, so it never gets committed.
+_site/
+
+# Windows / macOS clutter
+Thumbs.db
+desktop.ini
+.DS_Store
+
+# Editors
+.vscode/
+.idea/
+*.swp
+
+# Python
+__pycache__/
+*.pyc

@@ -1,0 +1,19 @@
+# Keep line endings sane across Windows (you) and Linux (the build server).
+* text=auto eol=lf
+
+# Batch files must keep Windows line endings or they misbehave.
+*.cmd text eol=crlf
+*.bat text eol=crlf
+
+# Never touch binaries.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+*.pdf binary
+*.mp4 binary
+*.mov binary
+*.webm binary
+*.woff binary
+*.woff2 binary

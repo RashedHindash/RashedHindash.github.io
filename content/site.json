@@ -1,0 +1,35 @@
+{
+  "name": "Rashed Hindash",
+  "role": "Animator · Researcher · Tool Developer",
+
+  "tagline": "I animate, I build the tools that make animating faster, and I write about both. Currently working across character animation, rigging pipelines and practice-led research.",
+
+  "description": "Portfolio, research outputs, tutorials and tools by Rashed Hindash — animator, researcher and pipeline tool developer.",
+
+  "url": "https://USERNAME.github.io",
+  "base": "",
+  "custom_domain": "",
+
+  "accent": "#ff5c35",
+
+  "email": "rashed.hindash@gmail.com",
+  "og_image": "/static/og.jpg",
+
+  "footer_line": "Open to collaboration, teaching and commissions.",
+
+  "nav": [
+    { "label": "Work",      "href": "/work/" },
+    { "label": "Research",  "href": "/research/" },
+    { "label": "Writing",   "href": "/writing/" },
+    { "label": "Tutorials", "href": "/tutorials/" },
+    { "label": "Tools",     "href": "/tools/" },
+    { "label": "About",     "href": "/about/" }
+  ],
+
+  "links": [
+    { "label": "GitHub",   "href": "https://github.com/USERNAME" },
+    { "label": "LinkedIn", "href": "https://www.linkedin.com/in/USERNAME" },
+    { "label": "Vimeo",    "href": "https://vimeo.com/USERNAME" },
+    { "label": "RSS",      "href": "/rss.xml" }
+  ]
+}

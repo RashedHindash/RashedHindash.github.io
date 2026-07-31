@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>{{title}}</title>
+<meta name="description" content="{{description}}">
+<meta name="author" content="{{site_name}}">
+<link rel="canonical" href="{{canonical}}">
+<meta name="theme-color" content="#08080a" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#fbfbfa" media="(prefers-color-scheme: light)">
+
+<meta property="og:site_name" content="{{site_name}}">
+<meta property="og:type" content="website">
+<meta property="og:title" content="{{title}}">
+<meta property="og:description" content="{{description}}">
+<meta property="og:url" content="{{canonical}}">
+<meta property="og:image" content="{{og_image}}">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="icon" href="{{base}}/assets/favicon.svg" type="image/svg+xml">
+<link rel="alternate" type="application/rss+xml" title="{{site_name}}" href="{{base}}/rss.xml">
+<link rel="stylesheet" href="{{base}}/assets/style.css?v={{ver}}">
+
+<script>
+/* Set the theme before first paint so there is never a flash of the wrong one. */
+(function () {
+  try {
+    var saved = localStorage.getItem("theme");
+    if (saved === "light" || saved === "dark") {
+      document.documentElement.setAttribute("data-theme", saved);
+    }
+  } catch (e) {}
+  var el = document.documentElement;
+  el.classList.add("js");
+  /* Failsafe: if app.js never runs, drop the class so nothing stays hidden. */
+  setTimeout(function () {
+    if (!el.hasAttribute("data-ready")) el.classList.remove("js");
+  }, 2500);
+})();
+</script>
+</head>
+
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="site-head" data-head>
+  <div class="head-in">
+    <a class="brand" href="{{base}}/">
+      <span class="brand-mark" aria-hidden="true"></span>
+      <span class="brand-name">{{site_name}}</span>
+    </a>
+
+    <nav class="nav" aria-label="Primary">{{nav}}</nav>
+
+    <div class="head-tools">
+      <button class="icon-btn theme-btn" type="button" data-theme-toggle
+              aria-label="Switch between light and dark">
+        <svg class="i-sun" viewBox="0 0 24 24" width="17" height="17" aria-hidden="true">
+          <circle cx="12" cy="12" r="4.2" fill="currentColor"/>
+          <g stroke="currentColor" stroke-width="1.7" stroke-linecap="round">
+            <path d="M12 2.6v2.2M12 19.2v2.2M2.6 12h2.2M19.2 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M18.7 5.3l-1.6 1.6M6.9 17.1l-1.6 1.6"/>
+          </g>
+        </svg>
+        <svg class="i-moon" viewBox="0 0 24 24" width="17" height="17" aria-hidden="true">
+          <path d="M20 14.2A8.4 8.4 0 0 1 9.8 4 8.4 8.4 0 1 0 20 14.2z" fill="currentColor"/>
+        </svg>
+      </button>
+
+      <button class="icon-btn menu-btn" type="button" data-menu-toggle
+              aria-label="Menu" aria-expanded="false">
+        <span class="menu-bars" aria-hidden="true"><i></i><i></i></span>
+      </button>
+    </div>
+  </div>
+  <span class="head-line" aria-hidden="true"></span>
+</header>
+
+<div class="sheet" data-menu hidden>
+  <nav class="sheet-nav" aria-label="Mobile">{{nav}}</nav>
+</div>
+
+{{body}}
+
+<footer class="site-foot">{{footer}}
+  <div class="foot-base">
+    <span>&copy; {{year}} {{site_name}}</span>
+    <span class="foot-colophon">Built by hand. Hosted on GitHub Pages.</span>
+  </div>
+</footer>
+
+<script src="{{base}}/assets/app.js?v={{ver}}" defer></script>
+</body>
+</html>
