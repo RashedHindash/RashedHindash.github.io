@@ -573,7 +573,8 @@ COLLECTIONS = {
     "journal": {
         "path": "/journal/",
         "title": "Journal",
-        "blurb": "Notes on craft, process, pipeline and the occasional rant.",
+        "blurb": "Written reflections on practice — process, tooling, teaching, "
+                 "and what the work turns out to be about once it's finished.",
         "layout": "list",
     },
     "tools": {
