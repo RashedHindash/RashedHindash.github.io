@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 504" width="1440" height="504"
+     role="img" aria-label="Creature Rigs">
+  <!-- Placeholder banner. Swap this file for artwork when there is some;
+       nothing else needs changing, the category points at this path. -->
+  <rect width="1440" height="504" fill="#0a0a0b"/>
+  <rect x="0" y="502" width="1440" height="2" fill="#17171b"/>
+  <g transform="translate(720 252)" text-anchor="middle">
+    <text y="14"
+          font-family="'Segoe UI Variable Display','Segoe UI',system-ui,-apple-system,'Helvetica Neue',Arial,sans-serif"
+          font-size="76" font-weight="600" letter-spacing="-2.4" fill="#f4f4f6">Creature Rigs</text>
+  </g>
+  <rect x="676" y="326" width="88" height="3" rx="1.5" fill="#ff5c35"/>
+</svg>
