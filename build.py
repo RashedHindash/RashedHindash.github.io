@@ -91,6 +91,24 @@ def short_date(value) -> str:
     return dt.strftime("%b %Y")
 
 
+def local_size(url_path) -> str:
+    """Human-readable size of a file in static/, read at build time.
+
+    Means download buttons state the real size without anyone maintaining it
+    by hand — replace the file and the number follows.
+    """
+    path = str(url_path or "")
+    if not path.startswith("/static/"):
+        return ""
+    target = STATIC / path[len("/static/"):]
+    if not target.exists():
+        return ""
+    size = target.stat().st_size
+    if size >= 1048576:
+        return "%.1f MB" % (size / 1048576)
+    return "%d KB" % max(1, round(size / 1024))
+
+
 def as_list(value):
     if value is None or value == "":
         return []
@@ -546,6 +564,12 @@ class Entry:
         if collection == "docs":
             tool = slugify(meta.get("tool") or "misc")
             self.url = "/tools/%s/%s/" % (tool, self.slug)
+        elif collection == "rig-categories":
+            self.url = "/rigs/%s/" % self.slug
+        elif collection == "rigs":
+            # Rigs don't get their own page — they live on their category page.
+            self.url = "/rigs/%s/#%s" % (
+                slugify(meta.get("category") or "misc"), self.slug)
         elif collection == "pages":
             self.url = "/%s/" % self.slug
         else:
@@ -1003,6 +1027,117 @@ def build_entry(name, entry, siblings, docs_by_tool=None) -> str:
                  path=entry.url, body=body, og_image=og)
 
 
+def rig_card(entry: Entry, index: int = 0) -> str:
+    image = str(entry.get("image") or entry.cover or "")
+    download = str(entry.get("download") or "")
+
+    kind = os.path.splitext(download)[1].lstrip(".").lower() if download else ""
+    size = local_size(download)
+    badge = " · ".join([b for b in (kind, size) if b])
+
+    if download:
+        # Same-origin, so `download` makes the browser save the file instead of
+        # navigating anywhere. No detour through a file host.
+        action = ('<a class="dl" href="%s" download>'
+                  '<svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true">'
+                  '<path d="M12 3v11m0 0 4.2-4.2M12 14l-4.2-4.2M4.5 18.5h15" '
+                  'fill="none" stroke="currentColor" stroke-width="1.9" '
+                  'stroke-linecap="round" stroke-linejoin="round"/></svg>'
+                  '<span>Download</span>%s</a>'
+                  % (esc(url(download)),
+                     '<span class="dl-meta">%s</span>' % esc(badge) if badge else ""))
+    else:
+        action = '<span class="dl dl--soon">Coming soon</span>'
+
+    media = ('<img src="%s" alt="%s rig" loading="lazy" decoding="async" '
+             'onerror="this.remove()">' % (esc(url(image)), esc(entry.title))
+             ) if image else ('<span class="card-mark" aria-hidden="true">%s</span>'
+                              % esc(entry.title[:2].upper()))
+
+    software = str(entry.get("software") or "")
+
+    return (
+        '<article class="rig" id="%s" data-reveal style="--i:%d">'
+        '<div class="rig-shot">%s</div>'
+        '<div class="rig-body">'
+        '<div class="rig-head"><h3 class="rig-title">%s</h3>%s</div>'
+        "%s"
+        '<div class="rig-foot">%s</div>'
+        "</div></article>"
+        % (esc(entry.slug), index, media, esc(entry.title),
+           '<span class="pill">%s</span>' % esc(software) if software else "",
+           '<p class="rig-sum">%s</p>' % inline(entry.summary) if entry.summary else "",
+           action)
+    )
+
+
+def build_rigs_index(categories, rigs_by_cat) -> str:
+    cards = []
+    for i, cat in enumerate(categories):
+        count = len(rigs_by_cat.get(cat.slug, []))
+        banner = str(cat.get("banner") or "")
+        media = ('<div class="cat-media"><img src="%s" alt="" loading="lazy" '
+                 'decoding="async" onerror="this.remove()"></div>'
+                 % esc(url(banner))) if banner else '<div class="cat-media"></div>'
+        cards.append(
+            '<a class="cat-card" href="%s" data-reveal style="--i:%d">%s'
+            '<div class="cat-body"><h2 class="cat-title">%s</h2>%s'
+            '<p class="cat-count">%s</p></div></a>'
+            % (esc(url(cat.url)), i, media, esc(cat.title),
+               '<p class="cat-sum">%s</p>' % esc(cat.summary) if cat.summary else "",
+               esc("%d rig%s" % (count, "" if count == 1 else "s")))
+        )
+
+    inner = ('<div class="cat-grid">%s</div>' % "".join(cards)) if cards else (
+        '<p class="empty">No categories yet. Add a file to '
+        "<code>content/rig-categories/</code>.</p>")
+
+    body = ('<main id="main"><div class="wrap">%s%s</div></main>'
+            % (page_header("Rigs", "Free character and prop rigs for 3ds Max, "
+                                   "grouped by what they're built to teach.", "RIGS"),
+               inner))
+    return shell(title="Rigs", description="Free 3ds Max rigs for animation practice.",
+                 path="/rigs/", body=body)
+
+
+def build_rig_category(category: Entry, rigs, siblings) -> str:
+    banner = str(category.get("banner") or "")
+    banner_html = ('<figure class="rig-banner"><img src="%s" alt="%s" '
+                   'decoding="async" fetchpriority="high" onerror="this.remove()">'
+                   "</figure>" % (esc(url(banner)), esc(category.title))) if banner else ""
+
+    intro = ('<div class="prose rig-intro" data-reveal>%s</div>'
+             % category.html) if category.body.strip() else ""
+
+    if rigs:
+        grid = '<div class="rig-grid">%s</div>' % "".join(
+            rig_card(r, i) for i, r in enumerate(rigs))
+    else:
+        grid = ('<p class="empty">Nothing in this category yet. Add a file to '
+                "<code>content/rigs/</code> with <code>category: %s</code>.</p>"
+                % esc(category.slug))
+
+    others = "".join(
+        '<a class="chip%s" href="%s">%s</a>'
+        % (" is-active" if s.slug == category.slug else "", esc(url(s.url)), esc(s.title))
+        for s in siblings)
+    switcher = '<nav class="chips" aria-label="Rig categories">%s</nav>' % others if len(siblings) > 1 else ""
+
+    body = (
+        '<main id="main"><div class="wrap">'
+        '<header class="page-head page-head--rig">'
+        '<a class="back" href="%s">&#8592; Rigs</a>'
+        '<h1 class="page-title" data-split>%s</h1>%s</header>'
+        "%s%s%s%s"
+        "</div></main>"
+        % (esc(url("/rigs/")), esc(category.title),
+           '<p class="page-blurb">%s</p>' % inline(category.summary) if category.summary else "",
+           banner_html, switcher, intro, grid)
+    )
+    return shell(title=category.title, description=category.summary,
+                 path=category.url, body=body, og_image=banner)
+
+
 def build_doc(entry, tool, siblings) -> str:
     toc_items = re.findall(r"^##\s+(.+)$", entry.body, re.M)
     toc = ""
@@ -1139,6 +1274,22 @@ def build(include_drafts: bool = False) -> int:
         for entry in entries:
             write(entry.url, build_entry(name, entry, entries, docs_by_tool))
             paths.append(entry.url)
+
+    rig_categories = load_collection("rig-categories", "rig-categories", include_drafts)
+    rigs = load_collection("rigs", "rigs", include_drafts)
+
+    rigs_by_cat: dict = {}
+    for rig in rigs:
+        rigs_by_cat.setdefault(slugify(rig.get("category") or "misc"), []).append(rig)
+
+    if rig_categories:
+        write("/rigs/", build_rigs_index(rig_categories, rigs_by_cat))
+        paths.append("/rigs/")
+        for category in rig_categories:
+            write(category.url,
+                  build_rig_category(category, rigs_by_cat.get(category.slug, []),
+                                     rig_categories))
+            paths.append(category.url)
 
     tools_by_slug = {t.slug: t for t in data["tools"]}
     for tool_slug, tool_docs in docs_by_tool.items():

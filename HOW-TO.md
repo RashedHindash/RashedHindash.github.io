@@ -176,6 +176,58 @@ video: https://drive.google.com/file/d/FILE_ID/view
 
 ---
 
+## Adding a rig
+
+Rigs are split into **categories** (Foundational, Body Mechanics, Acting).
+Two folders are involved:
+
+- `content/rig-categories/` — one file per category, holds the banner
+- `content/rigs/` — one file per rig
+
+### To add a rig to an existing category
+
+1. Put the preview image in `static/images/rigs/<category>/`
+2. Put the `.max` file in `static/files/rigs/<category>/`
+3. Copy any file in `content/rigs/`, rename it, and edit:
+
+```
+---
+title: Ball
+category: foundational
+summary: One line describing what it teaches.
+image: /static/images/rigs/foundational/ball.png
+download: /static/files/rigs/foundational/Ball.max
+software: 3ds Max
+order: 1
+---
+```
+
+`order` sets the position on the page. That's the whole thing — no body text
+needed, though you can add some and it'll appear under the title.
+
+**The file size on the download button is worked out automatically.** Replace
+the `.max` file with a bigger version and the button updates itself. Don't
+type a size anywhere.
+
+### To switch on a new category
+
+`content/rig-categories/body-mechanics.md` and `acting.md` already exist but
+have `draft: true` at the top, which hides them. To open one up:
+
+1. Delete the `draft: true` line
+2. Add a banner image and point `banner:` at it
+3. Add rigs with the matching `category:` value
+
+### Keep the files reasonable
+
+Anything up to about 90 MB per file is fine. If a rig is bigger than that,
+tell Claude — it needs hosting a different way, and it's a two-minute change.
+
+::note Downloads come straight from your own site. Visitors never touch Google
+Drive, never see a preview screen, and never hit a daily quota limit.
+
+---
+
 ## Adding a tool and its documentation
 
 The tool itself goes in `content/tools/` — one file, e.g. `animmix.md`.

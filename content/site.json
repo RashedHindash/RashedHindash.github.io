@@ -19,6 +19,7 @@
 
   "nav": [
     { "label": "Work",      "href": "/work/" },
+    { "label": "Rigs",      "href": "/rigs/" },
     { "label": "Research",  "href": "/research/" },
     { "label": "Writing",   "href": "/writing/" },
     { "label": "Tutorials", "href": "/tutorials/" },
