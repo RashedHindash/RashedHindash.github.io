@@ -91,6 +91,22 @@ def short_date(value) -> str:
     return dt.strftime("%b %Y")
 
 
+def slide_images(url_dir) -> list:
+    """Every image in a static/ folder, in filename order.
+
+    Lets a deck be re-exported by dropping new files in — no list to maintain.
+    """
+    path = str(url_dir or "")
+    if not path.startswith("/static/"):
+        return []
+    folder = STATIC / path[len("/static/"):].strip("/")
+    if not folder.is_dir():
+        return []
+    names = sorted(p.name for p in folder.iterdir()
+                   if p.suffix.lower() in (".jpg", ".jpeg", ".png", ".webp"))
+    return ["%s/%s" % (path.rstrip("/"), n) for n in names]
+
+
 def local_size(url_path) -> str:
     """Human-readable size of a file in static/, read at build time.
 
@@ -526,6 +542,13 @@ COLLECTIONS = {
         "title": "Work",
         "blurb": "Animation, direction and design. Selected projects and breakdowns.",
         "layout": "grid",
+    },
+    "workshops": {
+        "path": "/workshops/",
+        "title": "Workshops",
+        "blurb": "Masterclasses and taught sessions. Each one keeps its slides, "
+                 "a write-up of what it covered, and the recording.",
+        "layout": "workshop",
     },
     # Not tutorials — animation made to try something out. Shown on the home
     # page. Cards play in place, so these need no page of their own.
@@ -1019,6 +1042,9 @@ def build_collection_index(name, entries) -> str:
     elif layout == "video":
         inner = '<div class="tut-grid">%s</div>' % "".join(
             tutorial_card(e, i) for i, e in enumerate(entries))
+    elif layout == "workshop":
+        inner = '<div class="grid grid--work">%s</div>' % "".join(
+            workshop_card(e, i) for i, e in enumerate(entries))
     elif layout == "cards":
         inner = '<div class="grid grid--tools">%s</div>' % "".join(
             tool_card(e, i) for i, e in enumerate(entries))
@@ -1272,6 +1298,126 @@ def build_hub_category(hub, category: Entry, items, siblings) -> str:
                  path=category.url, body=body, og_image=banner)
 
 
+RE_DECK = re.compile(r"(?:presentation/d/|^)([A-Za-z0-9_-]{25,})")
+
+
+def deck_embed(spec: str, poster: str = "") -> str:
+    """A Google Slides deck, loaded only when someone asks for it."""
+    m = RE_DECK.search(str(spec or "").strip())
+    if not m:
+        return ""
+    src = ("https://docs.google.com/presentation/d/%s/embed"
+           "?start=false&loop=false&delayms=60000" % m.group(1))
+    return (
+        '<figure class="embed embed--deck">'
+        '<div class="embed-frame">'
+        '<button class="embed-play" type="button" data-embed="%s" aria-label="Open the slides">'
+        '%s<span class="embed-play-btn" aria-hidden="true">'
+        '<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" '
+        'stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">'
+        '<rect x="3" y="4" width="18" height="13" rx="1.5"/><path d="M12 17v3M8.5 20h7"/>'
+        "</svg></span></button></div>"
+        '<figcaption>Open the deck &#8212; arrow keys to move through it</figcaption>'
+        "</figure>"
+        % (esc(src),
+           ('<img src="%s" alt="" loading="lazy" decoding="async" onerror="this.remove()">'
+            % esc(url(poster))) if poster else "")
+    )
+
+
+def workshop_card(entry: Entry, index: int = 0) -> str:
+    bits = [b for b in (str(entry.get("kind") or ""),
+                        str(entry.get("duration") or ""),
+                        entry.date.strftime("%Y") if entry.date else "") if b]
+    return (
+        '<a class="card card--work" href="%s" data-reveal style="--i:%d">'
+        "%s"
+        '<div class="card-body"><h3 class="card-title">%s</h3>'
+        '<p class="card-meta">%s</p></div></a>'
+        % (esc(url(entry.url)), index, card_media(entry, "16 / 9"),
+           esc(entry.title), esc(" · ".join(bits)))
+    )
+
+
+def build_workshop(entry: Entry, siblings) -> str:
+    banner = str(entry.cover or "")
+    slides = slide_images(entry.get("slides_path"))
+    deck = deck_embed(str(entry.get("deck") or ""), banner)
+    video = str(entry.get("video") or "")
+
+    banner_html = ('<figure class="ws-banner" data-reveal><img src="%s" alt="%s" '
+                   'decoding="async" fetchpriority="high" onerror="this.remove()">'
+                   "</figure>" % (esc(url(banner)), esc(entry.title))) if banner else ""
+
+    gallery = ""
+    if slides:
+        gallery = ('<div class="slide-grid">%s</div>' % "".join(
+            '<a class="slide" href="%s" target="_blank" rel="noopener noreferrer">'
+            '<img src="%s" alt="Slide %d" loading="lazy" decoding="async">'
+            '<span class="slide-n">%d</span></a>'
+            % (esc(url(s)), esc(url(s)), i + 1, i + 1)
+            for i, s in enumerate(slides)))
+
+    slides_section = ""
+    if deck or gallery:
+        slides_section = (
+            '<section class="wsection" data-reveal>'
+            '<h2 class="wsection-head">Slides<span class="wsection-note">%s</span></h2>'
+            "%s%s</section>"
+            % (esc("%d slides" % len(slides)) if slides else "", deck, gallery))
+
+    if video:
+        recording = video_embed(video, poster=banner)
+    else:
+        recording = ('<div class="soon"><p><strong>Not published yet.</strong> The '
+                     "recording of this session will appear here once it's ready.</p></div>")
+
+    recording_section = ('<section class="wsection" data-reveal>'
+                         '<h2 class="wsection-head">Recording</h2>%s</section>' % recording)
+
+    bits = [("Format", entry.get("format")),
+            ("Runtime", entry.get("duration")),
+            ("Audience", entry.get("audience")),
+            ("Delivered", human_date(entry.date) if entry.date else entry.get("year")),
+            ("Series", entry.get("series"))]
+
+    index = next((i for i, e in enumerate(siblings) if e.slug == entry.slug), -1)
+    prev_entry = siblings[index - 1] if index > 0 else None
+    next_entry = siblings[index + 1] if 0 <= index < len(siblings) - 1 else None
+    pager = ""
+    if prev_entry or next_entry:
+        pager = ('<nav class="pager">%s%s</nav>'
+                 % ('<a class="pager-link pager-prev" href="%s"><span>Previous</span>'
+                    '<b>%s</b></a>' % (esc(url(prev_entry.url)), esc(prev_entry.title))
+                    if prev_entry else "<span></span>",
+                    '<a class="pager-link pager-next" href="%s"><span>Next</span>'
+                    '<b>%s</b></a>' % (esc(url(next_entry.url)), esc(next_entry.title))
+                    if next_entry else ""))
+
+    body = (
+        '<main id="main"><article class="wrap article">'
+        '<header class="art-head">'
+        '<a class="back" href="%s">&#8592; Workshops</a>'
+        "%s"
+        '<h1 class="art-title" data-split>%s</h1>%s%s</header>'
+        "%s%s"
+        '<div class="prose" data-reveal>%s</div>'
+        "%s%s%s"
+        "</article></main>"
+        % (esc(url("/workshops/")),
+           kicker(" · ".join([b for b in (str(entry.get("kind") or "Masterclass"),
+                                          str(entry.get("series") or "")) if b])),
+           esc(entry.title),
+           '<p class="art-sum">%s</p>' % inline(entry.summary) if entry.summary else "",
+           meta_row(bits),
+           banner_html, slides_section,
+           entry.html,
+           recording_section, tag_row(entry.tags), pager)
+    )
+    return shell(title=entry.title, description=entry.summary,
+                 path=entry.url, body=body, og_image=banner)
+
+
 def build_doc(entry, tool, siblings) -> str:
     toc_items = re.findall(r"^##\s+(.+)$", entry.body, re.M)
     toc = ""
@@ -1408,7 +1554,10 @@ def build(include_drafts: bool = False) -> int:
         if not COLLECTIONS[name].get("entry_pages", True):
             continue
         for entry in entries:
-            write(entry.url, build_entry(name, entry, entries, docs_by_tool))
+            if name == "workshops":
+                write(entry.url, build_workshop(entry, entries))
+            else:
+                write(entry.url, build_entry(name, entry, entries, docs_by_tool))
             paths.append(entry.url)
 
     for hub_name, hub in HUBS.items():

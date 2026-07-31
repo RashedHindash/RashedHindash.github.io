@@ -24,6 +24,7 @@
     { "label": "Research",  "href": "/research/" },
     { "label": "Writing",   "href": "/writing/" },
     { "label": "Tutorials", "href": "/tutorials/" },
+    { "label": "Workshops", "href": "/workshops/" },
     { "label": "Tools",     "href": "/tools/" },
     { "label": "About",     "href": "/about/" }
   ],
