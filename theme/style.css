@@ -1052,10 +1052,15 @@ figcaption {
   .docnav ul { display: flex; flex-wrap: wrap; gap: 6px; }
 }
 
-@media (max-width: 760px) {
-  body { font-size: 16px; }
+/* The nav outgrows the header well before the layout is genuinely narrow, so
+   the menu button takes over earlier than the rest of the mobile styles. */
+@media (max-width: 900px) {
   .nav { display: none; }
   .menu-btn { display: grid; }
+}
+
+@media (max-width: 760px) {
+  body { font-size: 16px; }
   .row { grid-template-columns: 1fr 20px; gap: 6px 14px; }
   .row-when { grid-row: 1; order: -1; }
   .row-label { text-align: left; }
