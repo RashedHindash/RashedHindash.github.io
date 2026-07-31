@@ -570,9 +570,9 @@ COLLECTIONS = {
                  "with a research contribution.",
         "layout": "list",
     },
-    "writing": {
-        "path": "/writing/",
-        "title": "Writing",
+    "journal": {
+        "path": "/journal/",
+        "title": "Journal",
         "blurb": "Notes on craft, process, pipeline and the occasional rant.",
         "layout": "list",
     },
@@ -1020,13 +1020,13 @@ def build_home(data, hubs) -> str:
     mixed = []
     for entry in data["research"][:3]:
         mixed.append((entry, str(entry.get("type") or "Research")))
-    for entry in data["writing"][:3]:
-        mixed.append((entry, "Writing"))
+    for entry in data["journal"][:3]:
+        mixed.append((entry, "Journal"))
     mixed.sort(key=lambda pair: -(pair[0].date.timestamp() if pair[0].date else 0))
     if mixed:
         sections.append(
             '<section class="band">'
-            '<div class="band-head"><h2 class="band-title" data-reveal>Research &amp; writing</h2>'
+            '<div class="band-head"><h2 class="band-title" data-reveal>Research &amp; journal</h2>'
             '<a class="band-more" href="%s" data-reveal>All research &#8599;</a></div>'
             '<div class="rows">%s</div></section>'
             % (esc(url("/research/")),
@@ -1123,7 +1123,7 @@ def build_entry(name, entry, siblings, docs_by_tool=None) -> str:
                 ("Software", entry.get("software")),
                 ("Length", entry.get("duration")),
                 ("Rig", entry.get("rig"))]
-    elif name == "writing":
+    elif name == "journal":
         bits = [("Published", human_date(entry.date) if entry.date else ""),
                 ("Reading time", entry.get("reading_time"))]
 
@@ -1511,9 +1511,9 @@ def build_404() -> str:
             '<p class="kicker">404</p>'
             '<h1 class="page-title">This page moved, or never existed.</h1>'
             '<p class="page-blurb">Try the <a href="%s">work</a>, the '
-            '<a href="%s">writing</a>, or go <a href="%s">home</a>.</p>'
+            '<a href="%s">journal</a>, or go <a href="%s">home</a>.</p>'
             "</div></main>"
-            % (esc(url("/work/")), esc(url("/writing/")), esc(url("/"))))
+            % (esc(url("/work/")), esc(url("/journal/")), esc(url("/"))))
     return shell(title="Not found", path="/404.html", body=body)
 
 
@@ -1634,7 +1634,7 @@ def build(include_drafts: bool = False) -> int:
     write("/404.html", build_404())
 
     feed_items = sorted(
-        [e for e in data["writing"] + data["research"]
+        [e for e in data["journal"] + data["research"]
          + hubs.get("tutorials", {}).get("items", []) if e.date],
         key=lambda e: -e.date.timestamp(),
     )

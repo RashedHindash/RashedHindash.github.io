@@ -71,6 +71,22 @@
     });
   }
 
+  /* ---- replay the brand bounce on hover -------------------------------- */
+
+  var brand = document.querySelector(".brand");
+  var ball = document.querySelector(".brand-ball");
+
+  if (brand && ball && !reduced) {
+    brand.addEventListener("pointerenter", function () {
+      [ball, ball.querySelector("i")].forEach(function (el) {
+        if (!el) return;
+        el.style.animation = "none";
+        void el.offsetWidth; // force a reflow so the animation starts over
+        el.style.animation = "";
+      });
+    });
+  }
+
   /* ---- header state on scroll ----------------------------------------- */
 
   var head = document.querySelector("[data-head]");
