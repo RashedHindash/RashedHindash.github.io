@@ -164,15 +164,48 @@ Leave any field out and it simply doesn't appear.
 
 ## Adding a tutorial
 
-Copy `content/tutorials/example-tutorial.md`. The useful fields:
+Tutorials work exactly like rigs — categories with banners, then items inside.
+
+- `content/tutorial-categories/` — Foundation, Body Mechanics, Animation Tips
+- `content/tutorials/` — one file per video
+
+Copy any file in `content/tutorials/` and edit it:
 
 ```
-software: Maya
-level: Intermediate
-duration: 18 min
-files: https://drive.google.com/drive/folders/FOLDER_ID   <- project files
+---
+title: Bouncing Ball (2D)
+category: foundation
+summary: One line on what the video covers.
 video: https://drive.google.com/file/d/FILE_ID/view
+thumb: /static/images/tutorials/thumbs/bouncing-ball-2d.jpg
+software: 3ds Max
+duration: 12 min
+order: 1
+---
 ```
+
+Videos **play on the card itself** — nobody leaves the page, and nothing loads
+from Google until someone actually presses play.
+
+### Grouping videos into a series
+
+Add a `series:` line and matching videos gather under a heading, numbered by
+`order`:
+
+```
+category: body-mechanics
+series: Turn
+order: 3
+```
+
+Leave `series` out and the video sits on its own above any series.
+
+### Thumbnails
+
+`thumb:` is optional. Without it the site pulls a still from Google Drive,
+which works but is slower and depends on Drive being reachable. Local
+thumbnails are better — grab a frame, save it into
+`static/images/tutorials/thumbs/`, and point `thumb:` at it.
 
 ---
 

@@ -540,12 +540,6 @@ COLLECTIONS = {
         "blurb": "Notes on craft, process, pipeline and the occasional rant.",
         "layout": "list",
     },
-    "tutorials": {
-        "path": "/tutorials/",
-        "title": "Tutorials",
-        "blurb": "Video walkthroughs and step-by-step guides.",
-        "layout": "cards",
-    },
     "tools": {
         "path": "/tools/",
         "title": "Tools",
@@ -553,6 +547,35 @@ COLLECTIONS = {
         "layout": "cards",
     },
 }
+
+
+# A "hub" is a section split into categories, each with a banner: an index of
+# categories, then a page per category listing its items. Rigs and Tutorials
+# both work this way; they differ only in how a single item is drawn.
+HUBS = {
+    "rigs": {
+        "path": "/rigs/",
+        "title": "Rigs",
+        "blurb": "Free character and prop rigs for 3ds Max, grouped by what "
+                 "they're built to teach.",
+        "categories": "rig-categories",
+        "items": "rigs",
+        "card": "rig",
+    },
+    "tutorials": {
+        "path": "/tutorials/",
+        "title": "Tutorials",
+        "blurb": "Video walkthroughs, recorded in 3ds Max. Press play — nothing "
+                 "loads until you do.",
+        "categories": "tutorial-categories",
+        "items": "tutorials",
+        "card": "tutorial",
+    },
+}
+
+# collection folder -> hub path, so Entry can work out its own URL
+HUB_OF_CATEGORY = {h["categories"]: h["path"] for h in HUBS.values()}
+HUB_OF_ITEM = {h["items"]: h["path"] for h in HUBS.values()}
 
 
 class Entry:
@@ -572,12 +595,14 @@ class Entry:
         if collection == "docs":
             tool = slugify(meta.get("tool") or "misc")
             self.url = "/tools/%s/%s/" % (tool, self.slug)
-        elif collection == "rig-categories":
-            self.url = "/rigs/%s/" % self.slug
-        elif collection == "rigs":
-            # Rigs don't get their own page — they live on their category page.
-            self.url = "/rigs/%s/#%s" % (
-                slugify(meta.get("category") or "misc"), self.slug)
+        elif collection in HUB_OF_CATEGORY:
+            self.url = "%s%s/" % (HUB_OF_CATEGORY[collection], self.slug)
+        elif collection in HUB_OF_ITEM:
+            # Hub items have no page of their own — they live on their category
+            # page, so the URL is an anchor into it.
+            self.url = "%s%s/#%s" % (HUB_OF_ITEM[collection],
+                                     slugify(meta.get("category") or "misc"),
+                                     self.slug)
         elif collection == "pages":
             self.url = "/%s/" % self.slug
         else:
@@ -706,18 +731,60 @@ def list_row(entry: Entry, index: int = 0, label_field: str = "") -> str:
 
 
 def tutorial_card(entry: Entry, index: int = 0) -> str:
-    bits = [str(entry.get("software") or ""), str(entry.get("level") or ""),
-            str(entry.get("duration") or "")]
+    """A video card that plays in place. No iframe loads until it's clicked."""
+    source = video_source(str(entry.get("video") or ""))
+    if not source:
+        return ""
+    embed_src, auto_poster, _kind = source
+
+    poster = str(entry.get("thumb") or entry.cover or "")
+    poster = url(poster) if poster else auto_poster
+
+    bits = [b for b in (str(entry.get("software") or ""),
+                        str(entry.get("level") or ""),
+                        str(entry.get("duration") or "")) if b]
+
     return (
-        '<a class="card card--tut" href="%s" data-reveal style="--i:%d">'
-        "%s"
-        '<div class="card-body">'
-        '<h3 class="card-title">%s</h3>'
-        '<p class="card-meta">%s</p>'
-        "</div></a>"
-        % (esc(url(entry.url)), index, card_media(entry), esc(entry.title),
-           esc(" · ".join([b for b in bits if b])))
+        '<article class="tut" id="%s" data-reveal style="--i:%d">'
+        '<div class="embed-frame tut-frame">'
+        '<button class="embed-play" type="button" data-embed="%s" aria-label="Play %s">'
+        '%s<span class="embed-play-btn" aria-hidden="true">'
+        '<svg viewBox="0 0 24 24" width="24" height="24">'
+        '<path d="M8 5.5v13l11-6.5z" fill="currentColor"/></svg></span>'
+        "</button></div>"
+        '<div class="tut-body"><h3 class="tut-title">%s</h3>%s</div>'
+        "</article>"
+        % (esc(entry.slug), index, esc(embed_src), esc(entry.title),
+           ('<img src="%s" alt="" loading="lazy" decoding="async" '
+            'onerror="this.remove()">' % esc(poster)) if poster else "",
+           esc(entry.title),
+           '<p class="tut-meta">%s</p>' % esc(" · ".join(bits)) if bits else "")
     )
+
+
+CARD_RENDERERS = {"rig": lambda e, i: rig_card(e, i),
+                  "tutorial": lambda e, i: tutorial_card(e, i)}
+
+
+def group_by_series(items):
+    """[(series_name, [items])] preserving the order each series first appears."""
+    loose, series, order = [], {}, []
+    for item in items:
+        name = str(item.get("series") or "").strip()
+        if not name:
+            loose.append(item)
+            continue
+        if name not in series:
+            series[name] = []
+            order.append(name)
+        series[name].append(item)
+
+    groups = []
+    if loose:
+        groups.append(("", loose))
+    for name in order:
+        groups.append((name, series[name]))
+    return groups
 
 
 def tool_card(entry: Entry, index: int = 0) -> str:
@@ -804,7 +871,7 @@ def page_header(title, blurb="", eyebrow="") -> str:
 # page builders
 # --------------------------------------------------------------------------
 
-def build_home(data) -> str:
+def build_home(data, hubs) -> str:
     name = SITE.get("name", "")
     words = "".join(
         '<span class="w"><span class="w-in" style="--i:%d">%s</span></span> ' % (i, esc(w))
@@ -840,14 +907,26 @@ def build_home(data) -> str:
                "".join(work_card(e, i) for i, e in enumerate(featured[:4])))
         )
 
-    if data["tutorials"]:
+    tutorials = hubs.get("tutorials", {}).get("items", [])
+    if tutorials:
         sections.append(
             '<section class="band">'
             '<div class="band-head"><h2 class="band-title" data-reveal>Tutorials</h2>'
             '<a class="band-more" href="%s" data-reveal>All tutorials &#8599;</a></div>'
-            '<div class="grid grid--tut">%s</div></section>'
+            '<div class="tut-grid">%s</div></section>'
             % (esc(url("/tutorials/")),
-               "".join(tutorial_card(e, i) for i, e in enumerate(data["tutorials"][:3])))
+               "".join(tutorial_card(e, i) for i, e in enumerate(tutorials[:3])))
+        )
+
+    rigs = hubs.get("rigs", {}).get("items", [])
+    if rigs:
+        sections.append(
+            '<section class="band">'
+            '<div class="band-head"><h2 class="band-title" data-reveal>Rigs</h2>'
+            '<a class="band-more" href="%s" data-reveal>All rigs &#8599;</a></div>'
+            '<div class="rig-grid">%s</div></section>'
+            % (esc(url("/rigs/")),
+               "".join(rig_card(e, i) for i, e in enumerate(rigs[:3])))
         )
 
     mixed = []
@@ -1079,10 +1158,11 @@ def rig_card(entry: Entry, index: int = 0) -> str:
     )
 
 
-def build_rigs_index(categories, rigs_by_cat) -> str:
+def build_hub_index(hub, categories, items_by_cat) -> str:
+    noun = "rig" if hub["card"] == "rig" else "video"
     cards = []
     for i, cat in enumerate(categories):
-        count = len(rigs_by_cat.get(cat.slug, []))
+        count = len(items_by_cat.get(cat.slug, []))
         banner = str(cat.get("banner") or "")
         media = ('<div class="cat-media"><img src="%s" alt="" loading="lazy" '
                  'decoding="async" onerror="this.remove()"></div>'
@@ -1093,22 +1173,20 @@ def build_rigs_index(categories, rigs_by_cat) -> str:
             '<p class="cat-count">%s</p></div></a>'
             % (esc(url(cat.url)), i, media, esc(cat.title),
                '<p class="cat-sum">%s</p>' % esc(cat.summary) if cat.summary else "",
-               esc("%d rig%s" % (count, "" if count == 1 else "s")))
+               esc("%d %s%s" % (count, noun, "" if count == 1 else "s")))
         )
 
     inner = ('<div class="cat-grid">%s</div>' % "".join(cards)) if cards else (
         '<p class="empty">No categories yet. Add a file to '
-        "<code>content/rig-categories/</code>.</p>")
+        "<code>content/%s/</code>.</p>" % esc(hub["categories"]))
 
     body = ('<main id="main"><div class="wrap">%s%s</div></main>'
-            % (page_header("Rigs", "Free character and prop rigs for 3ds Max, "
-                                   "grouped by what they're built to teach.", "RIGS"),
-               inner))
-    return shell(title="Rigs", description="Free 3ds Max rigs for animation practice.",
-                 path="/rigs/", body=body)
+            % (page_header(hub["title"], hub["blurb"], hub["title"].upper()), inner))
+    return shell(title=hub["title"], description=hub["blurb"],
+                 path=hub["path"], body=body)
 
 
-def build_rig_category(category: Entry, rigs, siblings) -> str:
+def build_hub_category(hub, category: Entry, items, siblings) -> str:
     banner = str(category.get("banner") or "")
     banner_html = ('<figure class="rig-banner"><img src="%s" alt="%s" '
                    'decoding="async" fetchpriority="high" onerror="this.remove()">'
@@ -1117,13 +1195,26 @@ def build_rig_category(category: Entry, rigs, siblings) -> str:
     intro = ('<div class="prose rig-intro" data-reveal>%s</div>'
              % category.html) if category.body.strip() else ""
 
-    if rigs:
-        grid = '<div class="rig-grid">%s</div>' % "".join(
-            rig_card(r, i) for i, r in enumerate(rigs))
+    render = CARD_RENDERERS[hub["card"]]
+    grid_class = "rig-grid" if hub["card"] == "rig" else "tut-grid"
+
+    if items:
+        blocks, seen = [], 0
+        for series_name, group in group_by_series(items):
+            if series_name:
+                blocks.append('<h2 class="series-head" data-reveal>%s'
+                              '<span class="series-count">%d parts</span></h2>'
+                              % (esc(series_name), len(group)))
+            cards = []
+            for item in group:
+                cards.append(render(item, seen))
+                seen += 1
+            blocks.append('<div class="%s">%s</div>' % (grid_class, "".join(cards)))
+        grid = "".join(blocks)
     else:
         grid = ('<p class="empty">Nothing in this category yet. Add a file to '
-                "<code>content/rigs/</code> with <code>category: %s</code>.</p>"
-                % esc(category.slug))
+                "<code>content/%s/</code> with <code>category: %s</code>.</p>"
+                % (esc(hub["items"]), esc(category.slug)))
 
     others = "".join(
         '<a class="chip%s" href="%s">%s</a>'
@@ -1134,11 +1225,11 @@ def build_rig_category(category: Entry, rigs, siblings) -> str:
     body = (
         '<main id="main"><div class="wrap">'
         '<header class="page-head page-head--rig">'
-        '<a class="back" href="%s">&#8592; Rigs</a>'
+        '<a class="back" href="%s">&#8592; %s</a>'
         '<h1 class="page-title" data-split>%s</h1>%s</header>'
         "%s%s%s%s"
         "</div></main>"
-        % (esc(url("/rigs/")), esc(category.title),
+        % (esc(url(hub["path"])), esc(hub["title"]), esc(category.title),
            '<p class="page-blurb">%s</p>' % inline(category.summary) if category.summary else "",
            banner_html, switcher, intro, grid)
     )
@@ -1274,7 +1365,7 @@ def build(include_drafts: bool = False) -> int:
         docs_by_tool.setdefault(slugify(doc.get("tool") or "misc"), []).append(doc)
 
     paths = ["/"]
-    write("/", build_home(data))
+    hubs: dict = {}
 
     for name, entries in data.items():
         write(COLLECTIONS[name]["path"], build_collection_index(name, entries))
@@ -1283,21 +1374,29 @@ def build(include_drafts: bool = False) -> int:
             write(entry.url, build_entry(name, entry, entries, docs_by_tool))
             paths.append(entry.url)
 
-    rig_categories = load_collection("rig-categories", "rig-categories", include_drafts)
-    rigs = load_collection("rigs", "rigs", include_drafts)
+    for hub_name, hub in HUBS.items():
+        categories = load_collection(hub["categories"], hub["categories"], include_drafts)
+        items = load_collection(hub["items"], hub["items"], include_drafts)
 
-    rigs_by_cat: dict = {}
-    for rig in rigs:
-        rigs_by_cat.setdefault(slugify(rig.get("category") or "misc"), []).append(rig)
+        by_cat: dict = {}
+        for item in items:
+            by_cat.setdefault(slugify(item.get("category") or "misc"), []).append(item)
 
-    if rig_categories:
-        write("/rigs/", build_rigs_index(rig_categories, rigs_by_cat))
-        paths.append("/rigs/")
-        for category in rig_categories:
+        hubs[hub_name] = {"categories": categories, "items": items, "by_cat": by_cat}
+
+        if not categories:
+            continue
+
+        write(hub["path"], build_hub_index(hub, categories, by_cat))
+        paths.append(hub["path"])
+        for category in categories:
             write(category.url,
-                  build_rig_category(category, rigs_by_cat.get(category.slug, []),
-                                     rig_categories))
+                  build_hub_category(hub, category, by_cat.get(category.slug, []),
+                                     categories))
             paths.append(category.url)
+
+    # Home last: it needs both the collections and the hubs.
+    write("/", build_home(data, hubs))
 
     tools_by_slug = {t.slug: t for t in data["tools"]}
     for tool_slug, tool_docs in docs_by_tool.items():
@@ -1312,7 +1411,8 @@ def build(include_drafts: bool = False) -> int:
     write("/404.html", build_404())
 
     feed_items = sorted(
-        [e for e in data["writing"] + data["research"] + data["tutorials"] if e.date],
+        [e for e in data["writing"] + data["research"]
+         + hubs.get("tutorials", {}).get("items", []) if e.date],
         key=lambda e: -e.date.timestamp(),
     )
     (OUT / "rss.xml").write_text(build_rss(feed_items), encoding="utf-8")
