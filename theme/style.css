@@ -893,6 +893,23 @@ figcaption {
 .tut-frame { border-radius: 0; border: 0; border-bottom: 1px solid var(--line-soft); }
 .tut-frame .embed-play-btn { width: 58px; height: 58px; }
 
+/* A card that links to its write-up rather than playing inline. The play glyph
+   is a hint at what's behind the link, so it must not look clickable itself. */
+.tut--link .tut-frame { position: relative; display: grid; place-items: center; }
+.tut--link .tut-frame img {
+  position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+  transition: transform var(--t-slow) var(--ease);
+}
+.tut--link:hover .tut-frame img { transform: scale(1.035); }
+.tut-glyph {
+  position: relative;
+  pointer-events: none;
+  transform: scale(.92);
+  transition: transform var(--t) var(--ease);
+}
+.tut--link:hover .tut-glyph { transform: scale(1); }
+.tut-sum { color: var(--fg-mid); font-size: .93rem; line-height: 1.55; }
+
 .tut-body { padding: 16px 20px 20px; display: flex; flex-direction: column; gap: 6px; }
 .tut-title { font-size: 1.02rem; letter-spacing: -.02em; line-height: 1.3; }
 .tut-meta {

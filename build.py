@@ -554,15 +554,14 @@ COLLECTIONS = {
                  "a write-up of what it covered, and the recording.",
         "layout": "workshop",
     },
-    # Not tutorials — animation made to try something out. Shown on the home
-    # page. Cards play in place, so these need no page of their own.
+    # Not tutorials — animation made to try something out. Surfaced on the home
+    # page; each shot gets a page discussing what it was investigating.
     "personal": {
         "path": "/personal/",
         "title": "Personal Work",
-        "blurb": "Test shots and experiments. Animation made to try something "
-                 "out rather than to a brief.",
+        "blurb": "Test shots and studies. Animation made to investigate "
+                 "something rather than to a brief — each one written up.",
         "layout": "video",
-        "entry_pages": False,
     },
     "research": {
         "path": "/research/",
@@ -804,6 +803,32 @@ def tutorial_card(entry: Entry, index: int = 0) -> str:
     )
 
 
+def study_card(entry: Entry, index: int = 0) -> str:
+    """A video card that links to its write-up instead of playing in place."""
+    source = video_source(str(entry.get("video") or ""))
+    poster = str(entry.get("thumb") or entry.cover or "")
+    poster = url(poster) if poster else (source[1] if source else "")
+
+    bits = [b for b in (str(entry.get("software") or ""),
+                        str(entry.get("duration") or "")) if b]
+
+    return (
+        '<a class="tut tut--link" href="%s" data-reveal style="--i:%d">'
+        '<div class="embed-frame tut-frame">'
+        '%s<span class="embed-play-btn tut-glyph" aria-hidden="true">'
+        '<svg viewBox="0 0 24 24" width="24" height="24">'
+        '<path d="M8 5.5v13l11-6.5z" fill="currentColor"/></svg></span></div>'
+        '<div class="tut-body"><h3 class="tut-title">%s</h3>%s%s</div>'
+        "</a>"
+        % (esc(url(entry.url)), index,
+           ('<img src="%s" alt="" loading="lazy" decoding="async" '
+            'onerror="this.remove()">' % esc(poster)) if poster else "",
+           esc(entry.title),
+           '<p class="tut-sum">%s</p>' % esc(entry.summary) if entry.summary else "",
+           '<p class="tut-meta">%s</p>' % esc(" · ".join(bits)) if bits else "")
+    )
+
+
 CARD_RENDERERS = {"rig": lambda e, i: rig_card(e, i),
                   "tutorial": lambda e, i: tutorial_card(e, i)}
 
@@ -967,7 +992,7 @@ def build_home(data, hubs) -> str:
             '<div class="tut-grid">%s</div></section>'
             % ('<a class="band-more" href="%s" data-reveal>All tests &#8599;</a>'
                % esc(url("/personal/")) if len(personal) > 3 else "",
-               "".join(tutorial_card(e, i) for i, e in enumerate(personal[:3])))
+               "".join(study_card(e, i) for i, e in enumerate(personal[:3])))
         )
 
     tutorials = hubs.get("tutorials", {}).get("items", [])
@@ -1046,7 +1071,7 @@ def build_collection_index(name, entries) -> str:
             work_card(e, i) for i, e in enumerate(entries))
     elif layout == "video":
         inner = '<div class="tut-grid">%s</div>' % "".join(
-            tutorial_card(e, i) for i, e in enumerate(entries))
+            study_card(e, i) for i, e in enumerate(entries))
     elif layout == "workshop":
         inner = '<div class="grid grid--work">%s</div>' % "".join(
             workshop_card(e, i) for i, e in enumerate(entries))
@@ -1093,6 +1118,11 @@ def build_entry(name, entry, siblings, docs_by_tool=None) -> str:
                                % esc(entry.get("repo"))) if entry.get("repo") else ""),
                 ("Download", Raw('<a href="%s">Get it</a>' % esc(url(str(entry.get("download")))))
                  if entry.get("download") else "")]
+    elif name == "personal":
+        bits = [("Focus", entry.get("focus")),
+                ("Software", entry.get("software")),
+                ("Length", entry.get("duration")),
+                ("Rig", entry.get("rig"))]
     elif name == "writing":
         bits = [("Published", human_date(entry.date) if entry.date else ""),
                 ("Reading time", entry.get("reading_time"))]
