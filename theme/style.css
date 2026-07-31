@@ -214,7 +214,16 @@ ul, ol { margin: 0; padding: 0; }
   opacity: 0;
   transition: opacity var(--t) var(--ease);
 }
-.sheet.is-open { opacity: 1; }
+
+/* Author styles beat the browser's built-in [hidden] { display: none }, so
+   `display: grid` above would otherwise leave this full-screen layer sitting
+   invisibly over the page and eating every click. Both guards are deliberate:
+   the first keeps it out of the layout, the second covers the fade-out window
+   after `is-open` is removed but before `hidden` is set back. */
+.sheet[hidden] { display: none; }
+.sheet:not(.is-open) { pointer-events: none; }
+
+.sheet.is-open { opacity: 1; pointer-events: auto; }
 .sheet-nav { display: grid; gap: 6px; text-align: center; }
 .sheet-nav .nav-link { font-size: 1.9rem; letter-spacing: -.03em; padding: 10px 20px; }
 .sheet-nav .nav-link::after { display: none; }
