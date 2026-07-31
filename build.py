@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """
 Site generator for rashedhindash.github.io
 
@@ -574,11 +574,11 @@ COLLECTIONS = {
                  "with a research contribution.",
         "layout": "list",
     },
-    "journal": {
-        "path": "/journal/",
-        "title": "Journal",
-        "blurb": "Written reflections on practice — process, tooling, teaching, "
-                 "and what the work turns out to be about once it's finished.",
+    "documentation": {
+        "path": "/documentation/",
+        "title": "Documentation",
+        "blurb": "Documentation of practice — how the work was made, what the "
+                 "decisions were, and what it turned out to be about.",
         "layout": "list",
     },
     "tools": {
@@ -1025,13 +1025,13 @@ def build_home(data, hubs) -> str:
     mixed = []
     for entry in data["research"][:3]:
         mixed.append((entry, str(entry.get("type") or "Research")))
-    for entry in data["journal"][:3]:
-        mixed.append((entry, "Journal"))
+    for entry in data["documentation"][:3]:
+        mixed.append((entry, "Documentation"))
     mixed.sort(key=lambda pair: -(pair[0].date.timestamp() if pair[0].date else 0))
     if mixed:
         sections.append(
             '<section class="band">'
-            '<div class="band-head"><h2 class="band-title" data-reveal>Research &amp; journal</h2>'
+            '<div class="band-head"><h2 class="band-title" data-reveal>Research &amp; documentation</h2>'
             '<a class="band-more" href="%s" data-reveal>All research &#8599;</a></div>'
             '<div class="rows">%s</div></section>'
             % (esc(url("/research/")),
@@ -1128,7 +1128,7 @@ def build_entry(name, entry, siblings, docs_by_tool=None) -> str:
                 ("Software", entry.get("software")),
                 ("Length", entry.get("duration")),
                 ("Rig", entry.get("rig"))]
-    elif name == "journal":
+    elif name == "documentation":
         bits = [("Published", human_date(entry.date) if entry.date else ""),
                 ("Reading time", entry.get("reading_time"))]
 
@@ -1161,7 +1161,7 @@ def build_entry(name, entry, siblings, docs_by_tool=None) -> str:
         docs = docs_by_tool.get(entry.slug, [])
         if docs:
             docs_block = (
-                '<section class="doclist" data-reveal><h2 class="doclist-head">Documentation</h2>'
+                '<section class="doclist" data-reveal><h2 class="doclist-head">Guides</h2>'
                 '<div class="rows rows--tight">%s</div></section>'
                 % "".join(
                     '<a class="row" href="%s" style="--i:%d">'
@@ -1470,7 +1470,7 @@ def build_doc(entry, tool, siblings) -> str:
 
     side = ""
     if siblings:
-        side = ('<aside class="docnav"><p class="docnav-head">%s docs</p><ul>%s</ul></aside>'
+        side = ('<aside class="docnav"><p class="docnav-head">%s guides</p><ul>%s</ul></aside>'
                 % (esc(tool.title if tool else "Documentation"),
                    "".join('<li><a href="%s"%s>%s</a></li>'
                            % (esc(url(s.url)),
@@ -1516,9 +1516,9 @@ def build_404() -> str:
             '<p class="kicker">404</p>'
             '<h1 class="page-title">This page moved, or never existed.</h1>'
             '<p class="page-blurb">Try the <a href="%s">work</a>, the '
-            '<a href="%s">journal</a>, or go <a href="%s">home</a>.</p>'
+            '<a href="%s">documentation</a>, or go <a href="%s">home</a>.</p>'
             "</div></main>"
-            % (esc(url("/work/")), esc(url("/journal/")), esc(url("/"))))
+            % (esc(url("/work/")), esc(url("/documentation/")), esc(url("/"))))
     return shell(title="Not found", path="/404.html", body=body)
 
 
@@ -1639,7 +1639,7 @@ def build(include_drafts: bool = False) -> int:
     write("/404.html", build_404())
 
     feed_items = sorted(
-        [e for e in data["journal"] + data["research"]
+        [e for e in data["documentation"] + data["research"]
          + hubs.get("tutorials", {}).get("items", []) if e.date],
         key=lambda e: -e.date.timestamp(),
     )

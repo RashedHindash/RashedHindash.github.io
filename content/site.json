@@ -22,7 +22,7 @@
     { "label": "Personal",  "href": "/personal/" },
     { "label": "Rigs",      "href": "/rigs/" },
     { "label": "Research",  "href": "/research/" },
-    { "label": "Journal",   "href": "/journal/" },
+    { "label": "Documentation", "href": "/documentation/" },
     { "label": "Tutorials", "href": "/tutorials/" },
     { "label": "Workshops", "href": "/workshops/" },
     { "label": "Tools",     "href": "/tools/" },

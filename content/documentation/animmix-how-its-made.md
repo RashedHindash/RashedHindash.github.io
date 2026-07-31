@@ -1,4 +1,4 @@
----
+﻿---
 title: Animmix — How It's Made?
 summary: Why I built an animation toolkit for 3ds Max, what went into it, and what building it taught me about making tools for other people.
 date: 2026-03-03
@@ -28,7 +28,7 @@ types of systems that could be managed, such as tweening, space offsetting,
 blending, simplifying curves, favoring one side of a pose over the other,
 smoothing, and adding noise. All of it could be handled through a single slider.
 
-::image /static/images/journal/animmix-how-its-made/tween-machine.png | Modes and intensity — one slider carrying several systems
+::image /static/images/documentation/animmix-how-its-made/tween-machine.png | Modes and intensity — one slider carrying several systems
 
 After that, I added a button that allows curves and animation to overshoot when
 needed.
@@ -50,7 +50,7 @@ Alongside these, I created tools that assist with various parts of animation,
 particularly breakdown creation and curve editing. These tools also help with
 transitioning from one type of animation to another.
 
-::image /static/images/journal/animmix-how-its-made/tools-panel.png | Tangents, pose, utilities and keys — with recovery running underneath
+::image /static/images/documentation/animmix-how-its-made/tools-panel.png | Tangents, pose, utilities and keys — with recovery running underneath
 
 ## Reducing the number of clicks
 
@@ -86,4 +86,4 @@ or go straight to [the repository](https://github.com/RashedHindash/ANIMMIX).
 
 ## References
 
-::cite Hindash, R. (2026, March 3). *Animmix — How It's Made?* Rashed Hindash Blog. https://rashedhindash.github.io/journal/animmix-how-its-made/
+::cite Hindash, R. (2026, March 3). *Animmix — How It's Made?* Rashed Hindash. https://rashedhindash.github.io/documentation/animmix-how-its-made/
