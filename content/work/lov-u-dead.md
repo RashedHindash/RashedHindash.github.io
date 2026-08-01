@@ -1,6 +1,6 @@
 ---
 title: Lov U Dead
-summary: Creature animation on a live-action psychological thriller short. Brought on late, with a day to animate the fly that carries several shots.
+summary: Creature animation on a live-action psychological thriller short. Brought on late, with a day to deliver the insect work that carries several of the shots.
 role: Animator
 client: Light Craft Films
 date: 2025-12-12
@@ -15,7 +15,8 @@ order: 1
 written by Hysum Ismail and produced by Light Craft Films in Dubai. A composed
 mother prepares to tell her two young children that their father has died.
 
-I animated the fly.
+I was the creature animator on it, responsible for the insect work that runs
+through several of the shots.
 
 - **[The film on Vimeo](https://vimeo.com/1164268136/6b75ca31e5)**
 - **[IMDb](https://www.imdb.com/title/tt40738882/)**
