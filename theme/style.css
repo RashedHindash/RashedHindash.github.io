@@ -158,7 +158,7 @@ ul, ol { margin: 0; padding: 0; }
   flex: none;
   width: 34px; height: 16px;
   margin-bottom: 4px;
-  animation: brand-travel 900ms cubic-bezier(.68, 0, .18, 1) both;
+  animation: brand-travel 900ms linear both;
   cursor: pointer;
 }
 .brand-ball i {
@@ -171,29 +171,51 @@ ul, ol { margin: 0; padding: 0; }
   animation: brand-bounce 900ms linear both;
 }
 
+/* Horizontal travel is linear within each arc, because nothing pushes the ball
+   sideways once it is airborne. Each arc covers less ground than the last: the
+   air time shortens, and a little speed is lost at every contact. The keyframe
+   percentages are the contacts, shared with brand-bounce. */
 @keyframes brand-travel {
-  from { transform: translateX(0); }
-  to   { transform: translateX(25px); }
+  0%   { transform: translateX(0);       animation-timing-function: linear; }
+  13%  { transform: translateX(3.8px);   animation-timing-function: linear; }
+  45%  { transform: translateX(12.4px);  animation-timing-function: linear; }
+  67%  { transform: translateX(17.9px);  animation-timing-function: linear; }
+  82%  { transform: translateX(21.4px);  animation-timing-function: linear; }
+  92%  { transform: translateX(23.5px);  animation-timing-function: linear; }
+  99%  { transform: translateX(24.8px);  animation-timing-function: ease-out; }
+  100% { transform: translateX(25px); }
 }
 
 /* Falls accelerate hard, rises decelerate hard, contacts squash. Bounce
    heights decay and the gaps between them shorten. That shortening is what
    reads as gravity. Snappier curves than a default ease; the ball should feel
    like it has somewhere to be. */
+/* Six contacts, at 13, 45, 67, 82, 92 and 99 per cent. The gap between each
+   pair shrinks by about a third every time, which is what a real restitution
+   does, and apex height falls with the square of that, so 11px becomes 5.2,
+   then 2.4, then 1.1. Squash decays with it: the later impacts are gentler,
+   so they deform less. Falls accelerate, rises decelerate. */
 @keyframes brand-bounce {
-  0%   { transform: translateY(-16px) scale(.88, 1.2);  animation-timing-function: cubic-bezier(.62, 0, .96, .42); }
-  14%  { transform: translateY(0)     scale(1.42, .62); animation-timing-function: cubic-bezier(.04, .58, .3, 1); }
-  18%  { transform: translateY(-5px)  scale(.94, 1.09); animation-timing-function: cubic-bezier(.1, .68, .3, 1); }
-  34%  { transform: translateY(-11px) scale(1, 1);      animation-timing-function: cubic-bezier(.62, 0, .96, .42); }
-  49%  { transform: translateY(0)     scale(1.3, .74);  animation-timing-function: cubic-bezier(.04, .58, .3, 1); }
-  53%  { transform: translateY(-3px)  scale(.97, 1.05); animation-timing-function: cubic-bezier(.1, .68, .3, 1); }
-  64%  { transform: translateY(-5px)  scale(1, 1);      animation-timing-function: cubic-bezier(.62, 0, .96, .42); }
-  76%  { transform: translateY(0)     scale(1.2, .83);  animation-timing-function: cubic-bezier(.04, .58, .3, 1); }
-  80%  { transform: translateY(-1px)  scale(.99, 1.02); animation-timing-function: cubic-bezier(.1, .68, .3, 1); }
-  87%  { transform: translateY(-2px)  scale(1, 1);      animation-timing-function: cubic-bezier(.62, 0, .96, .42); }
-  94%  { transform: translateY(0)     scale(1.11, .9);  animation-timing-function: cubic-bezier(.04, .58, .3, 1); }
-  97%  { transform: translateY(-1px)  scale(1, 1);      animation-timing-function: ease-in; }
-  100% { transform: translateY(0)     scale(1, 1); }
+  0%    { transform: translateY(-16px)  scale(.88, 1.2);   animation-timing-function: cubic-bezier(.55, 0, .85, .4); }
+  13%   { transform: translateY(0)      scale(1.42, .6);   animation-timing-function: cubic-bezier(.1, .7, .35, 1); }
+  16%   { transform: translateY(-4px)   scale(.93, 1.1);   animation-timing-function: cubic-bezier(.2, .6, .4, 1); }
+  29%   { transform: translateY(-11px)  scale(1, 1);       animation-timing-function: cubic-bezier(.55, 0, .85, .4); }
+  42%   { transform: translateY(-3px)   scale(.95, 1.07);  animation-timing-function: cubic-bezier(.6, 0, .9, .5); }
+  45%   { transform: translateY(0)      scale(1.3, .72);   animation-timing-function: cubic-bezier(.1, .7, .35, 1); }
+  48%   { transform: translateY(-2px)   scale(.96, 1.05);  animation-timing-function: cubic-bezier(.2, .6, .4, 1); }
+  56%   { transform: translateY(-5.2px) scale(1, 1);       animation-timing-function: cubic-bezier(.55, 0, .85, .4); }
+  65%   { transform: translateY(-1.4px) scale(.97, 1.04);  animation-timing-function: cubic-bezier(.6, 0, .9, .5); }
+  67%   { transform: translateY(0)      scale(1.2, .82);   animation-timing-function: cubic-bezier(.1, .7, .35, 1); }
+  69%   { transform: translateY(-1.1px) scale(.98, 1.03);  animation-timing-function: cubic-bezier(.2, .6, .4, 1); }
+  74.5% { transform: translateY(-2.4px) scale(1, 1);       animation-timing-function: cubic-bezier(.55, 0, .85, .4); }
+  80.5% { transform: translateY(-.6px)  scale(.99, 1.02);  animation-timing-function: cubic-bezier(.6, 0, .9, .5); }
+  82%   { transform: translateY(0)      scale(1.12, .89);  animation-timing-function: cubic-bezier(.1, .7, .35, 1); }
+  84%   { transform: translateY(-.6px)  scale(.995, 1.01); animation-timing-function: cubic-bezier(.2, .6, .4, 1); }
+  87%   { transform: translateY(-1.1px) scale(1, 1);       animation-timing-function: cubic-bezier(.55, 0, .85, .4); }
+  92%   { transform: translateY(0)      scale(1.07, .94);  animation-timing-function: cubic-bezier(.1, .7, .35, 1); }
+  95.5% { transform: translateY(-.5px)  scale(1, 1);       animation-timing-function: cubic-bezier(.55, 0, .85, .4); }
+  99%   { transform: translateY(0)      scale(1.03, .97);  animation-timing-function: cubic-bezier(.2, .7, .4, 1); }
+  100%  { transform: translateY(0)      scale(1, 1); }
 }
 
 .nav { display: flex; gap: 4px; }
