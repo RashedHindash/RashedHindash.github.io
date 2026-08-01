@@ -43,7 +43,7 @@ is being cheated.
 
 - **Offset your keys.** If the segments share keyframes, there is no overlap by definition. Each one should be a few frames behind its parent.
 - **The tip travels furthest and arrives last.** It should also be the last thing to settle.
-- **Settling is asymmetric.** The amplitude decays but so does the time between swings — the same rule as the ball, in rotation.
+- **Settling is asymmetric.** The amplitude decays but so does the time between swings, the same rule as the ball, in rotation.
 - **Do not stop everything on one frame.** Motion ends in sequence, base first.
 
 ## The most common failure

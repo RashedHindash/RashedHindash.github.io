@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Rashed Hindash — stylesheet
+   Rashed Hindash: stylesheet
    Dark by default, light on request. One accent. Motion that stays out of
    the way: nothing here runs longer than 460ms.
    ========================================================================== */
@@ -29,7 +29,7 @@
   --gutter: clamp(20px, 5vw, 60px);
   --radius: 14px;
 
-  --ease: cubic-bezier(.16, 1, .3, 1);          /* expo out — the workhorse */
+  --ease: cubic-bezier(.16, 1, .3, 1);          /* expo out, the workhorse */
   --ease-io: cubic-bezier(.65, .05, .36, 1);
   --t-fast: 150ms;
   --t: 260ms;
@@ -49,7 +49,7 @@
   --shadow: 0 20px 46px -26px rgba(0, 0, 0, .32);
 }
 
-/* Dark is the default on purpose — the work reads better against it. Visitors
+/* Dark is the default on purpose: the work reads better against it. Visitors
    who want light have the toggle in the header, and their choice sticks. */
 
 /* --- reset ------------------------------------------------------------- */
@@ -150,8 +150,8 @@ ul, ol { margin: 0; padding: 0; }
 .brand-name { font-weight: 600; letter-spacing: -.02em; font-size: 1.02rem; }
 
 /* The mark is a ball that bounces in across its own track and settles. Travel
-   and bounce live on separate elements so each axis keeps its own easing —
-   constant across, decaying arcs down — the way you'd actually animate it.
+   and bounce live on separate elements so each axis keeps its own easing: 
+   constant across, decaying arcs down, the way you'd actually animate it.
    Squash scales from the base, so contact deforms upward like a real ball. */
 .brand-ball {
   position: relative;
@@ -177,7 +177,7 @@ ul, ol { margin: 0; padding: 0; }
 }
 
 /* Falls accelerate hard, rises decelerate hard, contacts squash. Bounce
-   heights decay and the gaps between them shorten — that shortening is what
+   heights decay and the gaps between them shorten. That shortening is what
    reads as gravity. Snappier curves than a default ease; the ball should feel
    like it has somewhere to be. */
 @keyframes brand-bounce {
@@ -284,7 +284,7 @@ ul, ol { margin: 0; padding: 0; }
   padding-inline: var(--gutter);
 }
 
-/* A soft wash behind the hero. The gradient's own falloff does the blurring —
+/* A soft wash behind the hero. The gradient's own falloff does the blurring, 
    no filter: blur(), which forces an expensive re-raster on every frame. */
 .hero-glow {
   position: absolute;
@@ -653,7 +653,7 @@ ul, ol { margin: 0; padding: 0; }
 .prose .cite + .cite { margin-top: .6em; }
 
 .figure { margin: 0; }
-/* Never upscale — a narrow UI screenshot stretched to the column width just
+/* Never upscale: a narrow UI screenshot stretched to the column width just
    looks broken. Wide images still fill; small ones sit centred at true size. */
 .figure img { max-width: 100%; height: auto; margin-inline: auto; }
 .figure-grid {
@@ -857,7 +857,7 @@ figcaption {
   border-color: color-mix(in srgb, var(--accent) 50%, transparent);
 }
 
-/* Rig renders arrive at whatever aspect they were shot at — the foundational
+/* Rig renders arrive at whatever aspect they were shot at: the foundational
    ones are ~2.1:1, the creature ones nearly square. `contain` keeps the whole
    rig visible in every case; cropping a rig to fit would hide the controls,
    which are the entire point of the image. */

@@ -1,6 +1,6 @@
 ---
 title: Designs
-summary: Design work recorded start to finish and sped up — characters, bikes and environments.
+summary: Design work recorded start to finish and sped up: characters, bikes and environments.
 banner: /static/images/tutorials/designs-banner.svg
 order: 4
 ---

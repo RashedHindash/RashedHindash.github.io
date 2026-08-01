@@ -1,11 +1,11 @@
 ---
 title: Foundational Rigs
-summary: Six rigs that isolate one problem each — timing, overlap, follow-through, weight transfer, arcs, and finally all of it at once.
+summary: Six rigs that isolate one problem each: timing, overlap, follow-through, weight transfer, arcs, and finally all of it at once.
 banner: /static/images/rigs/foundational/banner.png
 order: 1
 ---
 
-These are teaching rigs. Each one is deliberately impoverished — it can do less
+These are teaching rigs. Each one is deliberately impoverished. It can do less
 than a character rig, and that is the entire point. What a beginner needs is not
 more control but fewer places to hide.
 
@@ -14,14 +14,14 @@ exactly one new problem while keeping everything already learned in play, so a
 failure at any point is diagnosable: you know which variable was introduced last
 and therefore where the animation broke. Working through them out of order, or
 skipping ahead to the mannequin, produces the most common failure in
-self-taught animation — a student who can produce a plausible walk cycle but
+self-taught animation: a student who can produce a plausible walk cycle but
 cannot say why a pose reads as weightless, because they never animated
 something with no legs to distract from the timing.
 
 ## What each stage adds
 
 **Ball** removes everything except when things happen and how far apart they
-are. There is no anatomy, no appendage, no personality — only timing, spacing,
+are. There is no anatomy, no appendage, no personality, only timing, spacing,
 and the deformation that follows from speed. Almost every problem a student
 will have three years from now is already present here in simplified form.
 

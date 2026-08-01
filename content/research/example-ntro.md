@@ -20,7 +20,7 @@ background: |
   were you responding to, and what gap did you identify?
 
 contribution: |
-  What is new here — in method, in form, in knowledge? Be specific about your
+  What is new here, in method, in form, in knowledge? Be specific about your
   own contribution if the work was collaborative.
 
 significance: |
@@ -28,7 +28,7 @@ significance: |
   invited screenings, awards, audience reach, critical response.
 
 scope: |
-  The breadth of the investigation — duration, iterations, scale, the range of
+  The breadth of the investigation: duration, iterations, scale, the range of
   techniques or contexts tested.
 ---
 
@@ -39,7 +39,7 @@ someone who has not read the research statement. Images, video and links go
 here.
 
 The five fields in the block above render as a formal **Research statement**
-panel further down the page — that block is what makes this a reportable NTRO
+panel further down the page. That block is what makes this a reportable NTRO
 rather than a portfolio entry. Leave any field blank and it simply disappears.
 
 ::note Not every research output needs all five fields. Fill what applies.

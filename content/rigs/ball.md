@@ -35,7 +35,7 @@ deflating. Whatever a shape loses in one axis it must gain in another.
 ## Exercises
 
 1. **A simple bounce across frame.** Decaying height, constant horizontal travel. Get it working before adding anything.
-2. **Two balls, same timing, different weight.** Identical frame counts, identical arcs — change only spacing and deformation. This is the exercise that makes the distinction land.
+2. **Two balls, same timing, different weight.** Identical frame counts, identical arcs. Change only spacing and deformation. This is the exercise that makes the distinction land.
 3. **A bounce that ends.** Bring it to rest. Settling is harder than bouncing and is where most attempts fall apart.
 4. **Break the arc deliberately.** Animate one bounce with a straight path so you can feel how wrong it looks.
 

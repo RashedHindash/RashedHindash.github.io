@@ -98,7 +98,7 @@ class Raw(str):
 def slide_images(url_dir) -> list:
     """Every image in a static/ folder, in filename order.
 
-    Lets a deck be re-exported by dropping new files in — no list to maintain.
+    Lets a deck be re-exported by dropping new files in, no list to maintain.
     """
     path = str(url_dir or "")
     if not path.startswith("/static/"):
@@ -115,7 +115,7 @@ def local_size(url_path) -> str:
     """Human-readable size of a file in static/, read at build time.
 
     Means download buttons state the real size without anyone maintaining it
-    by hand — replace the file and the number follows.
+    by hand. Replace the file and the number follows.
     """
     path = str(url_path or "")
     if not path.startswith("/static/"):
@@ -558,13 +558,13 @@ COLLECTIONS = {
                  "a write-up of what it covered, and the recording.",
         "layout": "workshop",
     },
-    # Not tutorials — animation made to try something out. Surfaced on the home
+    # Not tutorials: animation made to try something out. Surfaced on the home
     # page; each shot gets a page discussing what it was investigating.
     "personal": {
         "path": "/personal/",
         "title": "Personal Work",
         "blurb": "Test shots and studies. Animation made to investigate "
-                 "something rather than to a brief — each one written up.",
+                 "something rather than to a brief, each one written up.",
         "layout": "video",
     },
     "research": {
@@ -577,7 +577,7 @@ COLLECTIONS = {
     "documentation": {
         "path": "/documentation/",
         "title": "Documentation",
-        "blurb": "Documentation of practice — how the work was made, what the "
+        "blurb": "Documentation of practice: how the work was made, what the "
                  "decisions were, and what it turned out to be about.",
         "layout": "list",
     },
@@ -602,13 +602,13 @@ HUBS = {
         "categories": "rig-categories",
         "items": "rigs",
         "card": "rig",
-        # Each rig gets its own page — what it teaches, how to practise on it.
+        # Each rig gets its own page: what it teaches, how to practise on it.
         "item_pages": True,
     },
     "tutorials": {
         "path": "/tutorials/",
         "title": "Tutorials",
-        "blurb": "Video walkthroughs, recorded in 3ds Max. Press play — nothing "
+        "blurb": "Video walkthroughs, recorded in 3ds Max. Press play. Nothing "
                  "loads until you do.",
         "categories": "tutorial-categories",
         "items": "tutorials",
@@ -648,7 +648,7 @@ class Entry:
             if HUB_ITEM_PAGES.get(collection):
                 self.url = "%s%s/%s/" % (HUB_OF_ITEM[collection], category, self.slug)
             else:
-                # No page of its own — the item lives on its category page, so
+                # No page of its own: the item lives on its category page, so
                 # the URL is an anchor into it.
                 self.url = "%s%s/#%s" % (HUB_OF_ITEM[collection], category, self.slug)
         elif collection == "pages":
@@ -738,8 +738,8 @@ def card_media(entry: Entry, ratio: str = "16 / 9") -> str:
         src = video_source(str(entry.get("video") or ""))
         image = src[1] if src else ""
 
-    # The monogram sits underneath the thumbnail. If the thumbnail 404s — an
-    # unshared Drive file is the usual reason — the image removes itself and
+    # The monogram sits underneath the thumbnail. If the thumbnail 404s, an
+    # unshared Drive file is the usual reason, the image removes itself and
     # the monogram shows through, rather than a broken-image icon.
     inner = '<span class="card-mark" aria-hidden="true">%s</span>' % esc(
         entry.title[:2].upper())
@@ -898,7 +898,7 @@ def tool_card(entry: Entry, index: int = 0) -> str:
 def shell(*, title, body, description="", path="/", og_image="", show_footer=True) -> str:
     template = (THEME / "base.html").read_text(encoding="utf-8")
     site_name = SITE.get("name", "")
-    full_title = title if title == site_name else "%s — %s" % (title, site_name)
+    full_title = title if title == site_name else "%s · %s" % (title, site_name)
     site_url = SITE.get("url", "").rstrip("/")
     og = og_image or SITE.get("og_image", "")
     if og and not og.startswith("http"):

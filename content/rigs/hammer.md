@@ -25,7 +25,7 @@ name it.
 
 **Anticipation is proportional to force.** A heavy strike needs a large wind-up;
 a tap needs almost none. Getting this relationship right is what makes the
-weight legible before the impact happens — the audience knows how heavy the
+weight legible before the impact happens. The audience knows how heavy the
 hammer is from the preparation, not from the blow.
 
 **Impact is not the end of the action.** Force has to go somewhere. The hammer
@@ -36,7 +36,7 @@ stops at the moment of contact reads as the hammer hitting a wall of nothing.
 
 1. **A single overhead strike.** Anticipation, swing, impact, recoil. Four beats, and each one is doing a distinct job.
 2. **The same strike, twice the weight.** Change only the wind-up and the recovery.
-3. **A miss.** Swing through and let the momentum carry — no impact to absorb the force means everything must be resolved by the body of the motion.
+3. **A miss.** Swing through and let the momentum carry. No impact to absorb the force means everything must be resolved by the body of the motion.
 4. **Track the arc.** Turn on a motion trail and check that the head's path is a clean curve throughout.
 
 ## What to watch for
@@ -50,7 +50,7 @@ stops at the moment of contact reads as the hammer hitting a wall of nothing.
 
 No recoil. The hammer descends beautifully, connects, and simply stops. Because
 force must be absorbed or transferred, a hammer that lands and holds still tells
-the audience it weighs nothing — undoing the entire wind-up that preceded it.
+the audience it weighs nothing, undoing the entire wind-up that preceded it.
 This is the same error, in miniature, that shows up in landings on character
 work.
 

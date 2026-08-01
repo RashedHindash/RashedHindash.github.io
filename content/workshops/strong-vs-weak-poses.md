@@ -2,7 +2,7 @@
 title: Strong vs Weak Poses
 series: The Refinery Project
 kind: Masterclass
-summary: Why some poses hold an audience and others vanish — and how to tell the difference before you have the words for it.
+summary: Why some poses hold an audience and others vanish, and how to tell the difference before you have the words for it.
 duration: 60 minutes
 format: Image-driven · body recreation · 3D animation principles
 audience: 3D animation students
@@ -17,15 +17,14 @@ order: 1
 ---
 
 Animation is usually taught as the study of motion. We talk about arcs, easing,
-overlap, follow-through — the language of things in transit. But motion is a
+overlap, follow-through, the language of things in transit. But motion is a
 consequence, not a cause. What an audience actually reads, frame to frame, is a
 sequence of held ideas, and the movement between them only carries meaning if
 those ideas had meaning in the first place. A beautifully interpolated
 transition between two poses that say nothing will still say nothing, only more
 smoothly.
 
-This session takes the pose as the unit of study. Not as a stage in a workflow —
-blocking, splining, polish — but as the place where the character's thinking
+This session takes the pose as the unit of study. Not as a stage in a workflow (blocking, splining, polish) but as the place where the character's thinking
 actually lives. A pose captures what someone is doing, thinking and feeling at a
 single moment. Everything downstream inherits from that. Weak posing cannot be
 rescued by good timing, and this is the hardest thing to convince a student of,
@@ -35,7 +34,7 @@ because timing is visibly technical and posing feels like taste.
 
 It is not a lecture on principles, and it is deliberately not software
 training. The aim is narrower and, I think, more useful: to make a student able
-to look at their own pose and say *what is wrong with it* — not that it feels
+to look at their own pose and say *what is wrong with it*, not that it feels
 off, but which specific quality is missing.
 
 By the end, a participant should be able to trace the line of action through a
@@ -54,7 +53,7 @@ a student who can find the missing one has learned to see.
 **Line of action** comes first because it is structural rather than decorative.
 A single curve running from the crown of the head through the spine to the feet
 gives the pose a direction for its energy to travel. When that line is a
-vertical — the rig's resting state — energy has nowhere to go, and the figure
+vertical, the rig's resting state, energy has nowhere to go, and the figure
 reads as placed rather than posed. Teaching it first establishes a habit: decide
 the shape of the whole body before adjusting any part of it.
 
@@ -67,7 +66,7 @@ facilitator dies at the door.
 **Weight** is included because 3D removes it. A rig has no mass and no gravity;
 nothing settles unless the animator decides it should. This is a genuine
 difference from drawing, where the hand tends to imply weight even when the
-artist is not thinking about it. In 3D, weight is a deliberate act — which joints
+artist is not thinking about it. In 3D, weight is a deliberate act: which joints
 bend under load, which direction the torso leans, whether the centre of gravity
 sits over the supporting foot or somewhere the character would be falling from.
 
@@ -83,7 +82,7 @@ pose can satisfy every formal quality and still fail if the hands are describing
 one emotion and the hips another. Coherence across the whole figure is what
 separates a technically correct pose from a persuasive one.
 
-::image /static/images/workshops/strong-vs-weak-poses/slides/13.jpg | Negative space — the gaps that let a silhouette stay readable
+::image /static/images/workshops/strong-vs-weak-poses/slides/13.jpg | Negative space: the gaps that let a silhouette stay readable
 
 ## The reasoning behind how it is taught
 
@@ -98,7 +97,7 @@ just looks lifeless* has built somewhere for the term to attach. Naming should
 arrive as relief, not as instruction.
 
 The second is that the body is used before the software. Students physically
-stand in the poses being discussed — twin themselves deliberately, feel the
+stand in the poses being discussed: they twin themselves deliberately, feel the
 deadness of it, then shift their weight and feel the difference. Proprioception
 is a faster and more durable teacher than explanation for anything concerning
 balance and weight, and it costs seconds. A student who has felt a twinned stance

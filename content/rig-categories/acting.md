@@ -5,5 +5,5 @@ banner: /static/images/rigs/acting/banner.svg
 order: 4
 ---
 
-Free to download and use. These ship as archives — unpack the folder, then open
+Free to download and use. These ship as archives. Unpack the folder, then open
 the scene inside.

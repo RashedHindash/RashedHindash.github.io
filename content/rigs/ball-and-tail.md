@@ -1,7 +1,7 @@
 ---
 title: Ball and Tail
 category: foundational
-summary: A bouncing ball with a chain of tail controls — overlap and follow-through on top of solid timing.
+summary: A bouncing ball with a chain of tail controls: overlap and follow-through on top of solid timing.
 teaches: Follow-through · overlapping action
 level: Third
 image: /static/images/rigs/foundational/ball-and-tail.png
@@ -11,7 +11,7 @@ order: 3
 ---
 
 This is the first rig in the set that asks two things to disagree with each
-other on purpose. The ball has a job — bounce convincingly — and the tail has a
+other on purpose. The ball has a job, which is to bounce convincingly, and the tail has a
 different one: react to what the ball just did, a few frames later than it did
 it.
 
@@ -38,7 +38,7 @@ removes all the weight the bounce just established.
 ## Exercises
 
 1. **Bounce and settle with the tail switched off in your head.** Animate the ball first and do not touch the tail until it works.
-2. **Add the tail with offsets only.** No new ideas — the tail simply follows what is already there, late.
+2. **Add the tail with offsets only.** No new ideas. The tail simply follows what is already there, late.
 3. **A hard direction change.** Send the ball one way, reverse it sharply, and let the tail whip.
 4. **A heavy tail and a light tail** over the identical ball animation.
 
@@ -47,11 +47,11 @@ removes all the weight the bounce just established.
 - **Never key the tail on the ball's keyframes.** If they share frames, the tail is welded rather than attached.
 - **Watch the tip.** It should describe a smooth arc even when the base is doing something abrupt.
 - **Contact frames.** The tail should still be arriving when the ball has already left the ground.
-- **Overlap within the tail itself.** It is a chain — the same rules as the [Pendulum](/rigs/foundational/pendulum/) apply along its length.
+- **Overlap within the tail itself.** It is a chain, so the same rules as the [Pendulum](/rigs/foundational/pendulum/) apply along its length.
 
 ## The most common failure
 
-Animating the tail as decoration — adding a pleasing wave that has no
+Animating the tail as decoration, adding a pleasing wave that has no
 relationship to the ball's timing. It looks fine in isolation and falls apart
 the moment anyone watches the two together, because the eye is extremely good
 at spotting a consequence that does not match its cause.

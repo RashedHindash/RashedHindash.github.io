@@ -14,16 +14,16 @@ order: 1
 
 <!-- EXAMPLE FILE. Replace the text below with your own, or delete this file. -->
 
-Replace this paragraph with a short intro to your reel — what's in it, roughly
+Replace this paragraph with a short intro to your reel: what's in it, roughly
 when it was made, and anything a viewer should know before pressing play.
 
 ## Shot breakdown
 
 A numbered list reads well here, and it is what most people scroll down for.
 
-1. **00:00 — Title.** Where it came from, what you were solving.
-2. **00:14 — Chase sequence.** Blocking to final in Maya, cloth sim in Houdini.
-3. **00:48 — Dialogue beat.** Facial pass, hand-keyed.
+1. **00:00 Title.** Where it came from, what you were solving.
+2. **00:14 Chase sequence.** Blocking to final in Maya, cloth sim in Houdini.
+3. **00:48 Dialogue beat.** Facial pass, hand-keyed.
 
 ## Credits
 
@@ -31,4 +31,4 @@ A numbered list reads well here, and it is what most people scroll down for.
 | --- | --- |
 | Animation | Rashed Hindash |
 | Direction | Rashed Hindash |
-| Sound | — |
+| Sound | - |

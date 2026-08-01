@@ -1,5 +1,5 @@
 ﻿---
-title: Animmix — How It's Made?
+title: Animmix: How It's Made?
 summary: Why I built an animation toolkit for 3ds Max, what went into it, and what building it taught me about making tools for other people.
 date: 2026-03-03
 tags: [animmix, tools, 3ds max, process]
@@ -28,7 +28,7 @@ types of systems that could be managed, such as tweening, space offsetting,
 blending, simplifying curves, favoring one side of a pose over the other,
 smoothing, and adding noise. All of it could be handled through a single slider.
 
-::image /static/images/documentation/animmix-how-its-made/tween-machine.png | Modes and intensity — one slider carrying several systems
+::image /static/images/documentation/animmix-how-its-made/tween-machine.png | Modes and intensity: one slider carrying several systems
 
 After that, I added a button that allows curves and animation to overshoot when
 needed.
@@ -50,7 +50,7 @@ Alongside these, I created tools that assist with various parts of animation,
 particularly breakdown creation and curve editing. These tools also help with
 transitioning from one type of animation to another.
 
-::image /static/images/documentation/animmix-how-its-made/tools-panel.png | Tangents, pose, utilities and keys — with recovery running underneath
+::image /static/images/documentation/animmix-how-its-made/tools-panel.png | Tangents, pose, utilities and keys, with recovery running underneath
 
 ## Reducing the number of clicks
 
@@ -73,7 +73,7 @@ minutes), solving a very common issue with 3D animation software crashing.
 ## What I learned
 
 I learned a lot from making Animmix. I learned that tools should always be made
-with people in mind — clarity, consistency, UI, and UX are critical. Animators
+with people in mind: clarity, consistency, UI, and UX are critical. Animators
 should not have to change the way they work in order to use a tool.
 
 Animmix is my way of making 3ds Max better for animators. I want animators to
@@ -81,9 +81,9 @@ focus on their craft, and Animmix is my way of helping them do that.
 
 ---
 
-Animmix is free and available on GitHub — see [the tool page](/tools/animmix/)
+Animmix is free and available on GitHub. See [the tool page](/tools/animmix/)
 or go straight to [the repository](https://github.com/RashedHindash/ANIMMIX).
 
 ## References
 
-::cite Hindash, R. (2026, March 3). *Animmix — How It's Made?* Rashed Hindash. https://rashedhindash.github.io/documentation/animmix-how-its-made/
+::cite Hindash, R. (2026, March 3). *Animmix: How It's Made?* Rashed Hindash. https://rashedhindash.github.io/documentation/animmix-how-its-made/

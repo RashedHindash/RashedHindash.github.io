@@ -22,7 +22,7 @@ start doing the work.
 ## Approach
 
 Anything you'd say out loud in a portfolio review belongs here. Keep it honest
-about what you did versus what the team did — reviewers notice.
+about what you did versus what the team did. Reviewers notice.
 
 ::image /static/images/placeholder.svg | Blocking pass, frame 240
 

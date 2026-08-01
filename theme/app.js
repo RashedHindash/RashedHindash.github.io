@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Rashed Hindash — behaviour
+   Rashed Hindash: behaviour
    No libraries. Roughly 4KB. Everything degrades if it fails to load.
    ========================================================================== */
 

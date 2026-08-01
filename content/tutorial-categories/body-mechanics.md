@@ -1,6 +1,6 @@
 ---
 title: Body Mechanics
-summary: Full-body work — retiming, cleanup and getting weight to read across a whole figure.
+summary: Full-body work: retiming, cleanup and getting weight to read across a whole figure.
 banner: /static/images/tutorials/body-mechanics-banner.png
 order: 2
 ---
