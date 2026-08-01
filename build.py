@@ -613,6 +613,9 @@ HUBS = {
         "categories": "tutorial-categories",
         "items": "tutorials",
         "card": "tutorial",
+        # "auto": a tutorial gets its own page once it has something written
+        # about it. Until then the card just plays in place.
+        "item_pages": "auto",
     },
 }
 
@@ -645,7 +648,10 @@ class Entry:
             self.url = "%s%s/" % (HUB_OF_CATEGORY[collection], self.slug)
         elif collection in HUB_OF_ITEM:
             category = slugify(meta.get("category") or "misc")
-            if HUB_ITEM_PAGES.get(collection):
+            wants = HUB_ITEM_PAGES.get(collection)
+            if wants == "auto":
+                wants = bool(body.strip())
+            if wants:
                 self.url = "%s%s/%s/" % (HUB_OF_ITEM[collection], category, self.slug)
             else:
                 # No page of its own: the item lives on its category page, so
@@ -784,7 +790,10 @@ def list_row(entry: Entry, index: int = 0, label_field: str = "") -> str:
 
 
 def tutorial_card(entry: Entry, index: int = 0) -> str:
-    """A video card that plays in place. No iframe loads until it's clicked."""
+    """Plays in place, unless the tutorial has a write-up to link to."""
+    if "#" not in entry.url:
+        return study_card(entry, index)
+
     source = video_source(str(entry.get("video") or ""))
     if not source:
         return ""
@@ -1341,6 +1350,60 @@ def build_rig_page(entry: Entry, category, siblings) -> str:
                  path=entry.url, body=body, og_image=image)
 
 
+def build_tutorial_page(entry: Entry, category, siblings) -> str:
+    video = video_embed(str(entry.get("video") or ""),
+                        poster=str(entry.get("thumb") or entry.cover or ""))
+
+    bits = [("Covers", entry.get("teaches")),
+            ("Software", entry.get("software")),
+            ("Level", entry.get("level")),
+            ("Length", entry.get("duration")),
+            ("Series", entry.get("series")),
+            ("Category", Raw('<a href="%s">%s</a>'
+                             % (esc(url(category.url)), esc(category.title)))
+             if category else "")]
+
+    files = str(entry.get("files") or "")
+    resources = ('<p class="tut-files"><a href="%s" target="_blank" '
+                 'rel="noopener noreferrer">Project files for this tutorial</a></p>'
+                 % esc(files)) if files else ""
+
+    index = next((i for i, e in enumerate(siblings) if e.slug == entry.slug), -1)
+    prev_entry = siblings[index - 1] if index > 0 else None
+    next_entry = siblings[index + 1] if 0 <= index < len(siblings) - 1 else None
+    pager = ""
+    if prev_entry or next_entry:
+        pager = ('<nav class="pager">%s%s</nav>'
+                 % ('<a class="pager-link pager-prev" href="%s"><span>Previous</span>'
+                    '<b>%s</b></a>' % (esc(url(prev_entry.url)), esc(prev_entry.title))
+                    if prev_entry and "#" not in prev_entry.url else "<span></span>",
+                    '<a class="pager-link pager-next" href="%s"><span>Next</span>'
+                    '<b>%s</b></a>' % (esc(url(next_entry.url)), esc(next_entry.title))
+                    if next_entry and "#" not in next_entry.url else ""))
+
+    body = (
+        '<main id="main"><article class="wrap article">'
+        '<header class="art-head">'
+        '<a class="back" href="%s">&#8592; %s</a>'
+        '<h1 class="art-title" data-split>%s</h1>%s%s</header>'
+        "%s%s"
+        '<div class="prose" data-reveal>%s</div>'
+        "%s%s"
+        "</article></main>"
+        % (esc(url(category.url if category else "/tutorials/")),
+           esc(category.title if category else "Tutorials"),
+           esc(entry.title),
+           '<p class="art-sum">%s</p>' % inline(entry.summary) if entry.summary else "",
+           meta_row(bits),
+           video, resources,
+           entry.html,
+           tag_row(entry.tags), pager)
+    )
+    return shell(title=entry.title, description=entry.summary,
+                 path=entry.url, body=body,
+                 og_image=str(entry.get("thumb") or entry.cover or ""))
+
+
 def build_hub_index(hub, categories, items_by_cat) -> str:
     noun = "rig" if hub["card"] == "rig" else "video"
     cards = []
@@ -1708,7 +1771,11 @@ def build(include_drafts: bool = False) -> int:
             if not hub.get("item_pages"):
                 continue
             for item in in_category:
-                write(item.url, build_rig_page(item, category, in_category))
+                if "#" in item.url:      # nothing written about it yet
+                    continue
+                page = (build_rig_page if hub["card"] == "rig"
+                        else build_tutorial_page)
+                write(item.url, page(item, category, in_category))
                 paths.append(item.url)
 
     # Home last: it needs both the collections and the hubs.
