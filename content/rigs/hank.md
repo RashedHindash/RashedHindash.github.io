@@ -39,9 +39,16 @@ braced, defiant or held posture requires. Choosing between them is a character
 decision, not a technical one.
 
 **Stillness is a performance, not a gap.** The strongest acting beats are often
-the ones where a character stops. Because there is no physical floor on acting
-timing the way there is in mechanics, holds can run far longer than feels
-comfortable while animating and still read as rushed when watched at speed.
+the ones where a character stops. Mechanics timing has a floor, since a body of
+a given mass falls at a given rate, but performance has none. Holds can run far
+longer than feels comfortable while animating and still read as rushed when
+watched at speed. A character who stops moving is doing something, and an
+audience will read meaning into it.
+
+**Changes of mind are the most valuable beats available.** Thought is only
+visible at the moment it changes direction. A character who arrives somewhere,
+reconsiders, and goes elsewhere has demonstrated an interior life in a way that
+no held expression can.
 
 **Weight applies to performance as much as to mechanics.** A character who
 shifts their balance during a line is thinking about something. One who stands

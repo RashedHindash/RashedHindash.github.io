@@ -26,6 +26,14 @@ which is the combination dialogue work needs.
 
 ## What it teaches
 
+**A performance is distributed across the whole figure, and the body reads
+first.** Posture is visible at any distance, so it establishes the attitude of a
+moment before the face does anything. The face then supplies the specificity:
+which of several possible emotions that posture is actually carrying. When the
+two disagree the audience believes the body, because posture is much harder to
+fake and everybody is practised at reading it. That gives a fixed order of
+operations, and it is the opposite of the tempting one.
+
 **Volume retention is what makes squash and stretch usable on a character.** On
 a ball, a squash that loses volume reads as a deflating ball, which is obvious.
 On a figure it is subtler and worse: the character silently changes size, and
