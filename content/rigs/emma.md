@@ -4,7 +4,7 @@ category: acting
 summary: A full acting rig: squash and stretch with volume retention, IK/FK spine, complete facial controls, and slider-driven fingers.
 teaches: Performance · dialogue · facial animation
 level: Advanced
-image:
+image: /static/images/rigs/acting/emma.png
 download: /static/files/rigs/acting/Emma_Rig.rar
 software: 3ds Max
 order: 1

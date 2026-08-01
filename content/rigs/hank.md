@@ -4,7 +4,7 @@ category: acting
 summary: A full acting rig: squash and stretch with volume retention, IK/FK spine, and complete facial controls for dialogue work.
 teaches: Performance · dialogue · facial animation
 level: Advanced
-image:
+image: /static/images/rigs/acting/hank.png
 download: /static/files/rigs/acting/Hank_Rig.zip
 software: 3ds Max
 order: 2
