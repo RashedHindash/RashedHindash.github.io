@@ -602,6 +602,8 @@ HUBS = {
         "categories": "rig-categories",
         "items": "rigs",
         "card": "rig",
+        # Each rig gets its own page — what it teaches, how to practise on it.
+        "item_pages": True,
     },
     "tutorials": {
         "path": "/tutorials/",
@@ -617,6 +619,9 @@ HUBS = {
 # collection folder -> hub path, so Entry can work out its own URL
 HUB_OF_CATEGORY = {h["categories"]: h["path"] for h in HUBS.values()}
 HUB_OF_ITEM = {h["items"]: h["path"] for h in HUBS.values()}
+# Which hubs give each item a page of its own rather than an anchor on the
+# category page.
+HUB_ITEM_PAGES = {h["items"]: h.get("item_pages", False) for h in HUBS.values()}
 
 
 class Entry:
@@ -639,11 +644,13 @@ class Entry:
         elif collection in HUB_OF_CATEGORY:
             self.url = "%s%s/" % (HUB_OF_CATEGORY[collection], self.slug)
         elif collection in HUB_OF_ITEM:
-            # Hub items have no page of their own — they live on their category
-            # page, so the URL is an anchor into it.
-            self.url = "%s%s/#%s" % (HUB_OF_ITEM[collection],
-                                     slugify(meta.get("category") or "misc"),
-                                     self.slug)
+            category = slugify(meta.get("category") or "misc")
+            if HUB_ITEM_PAGES.get(collection):
+                self.url = "%s%s/%s/" % (HUB_OF_ITEM[collection], category, self.slug)
+            else:
+                # No page of its own — the item lives on its category page, so
+                # the URL is an anchor into it.
+                self.url = "%s%s/#%s" % (HUB_OF_ITEM[collection], category, self.slug)
         elif collection == "pages":
             self.url = "/%s/" % self.slug
         else:
@@ -1243,20 +1250,95 @@ def rig_card(entry: Entry, index: int = 0) -> str:
                               % esc(entry.title[:2].upper()))
 
     software = str(entry.get("software") or "")
+    page = esc(url(entry.url))
+    linked = not entry.url.startswith("#") and "#" not in entry.url
+
+    # Image and title lead to the write-up; the download stays a separate
+    # control so the two actions never fight each other.
+    shot = ('<a class="rig-shot" href="%s">%s</a>' % (page, media)) if linked \
+        else ('<div class="rig-shot">%s</div>' % media)
+    title = ('<a class="rig-title-link" href="%s"><h3 class="rig-title">%s</h3></a>'
+             % (page, esc(entry.title))) if linked \
+        else ('<h3 class="rig-title">%s</h3>' % esc(entry.title))
+    more = ('<a class="rig-more" href="%s">How to use it &#8594;</a>' % page) if linked else ""
 
     return (
         '<article class="rig" id="%s" data-reveal style="--i:%d">'
-        '<div class="rig-shot">%s</div>'
-        '<div class="rig-body">'
-        '<div class="rig-head"><h3 class="rig-title">%s</h3>%s</div>'
         "%s"
-        '<div class="rig-foot">%s</div>'
+        '<div class="rig-body">'
+        '<div class="rig-head">%s%s</div>'
+        "%s"
+        '<div class="rig-foot">%s%s</div>'
         "</div></article>"
-        % (esc(entry.slug), index, media, esc(entry.title),
+        % (esc(entry.slug), index, shot, title,
            '<span class="pill">%s</span>' % esc(software) if software else "",
            '<p class="rig-sum">%s</p>' % inline(entry.summary) if entry.summary else "",
-           action)
+           action, more)
     )
+
+
+def build_rig_page(entry: Entry, category, siblings) -> str:
+    image = str(entry.get("image") or entry.cover or "")
+    download = str(entry.get("download") or "")
+    kind = os.path.splitext(download)[1].lstrip(".").lower() if download else ""
+    size = local_size(download)
+
+    shot = ('<figure class="rig-hero" data-reveal><img src="%s" alt="%s rig" '
+            'decoding="async" fetchpriority="high" onerror="this.remove()">'
+            "</figure>" % (esc(url(image)), esc(entry.title))) if image else ""
+
+    if download:
+        get = ('<a class="dl" href="%s" download>'
+               '<svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true">'
+               '<path d="M12 3v11m0 0 4.2-4.2M12 14l-4.2-4.2M4.5 18.5h15" fill="none" '
+               'stroke="currentColor" stroke-width="1.9" stroke-linecap="round" '
+               'stroke-linejoin="round"/></svg><span>Download the rig</span>%s</a>'
+               % (esc(url(download)),
+                  '<span class="dl-meta">%s</span>'
+                  % esc(" · ".join([b for b in (kind, size) if b])) if kind or size else ""))
+    else:
+        get = '<span class="dl dl--soon">Coming soon</span>'
+
+    bits = [("Teaches", entry.get("teaches")),
+            ("Software", entry.get("software")),
+            ("Level", entry.get("level")),
+            ("Category", Raw('<a href="%s">%s</a>'
+                             % (esc(url(category.url)), esc(category.title)))
+             if category else "")]
+
+    index = next((i for i, e in enumerate(siblings) if e.slug == entry.slug), -1)
+    prev_entry = siblings[index - 1] if index > 0 else None
+    next_entry = siblings[index + 1] if 0 <= index < len(siblings) - 1 else None
+    pager = ""
+    if prev_entry or next_entry:
+        pager = ('<nav class="pager">%s%s</nav>'
+                 % ('<a class="pager-link pager-prev" href="%s"><span>Previous</span>'
+                    '<b>%s</b></a>' % (esc(url(prev_entry.url)), esc(prev_entry.title))
+                    if prev_entry else "<span></span>",
+                    '<a class="pager-link pager-next" href="%s"><span>Next</span>'
+                    '<b>%s</b></a>' % (esc(url(next_entry.url)), esc(next_entry.title))
+                    if next_entry else ""))
+
+    body = (
+        '<main id="main"><article class="wrap article">'
+        '<header class="art-head">'
+        '<a class="back" href="%s">&#8592; %s</a>'
+        '<h1 class="art-title" data-split>%s</h1>%s%s'
+        '<div class="rig-get">%s</div>'
+        "</header>"
+        "%s"
+        '<div class="prose" data-reveal>%s</div>'
+        "%s%s"
+        "</article></main>"
+        % (esc(url(category.url if category else "/rigs/")),
+           esc(category.title if category else "Rigs"),
+           esc(entry.title),
+           '<p class="art-sum">%s</p>' % inline(entry.summary) if entry.summary else "",
+           meta_row(bits), get, shot, entry.html,
+           tag_row(entry.tags), pager)
+    )
+    return shell(title=entry.title, description=entry.summary,
+                 path=entry.url, body=body, og_image=image)
 
 
 def build_hub_index(hub, categories, items_by_cat) -> str:
@@ -1618,10 +1700,16 @@ def build(include_drafts: bool = False) -> int:
         write(hub["path"], build_hub_index(hub, categories, by_cat))
         paths.append(hub["path"])
         for category in categories:
+            in_category = by_cat.get(category.slug, [])
             write(category.url,
-                  build_hub_category(hub, category, by_cat.get(category.slug, []),
-                                     categories))
+                  build_hub_category(hub, category, in_category, categories))
             paths.append(category.url)
+
+            if not hub.get("item_pages"):
+                continue
+            for item in in_category:
+                write(item.url, build_rig_page(item, category, in_category))
+                paths.append(item.url)
 
     # Home last: it needs both the collections and the hubs.
     write("/", build_home(data, hubs))
