@@ -437,7 +437,9 @@ def render_markdown(text: str) -> str:
 
 RE_YT = re.compile(r"(?:youtube\.com/(?:watch\?v=|embed/|shorts/|live/)|youtu\.be/|^youtube:|^yt:)([A-Za-z0-9_-]{6,})")
 RE_DRIVE = re.compile(r"(?:drive\.google\.com/(?:file/d/|open\?id=|uc\?(?:export=\w+&)?id=)|^drive:|^gdrive:)([A-Za-z0-9_-]{10,})")
-RE_VIMEO = re.compile(r"(?:vimeo\.com/(?:video/)?|^vimeo:)(\d+)")
+# Unlisted Vimeo links carry a privacy hash after the id, which the player
+# needs as ?h= or it refuses to load.
+RE_VIMEO = re.compile(r"(?:vimeo\.com/(?:video/)?|^vimeo:)(\d+)(?:/([A-Za-z0-9]+))?")
 
 
 def video_source(spec: str):
@@ -462,7 +464,10 @@ def video_source(spec: str):
 
     m = RE_VIMEO.search(spec)
     if m:
-        return ("https://player.vimeo.com/video/%s?autoplay=1" % m.group(1), "", "vimeo")
+        src = "https://player.vimeo.com/video/%s?autoplay=1" % m.group(1)
+        if m.group(2):
+            src += "&h=%s" % m.group(2)
+        return (src, "", "vimeo")
 
     if re.search(r"\.(mp4|webm|mov|m4v)(\?.*)?$", spec, re.I):
         return (url(spec), "", "file")
