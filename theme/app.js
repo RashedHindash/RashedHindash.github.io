@@ -134,9 +134,24 @@
 
   var countSlots = {};
 
+  /* KV serves reads from an edge cache that can lag a write by up to a
+     minute, so a figure fetched just after a hit can come back lower than
+     the one the visitor already saw. Keep the highest value seen for each
+     key and never render a number going backwards. */
+  function highest(key, value) {
+    try {
+      var prev = parseInt(localStorage.getItem("c:" + key), 10);
+      if (!isNaN(prev) && prev > value) return prev;
+      localStorage.setItem("c:" + key, String(value));
+    } catch (e) {}
+    return value;
+  }
+
   function renderCount(key, value) {
     var slots = countSlots[key];
     if (!slots || typeof value !== "number" || value < 0) return;
+
+    value = highest(key, value);
 
     var noun = key.indexOf("rig:") === 0 ? "download" : "view";
     var text = value.toLocaleString("en-US") + " " + noun + (value === 1 ? "" : "s");
@@ -149,13 +164,11 @@
 
   function bumpCount(key) {
     var slots = countSlots[key];
-    if (!slots) return;
-    /* Move the visible figure immediately; the server is the source of
-       truth but the click should feel like it registered. */
-    Array.prototype.forEach.call(slots, function (el) {
-      var current = parseInt((el.textContent || "").replace(/[^0-9]/g, ""), 10);
-      if (!isNaN(current)) renderCount(key, current + 1);
-    });
+    if (!slots || !slots.length) return;
+    /* Read once and render once. Reading per slot would compound the
+       increment on any page showing the same key twice. */
+    var current = parseInt((slots[0].textContent || "").replace(/[^0-9]/g, ""), 10);
+    if (!isNaN(current)) renderCount(key, current + 1);
   }
 
   if (COUNT_API) {

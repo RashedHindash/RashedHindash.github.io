@@ -924,12 +924,30 @@ figcaption {
 .rig-hero img { width: 100%; height: 100%; object-fit: contain; }
 
 .rig-get { margin-top: 28px; }
+.rig-get-note { margin-top: 14px; }
 
 .rig-body { display: flex; flex-direction: column; gap: 10px; padding: 20px 22px 22px; flex: 1; }
 .rig-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
 .rig-title { font-size: 1.12rem; letter-spacing: -.022em; }
 .rig-sum { color: var(--fg-mid); font-size: .94rem; line-height: 1.55; }
-.rig-foot { margin-top: auto; padding-top: 6px; }
+/* The button, the count and the write-up link each need their own room.
+   Left inline they share a line box and collide. */
+.rig-foot {
+  margin-top: auto;
+  padding-top: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 14px;
+}
+.rig-foot-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  width: 100%;
+  flex-wrap: wrap;
+}
 
 .dl {
   display: inline-flex; align-items: center; gap: 9px;
@@ -1026,9 +1044,10 @@ figcaption {
 }
 .count[hidden] { display: none; }
 
-.rig-foot .count { margin: 10px 0 0; }
+.rig-foot .count,
+.rig-foot .rig-more { margin: 0; }
 .tut-body .count { margin-top: 6px; }
-.embed + .count { margin: 10px 0 0; }
+.embed + .count { margin: 14px 0 0; }
 
 .series-head {
   display: flex; align-items: baseline; gap: 14px;

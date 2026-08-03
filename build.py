@@ -1304,7 +1304,7 @@ def rig_card(entry: Entry, index: int = 0) -> str:
         '<div class="rig-body">'
         '<div class="rig-head">%s%s</div>'
         "%s"
-        '<div class="rig-foot">%s%s%s</div>'
+        '<div class="rig-foot">%s<div class="rig-foot-row">%s%s</div></div>'
         "</div></article>"
         % (esc(entry.slug), index, shot, title,
            '<span class="pill">%s</span>' % esc(software) if software else "",
@@ -1328,7 +1328,8 @@ def build_rig_page(entry: Entry, category, siblings) -> str:
                '<svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true">'
                '<path d="M12 3v11m0 0 4.2-4.2M12 14l-4.2-4.2M4.5 18.5h15" fill="none" '
                'stroke="currentColor" stroke-width="1.9" stroke-linecap="round" '
-               'stroke-linejoin="round"/></svg><span>Download the rig</span>%s</a>%s'
+               'stroke-linejoin="round"/></svg><span>Download the rig</span>%s</a>'
+               '<div class="rig-get-note">%s</div>'
                % (esc(url(download)), hit_attr("rig", entry.slug),
                   '<span class="dl-meta">%s</span>'
                   % esc(" · ".join([b for b in (kind, size) if b])) if kind or size else "",
