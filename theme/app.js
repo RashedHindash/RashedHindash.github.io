@@ -145,9 +145,9 @@
      key and never render a number going backwards. */
   function highest(key, value) {
     try {
-      var prev = parseInt(localStorage.getItem("c:" + key), 10);
+      var prev = parseInt(localStorage.getItem("c2:" + key), 10);
       if (!isNaN(prev) && prev > value) return prev;
-      localStorage.setItem("c:" + key, String(value));
+      localStorage.setItem("c2:" + key, String(value));
     } catch (e) {}
     return value;
   }
@@ -177,7 +177,7 @@
     /* While a count is still below the display threshold there is no figure
        on screen to read, so fall back to the last value we were told. */
     if (isNaN(current)) {
-      try { current = parseInt(localStorage.getItem("c:" + key), 10); } catch (e) {}
+      try { current = parseInt(localStorage.getItem("c2:" + key), 10); } catch (e) {}
     }
     if (!isNaN(current)) renderCount(key, current + 1);
   }
