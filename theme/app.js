@@ -134,6 +134,11 @@
 
   var countSlots = {};
 
+  /* Below this a figure says more about how new the page is than about the
+     work, so it stays hidden. Nothing is invented to fill the gap; the
+     counter simply appears once it carries information. */
+  var COUNT_MIN = 10;
+
   /* KV serves reads from an edge cache that can lag a write by up to a
      minute, so a figure fetched just after a hit can come back lower than
      the one the visitor already saw. Keep the highest value seen for each
@@ -152,6 +157,7 @@
     if (!slots || typeof value !== "number" || value < 0) return;
 
     value = highest(key, value);
+    if (value < COUNT_MIN) return;
 
     var noun = key.indexOf("rig:") === 0 ? "download" : "view";
     var text = value.toLocaleString("en-US") + " " + noun + (value === 1 ? "" : "s");
@@ -168,6 +174,11 @@
     /* Read once and render once. Reading per slot would compound the
        increment on any page showing the same key twice. */
     var current = parseInt((slots[0].textContent || "").replace(/[^0-9]/g, ""), 10);
+    /* While a count is still below the display threshold there is no figure
+       on screen to read, so fall back to the last value we were told. */
+    if (isNaN(current)) {
+      try { current = parseInt(localStorage.getItem("c:" + key), 10); } catch (e) {}
+    }
     if (!isNaN(current)) renderCount(key, current + 1);
   }
 
