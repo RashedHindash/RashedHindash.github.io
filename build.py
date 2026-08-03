@@ -475,7 +475,7 @@ def video_source(spec: str):
     return None
 
 
-def video_embed(spec: str, caption: str = "", poster: str = "") -> str:
+def video_embed(spec: str, caption: str = "", poster: str = "", hit: str = "") -> str:
     src = video_source(spec)
     if not src:
         return ""
@@ -504,11 +504,12 @@ def video_embed(spec: str, caption: str = "", poster: str = "") -> str:
     return (
         '<figure class="embed embed--%s">'
         '<div class="embed-frame">'
-        '<button class="embed-play" type="button" data-embed="%s" aria-label="Play video">'
+        '<button class="embed-play" type="button" data-embed="%s"%s aria-label="Play video">'
         '%s<span class="embed-play-btn" aria-hidden="true"><svg viewBox="0 0 24 24" '
         'width="26" height="26"><path d="M8 5.5v13l11-6.5z" fill="currentColor"/></svg></span>'
         "</button></div>%s</figure>"
-        % (kind, esc(embed_src), poster_img, cap)
+        % (kind, esc(embed_src),
+           hit_attr("video", hit) if hit else "", poster_img, cap)
     )
 
 
@@ -730,6 +731,21 @@ def tag_row(tags) -> str:
     )
 
 
+def count_slot(kind: str, slug: str) -> str:
+    """An empty slot the browser fills in from the counts API.
+
+    No figure is ever written into the page. If the API is unset or
+    unreachable the slot simply stays hidden, so the layout is unchanged.
+    """
+    return ('<span class="count" data-count="%s:%s" hidden></span>'
+            % (kind, esc(slug)))
+
+
+def hit_attr(kind: str, slug: str) -> str:
+    """Marks a control whose activation should record one hit."""
+    return ' data-hit="%s:%s"' % (kind, esc(slug))
+
+
 def meta_row(pairs) -> str:
     cells = [
         '<div class="meta-cell"><dt>%s</dt><dd>%s</dd></div>'
@@ -814,18 +830,20 @@ def tutorial_card(entry: Entry, index: int = 0) -> str:
     return (
         '<article class="tut" id="%s" data-reveal style="--i:%d">'
         '<div class="embed-frame tut-frame">'
-        '<button class="embed-play" type="button" data-embed="%s" aria-label="Play %s">'
+        '<button class="embed-play" type="button" data-embed="%s"%s aria-label="Play %s">'
         '%s<span class="embed-play-btn" aria-hidden="true">'
         '<svg viewBox="0 0 24 24" width="24" height="24">'
         '<path d="M8 5.5v13l11-6.5z" fill="currentColor"/></svg></span>'
         "</button></div>"
-        '<div class="tut-body"><h3 class="tut-title">%s</h3>%s</div>'
+        '<div class="tut-body"><h3 class="tut-title">%s</h3>%s%s</div>'
         "</article>"
-        % (esc(entry.slug), index, esc(embed_src), esc(entry.title),
+        % (esc(entry.slug), index, esc(embed_src),
+           hit_attr("video", entry.slug), esc(entry.title),
            ('<img src="%s" alt="" loading="lazy" decoding="async" '
             'onerror="this.remove()">' % esc(poster)) if poster else "",
            esc(entry.title),
-           '<p class="tut-meta">%s</p>' % esc(" · ".join(bits)) if bits else "")
+           '<p class="tut-meta">%s</p>' % esc(" · ".join(bits)) if bits else "",
+           count_slot("video", entry.slug))
     )
 
 
@@ -844,14 +862,15 @@ def study_card(entry: Entry, index: int = 0) -> str:
         '%s<span class="embed-play-btn tut-glyph" aria-hidden="true">'
         '<svg viewBox="0 0 24 24" width="24" height="24">'
         '<path d="M8 5.5v13l11-6.5z" fill="currentColor"/></svg></span></div>'
-        '<div class="tut-body"><h3 class="tut-title">%s</h3>%s%s</div>'
+        '<div class="tut-body"><h3 class="tut-title">%s</h3>%s%s%s</div>'
         "</a>"
         % (esc(url(entry.url)), index,
            ('<img src="%s" alt="" loading="lazy" decoding="async" '
             'onerror="this.remove()">' % esc(poster)) if poster else "",
            esc(entry.title),
            '<p class="tut-sum">%s</p>' % esc(entry.summary) if entry.summary else "",
-           '<p class="tut-meta">%s</p>' % esc(" · ".join(bits)) if bits else "")
+           '<p class="tut-meta">%s</p>' % esc(" · ".join(bits)) if bits else "",
+           count_slot("video", entry.slug))
     )
 
 
@@ -1154,7 +1173,10 @@ def build_entry(name, entry, siblings, docs_by_tool=None) -> str:
                 ("Reading time", entry.get("reading_time"))]
 
     hero_video = video_embed(str(entry.get("video") or ""),
-                             poster=str(entry.get("cover") or ""))
+                             poster=str(entry.get("cover") or ""),
+                             hit=entry.slug)
+    if hero_video:
+        hero_video += count_slot("video", entry.slug)
 
     cover_block = ""
     if not hero_video and entry.cover:
@@ -1247,13 +1269,13 @@ def rig_card(entry: Entry, index: int = 0) -> str:
     if download:
         # Same-origin, so `download` makes the browser save the file instead of
         # navigating anywhere. No detour through a file host.
-        action = ('<a class="dl" href="%s" download>'
+        action = ('<a class="dl" href="%s" download%s>'
                   '<svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true">'
                   '<path d="M12 3v11m0 0 4.2-4.2M12 14l-4.2-4.2M4.5 18.5h15" '
                   'fill="none" stroke="currentColor" stroke-width="1.9" '
                   'stroke-linecap="round" stroke-linejoin="round"/></svg>'
                   '<span>Download</span>%s</a>'
-                  % (esc(url(download)),
+                  % (esc(url(download)), hit_attr("rig", entry.slug),
                      '<span class="dl-meta">%s</span>' % esc(badge) if badge else ""))
     else:
         action = '<span class="dl dl--soon">Coming soon</span>'
@@ -1282,12 +1304,12 @@ def rig_card(entry: Entry, index: int = 0) -> str:
         '<div class="rig-body">'
         '<div class="rig-head">%s%s</div>'
         "%s"
-        '<div class="rig-foot">%s%s</div>'
+        '<div class="rig-foot">%s%s%s</div>'
         "</div></article>"
         % (esc(entry.slug), index, shot, title,
            '<span class="pill">%s</span>' % esc(software) if software else "",
            '<p class="rig-sum">%s</p>' % inline(entry.summary) if entry.summary else "",
-           action, more)
+           action, count_slot("rig", entry.slug), more)
     )
 
 
@@ -1302,14 +1324,15 @@ def build_rig_page(entry: Entry, category, siblings) -> str:
             "</figure>" % (esc(url(image)), esc(entry.title))) if image else ""
 
     if download:
-        get = ('<a class="dl" href="%s" download>'
+        get = ('<a class="dl" href="%s" download%s>'
                '<svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true">'
                '<path d="M12 3v11m0 0 4.2-4.2M12 14l-4.2-4.2M4.5 18.5h15" fill="none" '
                'stroke="currentColor" stroke-width="1.9" stroke-linecap="round" '
-               'stroke-linejoin="round"/></svg><span>Download the rig</span>%s</a>'
-               % (esc(url(download)),
+               'stroke-linejoin="round"/></svg><span>Download the rig</span>%s</a>%s'
+               % (esc(url(download)), hit_attr("rig", entry.slug),
                   '<span class="dl-meta">%s</span>'
-                  % esc(" · ".join([b for b in (kind, size) if b])) if kind or size else ""))
+                  % esc(" · ".join([b for b in (kind, size) if b])) if kind or size else "",
+                  count_slot("rig", entry.slug)))
     else:
         get = '<span class="dl dl--soon">Coming soon</span>'
 
@@ -1357,7 +1380,8 @@ def build_rig_page(entry: Entry, category, siblings) -> str:
 
 def build_tutorial_page(entry: Entry, category, siblings) -> str:
     video = video_embed(str(entry.get("video") or ""),
-                        poster=str(entry.get("thumb") or entry.cover or ""))
+                        poster=str(entry.get("thumb") or entry.cover or ""),
+                        hit=entry.slug)
 
     bits = [("Covers", entry.get("teaches")),
             ("Software", entry.get("software")),
@@ -1400,7 +1424,7 @@ def build_tutorial_page(entry: Entry, category, siblings) -> str:
            esc(entry.title),
            '<p class="art-sum">%s</p>' % inline(entry.summary) if entry.summary else "",
            meta_row(bits),
-           video, resources,
+           video + count_slot("video", entry.slug), resources,
            entry.html,
            tag_row(entry.tags), pager)
     )
@@ -1557,7 +1581,8 @@ def build_workshop(entry: Entry, siblings) -> str:
             % (esc("%d slides" % len(slides)) if slides else "", deck, gallery))
 
     if video:
-        recording = video_embed(video, poster=banner)
+        recording = (video_embed(video, poster=banner, hit=entry.slug)
+                     + count_slot("video", entry.slug))
     else:
         recording = ('<div class="soon"><p><strong>Not published yet.</strong> The '
                      "recording of this session will appear here once it's ready.</p></div>")

@@ -1015,6 +1015,21 @@ figcaption {
   color: var(--fg-dim);
 }
 
+/* Counts arrive from the API after paint, so the slot ships hidden and the
+   layout only reserves room once there is a figure to put in it. */
+.count {
+  display: inline-block;
+  margin-top: 8px;
+  font-family: var(--mono);
+  font-size: .66rem; letter-spacing: .11em; text-transform: uppercase;
+  color: var(--fg-dim);
+}
+.count[hidden] { display: none; }
+
+.rig-foot .count { margin: 10px 0 0; }
+.tut-body .count { margin-top: 6px; }
+.embed + .count { margin: 10px 0 0; }
+
 .series-head {
   display: flex; align-items: baseline; gap: 14px;
   margin: clamp(34px, 5vh, 54px) 0 22px;

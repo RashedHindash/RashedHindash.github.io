@@ -125,6 +125,81 @@
     Array.prototype.forEach.call(targets, function (el) { observer.observe(el); });
   }
 
+  /* ---- counts: downloads on rigs, views on videos ---------------------- */
+
+  /* Base URL of the counts service. While this is empty every slot stays
+     hidden and nothing is requested, so the page looks exactly as it did
+     before counting existed. */
+  var COUNT_API = "";
+
+  var countSlots = {};
+
+  function renderCount(key, value) {
+    var slots = countSlots[key];
+    if (!slots || typeof value !== "number" || value < 0) return;
+
+    var noun = key.indexOf("rig:") === 0 ? "download" : "view";
+    var text = value.toLocaleString("en-US") + " " + noun + (value === 1 ? "" : "s");
+
+    Array.prototype.forEach.call(slots, function (el) {
+      el.textContent = text;
+      el.removeAttribute("hidden");
+    });
+  }
+
+  function bumpCount(key) {
+    var slots = countSlots[key];
+    if (!slots) return;
+    /* Move the visible figure immediately; the server is the source of
+       truth but the click should feel like it registered. */
+    Array.prototype.forEach.call(slots, function (el) {
+      var current = parseInt((el.textContent || "").replace(/[^0-9]/g, ""), 10);
+      if (!isNaN(current)) renderCount(key, current + 1);
+    });
+  }
+
+  if (COUNT_API) {
+    Array.prototype.forEach.call(document.querySelectorAll("[data-count]"), function (el) {
+      var key = el.getAttribute("data-count");
+      if (!key) return;
+      if (!countSlots[key]) countSlots[key] = [];
+      countSlots[key].push(el);
+    });
+
+    var keys = Object.keys(countSlots);
+
+    if (keys.length && window.fetch) {
+      fetch(COUNT_API + "/counts?keys=" + encodeURIComponent(keys.join(",")), {
+        mode: "cors", credentials: "omit"
+      })
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .then(function (data) {
+          if (!data) return;
+          Object.keys(data).forEach(function (key) { renderCount(key, data[key]); });
+        })
+        .catch(function () { /* stay hidden, say nothing */ });
+    }
+
+    /* One hit per activation, counted every time. Repeats are deliberate. */
+    document.addEventListener("click", function (event) {
+      var target = event.target.closest("[data-hit]");
+      if (!target) return;
+
+      var key = target.getAttribute("data-hit");
+      if (!key) return;
+
+      bumpCount(key);
+
+      var url = COUNT_API + "/hit/" + encodeURIComponent(key);
+      /* sendBeacon survives the navigation a download link triggers. */
+      if (navigator.sendBeacon) navigator.sendBeacon(url);
+      else if (window.fetch) {
+        fetch(url, { method: "POST", mode: "cors", credentials: "omit", keepalive: true })
+          .catch(function () {});
+      }
+    });
+  }
+
   /* ---- video embeds: load the iframe only when asked ------------------- */
 
   document.addEventListener("click", function (event) {
