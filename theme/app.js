@@ -130,7 +130,7 @@
   /* Base URL of the counts service. While this is empty every slot stays
      hidden and nothing is requested, so the page looks exactly as it did
      before counting existed. */
-  var COUNT_API = "";
+  var COUNT_API = "https://site-counts.rashed-hindash.workers.dev";
 
   var countSlots = {};
 
