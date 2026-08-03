@@ -137,7 +137,7 @@
   /* Below this a figure says more about how new the page is than about the
      work, so it stays hidden. Nothing is invented to fill the gap; the
      counter simply appears once it carries information. */
-  var COUNT_MIN = 10;
+  var COUNT_MIN = 1;
 
   /* KV serves reads from an edge cache that can lag a write by up to a
      minute, so a figure fetched just after a hit can come back lower than
