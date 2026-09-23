@@ -7,6 +7,7 @@ teaches: Full-body mechanics · posing · everything at once
 level: Where body mechanics starts
 image: /static/images/rigs/foundational/mannequin.png
 download: /static/files/rigs/foundational/Mannequin.max
+cgtrader: https://www.cgtrader.com/free-3d-models/various/various-models/mannequin-full-body-animation-rig-3ds-max
 software: 3ds Max
 order: 2
 ---

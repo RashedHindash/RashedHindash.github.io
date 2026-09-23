@@ -6,6 +6,8 @@ teaches: Performance · dialogue · facial animation
 level: Advanced
 image: /static/images/rigs/acting/hank.png
 download: /static/files/rigs/acting/Hank_Rig.zip
+cgtrader: https://www.cgtrader.com/free-3d-models/character/man/hank-stylized-male-character-rig-with-facial-controls-3ds-max
+size: 132 MB
 software: 3ds Max
 order: 2
 ---

@@ -6,6 +6,7 @@ teaches: Weight transfer · contact · locomotion
 level: Fourth
 image: /static/images/rigs/foundational/ball-and-legs.png
 download: /static/files/rigs/foundational/Ball_and_Legs.max
+cgtrader: https://www.cgtrader.com/free-3d-models/various/various-models/ball-with-legs-walk-and-weight-transfer-rig-3ds-max
 software: 3ds Max
 order: 4
 ---

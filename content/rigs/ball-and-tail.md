@@ -6,6 +6,7 @@ teaches: Follow-through · overlapping action
 level: Third
 image: /static/images/rigs/foundational/ball-and-tail.png
 download: /static/files/rigs/foundational/Ball_and_Tail.max
+cgtrader: https://www.cgtrader.com/free-3d-models/various/various-models/ball-and-tail-animation-rig-for-3ds-max
 software: 3ds Max
 order: 3
 ---

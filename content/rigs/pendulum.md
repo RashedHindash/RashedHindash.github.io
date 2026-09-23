@@ -6,6 +6,7 @@ teaches: Overlap · drag · arcs
 level: Second
 image: /static/images/rigs/foundational/pendulum.png
 download: /static/files/rigs/foundational/Pendulum.max
+cgtrader: https://www.cgtrader.com/free-3d-models/various/various-models/pendulum-overlap-and-follow-through-rig-3ds-max
 software: 3ds Max
 order: 2
 ---

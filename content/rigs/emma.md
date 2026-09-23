@@ -6,6 +6,7 @@ teaches: Performance · dialogue · facial animation
 level: Advanced
 image: /static/images/rigs/acting/emma.png
 download: /static/files/rigs/acting/Emma_Rig.rar
+cgtrader: https://www.cgtrader.com/free-3d-models/character/woman/emma-stylized-female-character-rig-3ds-max
 software: 3ds Max
 order: 1
 ---

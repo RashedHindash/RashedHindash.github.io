@@ -1258,29 +1258,47 @@ def build_entry(name, entry, siblings, docs_by_tool=None) -> str:
                  path=entry.url, body=body, og_image=og)
 
 
+DL_ICON = ('<svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true">'
+           '<path d="M12 3v11m0 0 4.2-4.2M12 14l-4.2-4.2M4.5 18.5h15" fill="none" '
+           'stroke="currentColor" stroke-width="1.9" stroke-linecap="round" '
+           'stroke-linejoin="round"/></svg>')
+
+
+def rig_download(entry: Entry) -> str:
+    """The one download control for a rig, shared by its card and its page.
+
+    A CGTrader listing wins when the rig has one: the file is hosted there and
+    every download is credited to the listing. Without one, the file is served
+    from this site and `download` saves it in place.
+
+    The badge's format and size are read from the copy kept here. A listing can
+    hold a different file from that copy (Hank's CGTrader archive is 132 MB, the
+    local one 44 MB), so `size:` in the front matter overrides the measured size
+    and the badge describes what the button actually delivers.
+    """
+    local = str(entry.get("download") or "")
+    listing = str(entry.get("cgtrader") or "")
+
+    kind = os.path.splitext(local)[1].lstrip(".").lower() if local else ""
+    size = str(entry.get("size") or "") or local_size(local)
+    badge = " · ".join([b for b in (kind, size) if b])
+    meta = '<span class="dl-meta">%s</span>' % esc(badge) if badge else ""
+
+    if listing:
+        return ('<a class="dl" href="%s" target="_blank" rel="noopener"%s>'
+                '%s<span>Download on CGTrader</span>%s</a>'
+                % (esc(listing), hit_attr("rig", entry.slug), DL_ICON, meta))
+    if local:
+        return ('<a class="dl" href="%s" download%s>%s<span>Download</span>%s</a>'
+                % (esc(url(local)), hit_attr("rig", entry.slug), DL_ICON, meta))
+    return '<span class="dl dl--soon">Coming soon</span>'
+
+
 def rig_card(entry: Entry, index: int = 0) -> str:
     image = str(entry.get("image") or entry.cover or "")
-    download = str(entry.get("download") or "")
+    action = rig_download(entry)
 
-    kind = os.path.splitext(download)[1].lstrip(".").lower() if download else ""
-    size = local_size(download)
-    badge = " · ".join([b for b in (kind, size) if b])
-
-    if download:
-        # Same-origin, so `download` makes the browser save the file instead of
-        # navigating anywhere. No detour through a file host.
-        action = ('<a class="dl" href="%s" download%s>'
-                  '<svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true">'
-                  '<path d="M12 3v11m0 0 4.2-4.2M12 14l-4.2-4.2M4.5 18.5h15" '
-                  'fill="none" stroke="currentColor" stroke-width="1.9" '
-                  'stroke-linecap="round" stroke-linejoin="round"/></svg>'
-                  '<span>Download</span>%s</a>'
-                  % (esc(url(download)), hit_attr("rig", entry.slug),
-                     '<span class="dl-meta">%s</span>' % esc(badge) if badge else ""))
-    else:
-        action = '<span class="dl dl--soon">Coming soon</span>'
-
-    media = ('<img src="%s" alt="%s rig" loading="lazy" decoding="async" '
+    media =('<img src="%s" alt="%s rig" loading="lazy" decoding="async" '
              'onerror="this.remove()">' % (esc(url(image)), esc(entry.title))
              ) if image else ('<span class="card-mark" aria-hidden="true">%s</span>'
                               % esc(entry.title[:2].upper()))
@@ -1315,27 +1333,14 @@ def rig_card(entry: Entry, index: int = 0) -> str:
 
 def build_rig_page(entry: Entry, category, siblings) -> str:
     image = str(entry.get("image") or entry.cover or "")
-    download = str(entry.get("download") or "")
-    kind = os.path.splitext(download)[1].lstrip(".").lower() if download else ""
-    size = local_size(download)
 
     shot = ('<figure class="rig-hero" data-reveal><img src="%s" alt="%s rig" '
             'decoding="async" fetchpriority="high" onerror="this.remove()">'
             "</figure>" % (esc(url(image)), esc(entry.title))) if image else ""
 
-    if download:
-        get = ('<a class="dl" href="%s" download%s>'
-               '<svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true">'
-               '<path d="M12 3v11m0 0 4.2-4.2M12 14l-4.2-4.2M4.5 18.5h15" fill="none" '
-               'stroke="currentColor" stroke-width="1.9" stroke-linecap="round" '
-               'stroke-linejoin="round"/></svg><span>Download the rig</span>%s</a>'
-               '<div class="rig-get-note">%s</div>'
-               % (esc(url(download)), hit_attr("rig", entry.slug),
-                  '<span class="dl-meta">%s</span>'
-                  % esc(" · ".join([b for b in (kind, size) if b])) if kind or size else "",
-                  count_slot("rig", entry.slug)))
-    else:
-        get = '<span class="dl dl--soon">Coming soon</span>'
+    get = rig_download(entry)
+    if entry.get("download") or entry.get("cgtrader"):
+        get += '<div class="rig-get-note">%s</div>' % count_slot("rig", entry.slug)
 
     bits = [("Teaches", entry.get("teaches")),
             ("Software", entry.get("software")),

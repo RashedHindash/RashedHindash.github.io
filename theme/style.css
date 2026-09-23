@@ -980,6 +980,18 @@ figcaption {
 }
 .dl--soon:hover { background: transparent; transform: none; }
 
+/* Neither the label nor the badge may break mid-phrase. When the space the
+   button lives in is too narrow for both on one line, the badge moves to its
+   own line under the label and the pill relaxes into a rounded block, so the
+   wrap looks designed rather than accidental. Measured against the space
+   available, not the viewport, so a narrow card on a wide screen behaves. */
+.dl > span { white-space: nowrap; }
+.rig-foot, .rig-get { container-type: inline-size; }
+@container (max-width: 360px) {
+  .dl { flex-wrap: wrap; row-gap: 2px; border-radius: 16px; }
+  .dl-meta { flex-basis: 100%; margin-left: 0; padding-left: 24px; border-left: 0; }
+}
+
 /* --- tutorials (video cards that play in place) ------------------------- */
 
 .tut-grid {

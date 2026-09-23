@@ -6,6 +6,7 @@ teaches: Timing · spacing · squash and stretch
 level: Start here
 image: /static/images/rigs/foundational/ball.png
 download: /static/files/rigs/foundational/Ball.max
+cgtrader: https://www.cgtrader.com/free-3d-models/various/various-models/bouncing-ball-animation-rig-for-3ds-max
 software: 3ds Max
 order: 1
 ---

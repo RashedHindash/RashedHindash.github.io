@@ -6,6 +6,7 @@ teaches: Arcs · mass · anticipation
 level: Fifth
 image: /static/images/rigs/foundational/hammer.png
 download: /static/files/rigs/foundational/Hammer.max
+cgtrader: https://www.cgtrader.com/free-3d-models/various/various-models/hammer-animation-rig-for-arcs-and-anticipation-3ds-max
 software: 3ds Max
 order: 5
 ---

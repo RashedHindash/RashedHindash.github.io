@@ -6,6 +6,7 @@ teaches: Advanced rig control · full body mechanics
 level: Advanced
 image: /static/images/rigs/body-mechanics/lumberjack.png
 download: /static/files/rigs/body-mechanics/Lumberjack.max
+cgtrader: https://www.cgtrader.com/free-3d-models/character/man/lumberjack-production-character-rig-3ds-max
 software: 3ds Max
 order: 1
 ---
