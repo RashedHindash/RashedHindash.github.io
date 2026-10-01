@@ -671,6 +671,7 @@ ul, ol { margin: 0; padding: 0; }
   text-indent: -2.2em;
   font-size: .95rem;
   color: var(--fg-mid);
+  overflow-wrap: anywhere; /* long URLs wrap instead of widening the page on phones */
 }
 .prose .cite + .cite { margin-top: .6em; }
 
