@@ -813,9 +813,8 @@ together they make something that feels quick and dependable to use.
 
 In the next post I will cover the Time Offset and Stagger tool. Instead of blending
 values, it slides animation in time, and it can stagger a hierarchy so that children
-trail behind their parents, or lead ahead of them. That means baking curves down to
-a key on every frame, sampling those baked curves, and shifting them in time while
-you drag.
+trail behind their parents. That means baking curves down to a key on every frame,
+then sliding the original motion along those keys while you drag.
 
 The posts I have planned for this series:
 
