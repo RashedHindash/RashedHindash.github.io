@@ -86,4 +86,4 @@ or go straight to [the repository](https://github.com/RashedHindash/ANIMMIX).
 
 ## References
 
-::cite Hindash, R. (2026, March 3). *Animmix: How It's Made?* Rashed Hindash. https://rashedhindash.github.io/documentation/animmix-how-its-made/
+Hindash, R. (2026, March 3). *Animmix: How It's Made?* Rashed Hindash. https://rashedhindash.github.io/documentation/animmix-how-its-made/

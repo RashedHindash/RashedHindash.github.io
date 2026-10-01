@@ -69,7 +69,8 @@ def parse_date(value):
         return None
     if isinstance(value, datetime):
         return value
-    for fmt in ("%Y-%m-%d", "%Y/%m/%d", "%d-%m-%Y", "%Y-%m", "%Y"):
+    # A time of day is optional; it only orders two posts from the same day.
+    for fmt in ("%Y-%m-%d %H:%M", "%Y-%m-%d", "%Y/%m/%d", "%d-%m-%Y", "%Y-%m", "%Y"):
         try:
             return datetime.strptime(str(value).strip(), fmt)
         except ValueError:
@@ -325,9 +326,15 @@ def _render_list(buf):
     return out
 
 
+REFERENCE_HEADINGS = {"references", "reference", "bibliography", "works cited"}
+
+
 def render_markdown(text: str) -> str:
     lines = str(text).replace("\r\n", "\n").split("\n")
     out, i, n = [], 0, len(lines)
+    # Under a "## References" heading every paragraph is a reference entry,
+    # so the source holds plain reference text and no markup.
+    in_refs = False
 
     while i < n:
         line, s = lines[i], lines[i].strip()
@@ -376,6 +383,7 @@ def render_markdown(text: str) -> str:
         m = re.match(r"^(#{1,6})\s+(.*)$", s)
         if m:
             level, txt = len(m.group(1)), m.group(2).strip()
+            in_refs = level == 2 and txt.lower() in REFERENCE_HEADINGS
             out.append('<h%d id="%s">%s</h%d>' % (level, slugify(txt), inline(txt), level))
             i += 1
             continue
@@ -426,7 +434,7 @@ def render_markdown(text: str) -> str:
         while i < n and lines[i].strip() and not (buf and _is_block_start(lines[i])):
             buf.append(lines[i].strip())
             i += 1
-        out.append("<p>%s</p>" % inline(" ".join(buf)))
+        out.append(('<p class="cite">%s</p>' if in_refs else "<p>%s</p>") % inline(" ".join(buf)))
 
     return "\n".join(p for p in out if p)
 

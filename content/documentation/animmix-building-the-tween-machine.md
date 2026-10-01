@@ -842,6 +842,6 @@ straight to [the repository](https://github.com/RashedHindash/ANIMMIX).
 
 ## References
 
-::cite Hindash, R. (2026, March 3). *Animmix: How It's Made?* Rashed Hindash. https://rashedhindash.github.io/documentation/animmix-how-its-made/
+Hindash, R. (2026, March 3). *Animmix: How It's Made?* Rashed Hindash. https://rashedhindash.github.io/documentation/animmix-how-its-made/
 
-::cite Hindash, R. (2026, October 1). *Animmix: Building the Tween Machine.* Rashed Hindash. https://rashedhindash.github.io/documentation/animmix-building-the-tween-machine/
+Hindash, R. (2026, October 1). *Animmix: Building the Tween Machine.* Rashed Hindash. https://rashedhindash.github.io/documentation/animmix-building-the-tween-machine/
