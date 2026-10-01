@@ -120,7 +120,10 @@
         entry.target.classList.add("is-in");
         observer.unobserve(entry.target);
       });
-    }, { rootMargin: "0px 0px -8% 0px", threshold: 0.06 });
+    /* threshold 0, not a fraction: a block taller than the screen can never
+       show a fixed share of itself (a long article stayed invisible), so it
+       reveals as soon as its top edge comes into view. */
+    }, { rootMargin: "0px 0px -8% 0px", threshold: 0 });
 
     Array.prototype.forEach.call(targets, function (el) { observer.observe(el); });
   }
