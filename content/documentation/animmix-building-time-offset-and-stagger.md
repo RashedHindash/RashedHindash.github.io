@@ -385,8 +385,8 @@ the shifted motion as those keys can. There is more on that below.
 ## What does not work yet
 
 While writing this post I ran a scripted test of Offset in 3ds Max: test boxes with
-Euler, TCB, Linear and XYZ scale tracks, keys with stepped tangents, partly selected
-curves and a small hierarchy, with the key counts and values recorded before and
+Euler, TCB, Linear and Smooth rotation, XYZ and Bezier scale, keys with stepped
+tangents, partly selected curves and a small hierarchy, with the key counts and values recorded before and
 after. Some of what came back I did not expect, and I would rather say it here than
 have someone find it in the middle of a shot.
 
@@ -403,12 +403,11 @@ things I want to bring back.
 
 **Some rotation and scale controllers lose their keys.** Offset only understands
 tracks whose keys are single numbers, like the separate X, Y and Z tracks of Euler
-XYZ rotation and XYZ position or scale. TCB and Linear rotation store a whole
-rotation per key, and Max's default Bezier Scale stores three values per key. In
-the current version, when you let go of the slider, those tracks lose all their
-keys, even if you only clicked without dragging. Going by the code, the same goes
-for any other rotation controller that stores a whole rotation per key, such as
-Smooth Rotation. Version 1.2 skipped tracks like these, and that check was lost in
+XYZ rotation and XYZ position or scale. TCB, Linear and Smooth rotation store a
+whole rotation per key, and Max's default Bezier Scale stores three values per key.
+In the current version, when you let go of the slider, those tracks lose all their
+keys, even if you only clicked without dragging. Version 1.2 skipped tracks like
+these, and that check was lost in
 the March rewrite. Until it is back, I would only use Offset on objects whose
 animated tracks are Euler XYZ rotation and XYZ position or scale. Max's default
 Bezier Scale is fine as long as it has no keys.
@@ -424,8 +423,10 @@ inside it and overwritten. In the test I selected two of five keys, dragged to
 went flat.
 
 **Letting go always rebuilds the curve.** Even a click without a drag rebuilds the
-keys with custom tangents. In the test that moved the curve by up to about a degree,
-and keys with stepped tangents lost their stepping.
+keys with custom tangents. On a normal curve that moved it by up to about a degree.
+Stepped keys are much worse: they lose their stepping, and in the test a stepped
+curve that only went up to 90 degrees swung out to about 204 degrees between its
+keys.
 
 **There is no undo block yet.** The offset is not wrapped in an undo, so I would not
 rely on Ctrl+Z to take one back.
